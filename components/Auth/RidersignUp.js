@@ -25,7 +25,7 @@ import AppscreenLogo from "../shared/AppscreenLogo";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
-const VendorSignup = ({ onSetAuth }) => {
+const RidersignUp = ({ onSetAuth }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ const VendorSignup = ({ onSetAuth }) => {
   );
 };
 
-export default VendorSignup;
+export default RidersignUp;
 
 const styles = StyleSheet.create({
   container: {

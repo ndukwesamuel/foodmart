@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ForgetPassowrd from "./ForgetPassowrd";
 import ChangePassowrd from "./ChangePassowrd";
 import VendorSignup from "./VendorSignup";
+import RidersignUp from "./RidersignUp";
 
 const AuthContainer = () => {
   const [authType, setAuthtype] = useState("sign-up");
@@ -82,7 +83,7 @@ const AuthContainer = () => {
               ) : signupType === "vendor" ? (
                 <VendorSignup onSetAuth={changeAuthType} />
               ) : (
-                <VendorSignup onSetAuth={changeAuthType} />
+                <RidersignUp onSetAuth={changeAuthType} />
               )}
             </>
           ) : authType === "sign-in" ? (
