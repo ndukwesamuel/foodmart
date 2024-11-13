@@ -33,59 +33,7 @@ const AuthContainer = () => {
       {otp === false ? (
         <>
           {authType === "sign-up" ? (
-            <>
-              {/* Buttons to switch between User, Vendor, and Rider signup types */}
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginBottom: 16,
-                }}
-              >
-                <TouchableOpacity onPress={() => changeSignupType("user")}>
-                  <Text
-                    style={
-                      signupType === "user"
-                        ? styles.activeTab
-                        : styles.inactiveTab
-                    }
-                  >
-                    User
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => changeSignupType("vendor")}>
-                  <Text
-                    style={
-                      signupType === "vendor"
-                        ? styles.activeTab
-                        : styles.inactiveTab
-                    }
-                  >
-                    Vendor
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => changeSignupType("rider")}>
-                  <Text
-                    style={
-                      signupType === "rider"
-                        ? styles.activeTab
-                        : styles.inactiveTab
-                    }
-                  >
-                    Rider
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* Conditional Rendering based on selected signup type */}
-              {signupType === "user" ? (
-                <SignUp onSetAuth={changeAuthType} />
-              ) : signupType === "vendor" ? (
-                <VendorSignup onSetAuth={changeAuthType} />
-              ) : (
-                <RidersignUp onSetAuth={changeAuthType} />
-              )}
-            </>
+            <SignUp onSetAuth={changeAuthType} />
           ) : authType === "sign-in" ? (
             <SignIn onSetAuth={changeAuthType} />
           ) : (
