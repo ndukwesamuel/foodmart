@@ -64,6 +64,7 @@ import DriverNavigation from "./Navigation/DriverNavigation";
 import RiderNavigation from "./Navigation/RiderNavigation";
 import RideDrawer from "./Navigation/RideDrawer";
 import DriverDrawer from "./Navigation/DriverDrawer";
+import UserNavigation from "./Navigation/UserNavigation";
 
 const queryClient = new QueryClient();
 
@@ -146,8 +147,8 @@ export const NavigationScreen = () => {
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {user_data?.token && <MainScreen />}
-      {!user_data?.token && <StartScreen />}
+      {!user_data?.token && <MainScreen />}
+      {user_data?.token && <StartScreen />}
       <Toast />
     </NavigationContainer>
   );
@@ -170,8 +171,9 @@ const MainScreen = () => {
 
   return (
     <>
-      {user_data?.role === "driver" && <DriverDrawer />}
-      {user_data?.role === "user" && <RideDrawer />}
+    <UserNavigation/>
+      {/* {user_data?.role === "driver" && <DriverDrawer />}
+      {user_data?.role === "user" && <RideDrawer />} */}
     </>
   );
 };
