@@ -8,10 +8,12 @@ import ForgetPassowrd from "./ForgetPassowrd";
 import ChangePassowrd from "./ChangePassowrd";
 import VendorSignup from "./VendorSignup";
 import RidersignUp from "./RidersignUp";
+import ProfilePictureScreen from "./ProfilePictureScreen";
+import Security from "./Security";
 
 const AuthContainer = () => {
   const [authType, setAuthtype] = useState("sign-up");
-  const [authType2, setAuthtype2] = useState("otp");
+  const [authType2, setAuthtype2] = useState("");
   const [signupType, setSignupType] = useState("user");
 
   const { otp } = useSelector((state) => state?.OnboardingSlice);
@@ -27,15 +29,17 @@ const AuthContainer = () => {
   const changeSignupType = (type) => {
     setSignupType(type);
   };
-
+  let user = false;
   return (
     <View style={{ flex: 1 }}>
-      {otp === false ? (
+      {user === false ? (
         <>
           {authType === "sign-up" ? (
             <SignUp onSetAuth={changeAuthType} />
           ) : authType === "sign-in" ? (
             <SignIn onSetAuth={changeAuthType} />
+          ) : authType === "otp" ? (
+            <OtpScreen onSetAuth={changeAuthType} />
           ) : (
             <ForgetPassowrd onSetAuth={changeAuthType} /> // Forgot Password screen
           )}
@@ -47,11 +51,18 @@ const AuthContainer = () => {
               onSetAuth={changeAuthType}
               onSetAuth2={changeAuthType2}
             />
-          ) : (
+          ) : authType2 === "change_passoword" ? (
             <ChangePassowrd
               onSetAuth2={changeAuthType2}
               onSetAuth={changeAuthType}
-            /> // Forgot Password screen
+            />
+          ) : authType2 === "security" ? (
+            <Security onSetAuth2={changeAuthType2} onSetAuth={changeAuthType} />
+          ) : (
+            <ProfilePictureScreen
+              onSetAuth2={changeAuthType2}
+              onSetAuth={changeAuthType}
+            />
           )}
         </>
       )}
