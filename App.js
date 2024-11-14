@@ -45,6 +45,7 @@ import { BookATripSlice_reset } from "./Redux/BookATripSlice";
 import RideDrawer from "./Navigation/RideDrawer";
 import DriverDrawer from "./Navigation/DriverDrawer";
 import ProfilePictureScreen from "./components/Auth/ProfilePictureScreen";
+import UserNavigation from "./Navigation/UserNavigation";
 
 const queryClient = new QueryClient();
 
@@ -151,8 +152,9 @@ const MainScreen = () => {
 
   return (
     <>
-      {user_data?.role === "driver" && <DriverDrawer />}
-      {user_data?.role === "user" && <RideDrawer />}
+      <UserNavigation />
+      {/* {user_data?.role === "driver" && <DriverDrawer />}
+      {user_data?.role === "user" && <RideDrawer />} */}
     </>
   );
 };
