@@ -9,16 +9,35 @@ import {
 } from "react-native";
 import React from "react";
 import { CustomTextArea } from "../../components/shared/InputForm";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DeliveryMap() {
+  const navigation = useNavigation();
   return (
     // <SafeAreaView>
     <ScrollView style={styles.container}>
       <View>
         <Image source={require("../../assets/Foodmart/Placemark Map.png")} />
-        <Pressable style={{position:"absolute", marginTop:40, paddingHorizontal:10}}><Image source={require("../../assets/Foodmart/backArrow.png")}/></Pressable>
+        <Pressable
+          style={{ position: "absolute", marginTop: 40, paddingHorizontal: 10 }}
+        >
+          <Image source={require("../../assets/Foodmart/backArrow.png")} />
+        </Pressable>
       </View>
       <View style={styles.textArea}>
+        <View>
+          <Pressable
+            onPress={() => navigation.navigate("RatingPage")}
+            style={{
+              width: 50,
+              borderColor: "#C4C4C4",
+              borderWidth: 1,
+              flexDirection: "row",
+              justifyContent: "center",
+              margin:"auto"
+            }}
+          ><Text>Move</Text></Pressable>
+        </View>
         <View style={{ gap: 10 }}>
           <Text style={{ fontSize: 16 }}>Estimated Time of Arrival</Text>
           <Text style={{ fontSize: 16, color: "#F79B2C" }}>20 mins away</Text>
@@ -51,7 +70,9 @@ export default function DeliveryMap() {
         </View>
         <View style={styles.line}></View>
         <View style={{ flexDirection: "column", gap: 5 }}>
-          <Text style={{color:'#023526'}}>Leave an Information for the rider if necessary</Text>
+          <Text style={{ color: "#023526" }}>
+            Leave an Information for the rider if necessary
+          </Text>
           <CustomTextArea inputStyle={styles.textInput} />
         </View>
       </View>

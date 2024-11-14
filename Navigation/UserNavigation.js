@@ -3,6 +3,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/UserScreens/Home";
 import DeliveryMap from "../screens/UserScreens/DeliveryMap";
+import RatingPage from "../screens/UserScreens/RatingPage";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
@@ -12,6 +13,7 @@ export default function UserNavigation() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
+      <Stack.Screen name="RatingPage" component={RatingPage}/>
       <Stack.Screen
         name="Home"
         component={Home}
