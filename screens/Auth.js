@@ -2,6 +2,7 @@ import { View, StatusBar, SafeAreaView } from "react-native";
 import React, { useState } from "react";
 import AuthContainer from "../components/Auth/AuthContainer";
 import AuthOnboarding from "../components/Auth/AuthOnboarding";
+import ProfilePictureScreen from "../components/Auth/CreateOrSkipScreen";
 
 const Auth = () => {
   const [start, setStart] = useState(false);

@@ -21,12 +21,13 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
-const SignUp = ({ onSetAuth }) => {
+const Security = ({ onSetAuth2 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    email: "",
+    questions: "",
+    answer: "",
     password: "",
     name: "",
     mobile_number: "",
@@ -71,18 +72,11 @@ const SignUp = ({ onSetAuth }) => {
     },
     {
       onSuccess: (success) => {
-        console.log({
-          ksksk: success?.data?.data,
-          ksksk: success?.data?.message,
-        });
         Toast.show({
           type: "success",
           text1: `${success?.data?.message}`,
         });
-
         dispatch(checkOtp(true));
-
-        onSetAuth("otp");
       },
       onError: (error) => {
         console.log({
@@ -170,156 +164,37 @@ const SignUp = ({ onSetAuth }) => {
               gap: 10,
             }}
           >
+            <View style={[styles.inputContainer]}>
+              <Text style={styles.labels}>Select security question </Text>
+              <Pressable onPress={openGenderModal} style={styles.input}>
+                <Text style={{ color: formData.gender ? "black" : "gray" }}>
+                  {formData.gender || "Select Gender"}
+                </Text>
+              </Pressable>
+            </View>
+
             {/** Full Name */}
             <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Full Name</Text>
+              <Text style={styles.labels}>Answer</Text>
               <Forminput
-                placeholder="Full Name"
-                onChangeText={(text) => handleInputChange("name", text)}
-                value={formData.name}
+                placeholder="Answer"
+                onChangeText={(text) => handleInputChange("answer", text)}
+                value={formData.answer}
                 style={styles.input}
               />
             </View>
 
-            {/** Email */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Email</Text>
-              <Forminput
-                placeholder="Email"
-                onChangeText={(text) => handleInputChange("email", text)}
-                value={formData.email}
-                style={styles.input}
-              />
-            </View>
-
-            {/** Mobile Number */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Mobile Number</Text>
-              <Forminput
-                placeholder="Mobile Number"
-                onChangeText={(text) =>
-                  handleInputChange("mobile_number", text)
-                }
-                value={formData.mobile_number}
-                style={styles.input}
-              />
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                gap: 10,
-              }}
-            >
-              <View
-                style={[
-                  styles.inputContainer,
-                  {
-                    width: "40%",
-                  },
-                ]}
-              >
-                <Text style={styles.labels}>Gender</Text>
-                <Pressable onPress={openGenderModal} style={styles.input}>
-                  <Text style={{ color: formData.gender ? "black" : "gray" }}>
-                    {formData.gender || "Select Gender"}
-                  </Text>
-                </Pressable>
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.labels}>Date of Birth (optional)</Text>
-                <Pressable onPress={() => setShowDatePicker(true)}>
-                  <Text style={styles.input}>
-                    {formData.dob.toDateString()}
-                  </Text>
-                </Pressable>
-                {showDatePicker && (
-                  <DateTimePicker
-                    value={formData.dob}
-                    mode="date"
-                    display="default"
-                    onChange={onChangeDOB}
-                  />
-                )}
-              </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                gap: 10,
-              }}
-            >
-              <View
-                style={[
-                  styles.inputContainer,
-                  {
-                    width: "40%",
-                  },
-                ]}
-              >
-                <Text style={styles.labels}>Occupation (optional)</Text>
-                <Forminput
-                  placeholder="Occupation"
-                  onChangeText={(text) => handleInputChange("occupation", text)}
-                  value={formData.occupation}
-                  style={styles.input}
-                />
-              </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  {
-                    width: "50%",
-                  },
-                ]}
-              >
-                <Text style={styles.labels}>Hobbies (optional)</Text>
-                <Forminput
-                  placeholder="Hobbies"
-                  onChangeText={(text) => handleInputChange("hobbies", text)}
-                  value={formData.hobbies}
-                  style={styles.input}
-                />
-              </View>
-            </View>
-
-            {/** Home Address */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Home Address</Text>
-              <Forminput
-                placeholder="Home Address"
-                onChangeText={(text) => handleInputChange("homeAddress", text)}
-                value={formData.homeAddress}
-                style={styles.input}
-              />
-            </View>
-
-            {/** Referral Code */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Referral Code (If Applicable)</Text>
-              <Forminput
-                placeholder="Referral Code"
-                onChangeText={(text) =>
-                  handleInputChange("referral_code", text)
-                }
-                value={formData.referral_code}
-                style={styles.input}
-              />
-            </View>
-
-            {/** Password */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Password</Text>
-              <Forminputpassword
-                placeholder="Enter your password"
-                onChangeText={(text) => handleInputChange("password", text)}
-                value={formData.password}
-                style={styles.input}
-              />
+            <View>
+              <Text style={styles.footerText}>
+                By clicking this box, i have read, understood and agreed to the
+                <Text
+                  onPress={() => console.log("this is me")}
+                  style={styles.loginText}
+                >
+                  terms and conditions
+                </Text>
+                of FalconEx
+              </Text>
             </View>
           </View>
 
@@ -354,7 +229,7 @@ const SignUp = ({ onSetAuth }) => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
-              <Text style={styles.modalHeader}>Select Gender</Text>
+              <Text style={styles.modalHeader}>Select Questions</Text>
               {["Male", "Female", "Prefer not to say"].map((option) => (
                 <Pressable
                   key={option}
@@ -372,68 +247,7 @@ const SignUp = ({ onSetAuth }) => {
   );
 };
 
-export default SignUp;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-
-//     paddingHorizontal: 10,
-//     backgroundColor: maincolors.white,
-//   },
-//   header: {
-//     fontSize: 24,
-//     lineHeight: 36,
-//     fontWeight: "900",
-//     textAlign: "center",
-//   },
-//   subHeader: {
-//     fontSize: 12,
-//     lineHeight: 36,
-//     fontWeight: "400",
-//   },
-//   inputContainer: {
-//     gap: 5,
-//   },
-//   labels: {
-//     fontSize: 14,
-//     fontWeight: "500",
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: maincolors.inputcolor, // "#ccc",
-//     backgroundColor: maincolors.inputcolor, // "#ccc",
-//     borderRadius: 5,
-//     padding: 10,
-//   },
-//   buttonContainer: {
-//     justifyContent: "flex-end",
-//     alignItems: "center",
-//     paddingVertical: 30,
-//   },
-//   button: {
-//     padding: 10,
-//     borderRadius: 5,
-//     backgroundColor: maincolors.primary, //"#001272",
-//     width: "100%",
-//   },
-//   buttonText: {
-//     textAlign: "center",
-//     color: "white",
-//     fontSize: 16,
-//     fontWeight: "700",
-//     lineHeight: 24.05,
-//   },
-//   footerText: {
-//     fontSize: 14,
-//     lineHeight: 22.4,
-//   },
-//   loginText: {
-//     fontSize: 16,
-//     fontWeight: "500",
-//     lineHeight: 25.6,
-//   },
-// });
+export default Security;
 
 const styles = StyleSheet.create({
   container: {

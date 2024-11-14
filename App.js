@@ -39,32 +39,12 @@ import PaymentTypeScreen from "./screens/Payment/PaymentTypeScreen";
 import PayWithCardScreen from "./screens/Payment/PayWithCardScreen";
 import PayWithTransferScreen from "./screens/Payment/PayWithTransferScreen";
 
-// trip screens
-import OngoingTripScreen from "./screens/Trip/OngoingTripScreen";
-import ArrivingScreen from "./screens/Trip/ArrivingScreen";
-import RatingScreen from "./screens/Trip/RatingScreen";
-import ReportScreen from "./screens/Trip/ReportScreen";
-
-// drawer nav screens
-import ProfileScreen from "./screens/DrawerScreens/ProfileScreen";
-import NotificationScreen from "./screens/DrawerScreens/NotificationScreen";
-import TransactionScreen from "./screens/DrawerScreens/TransactionScreen";
-import BookingsScreen from "./screens/DrawerScreens/BookingsScreen";
 import { reset_login } from "./Redux/AuthSlice";
 import { BookATripSlice_reset } from "./Redux/BookATripSlice";
 
-// driver screens
-import DriverHomeScreen from "./screens/DriverScreens/Home/DriverHomeScreen";
-import StartATripScreen from "./screens/DriverScreens/StartTrip/StartATripScreen";
-import AvailableRouteScreen from "./screens/DriverScreens/StartTrip/AvailableRouteScreen";
-import TripDetailsScreen from "./screens/DriverScreens/StartTrip/TripDetailsScreen";
-import BeginTripScreen from "./screens/DriverScreens/StartTrip/BeginTripScreen";
-import DOnGoingTripScreen from "./screens/DriverScreens/StartTrip/DOnGoingTripScreen";
-import DriverNavigation from "./Navigation/DriverNavigation";
-import RiderNavigation from "./Navigation/RiderNavigation";
 import RideDrawer from "./Navigation/RideDrawer";
 import DriverDrawer from "./Navigation/DriverDrawer";
-import UserNavigation from "./Navigation/UserNavigation";
+import ProfilePictureScreen from "./components/Auth/ProfilePictureScreen";
 
 const queryClient = new QueryClient();
 
@@ -142,13 +122,13 @@ export const NavigationScreen = () => {
   const [country, setCountry] = useState("Loading...");
 
   console.log({
-    kkkk: user_data,
+    kkkk: user_data?.data?.token,
   });
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {!user_data?.token && <MainScreen />}
-      {user_data?.token && <StartScreen />}
+      {user_data?.data?.token && <MainScreen />}
+      {!user_data?.data?.token && <StartScreen />}
       <Toast />
     </NavigationContainer>
   );
@@ -159,19 +139,19 @@ const MainScreen = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!["driver", "user"].includes(user_data?.role)) {
-      dispatch(reset_isOnboarding());
-      dispatch(reset_login());
-      dispatch(BookATripSlice_reset());
-    }
+  // useEffect(() => {
+  //   if (!["driver", "user"].includes(user_data?.role)) {
+  //     dispatch(reset_isOnboarding());
+  //     dispatch(reset_login());
+  //     dispatch(BookATripSlice_reset());
+  //   }
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   return (
     <>
-    <UserNavigation/>
+      <UserNavigation />
       {/* {user_data?.role === "driver" && <DriverDrawer />}
       {user_data?.role === "user" && <RideDrawer />} */}
     </>
