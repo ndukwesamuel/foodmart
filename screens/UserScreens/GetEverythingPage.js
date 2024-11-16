@@ -15,11 +15,9 @@ export default function GetEverythingPage() {
       <View style={styles.textArea}>
         <Text>Did you Get Everything?</Text>
         <View>
-            <View>
-                <View>
-                    
-                </View>
-            </View>
+          <View>
+            <View></View>
+          </View>
         </View>
       </View>
     </View>

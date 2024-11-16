@@ -150,11 +150,5 @@ const MainScreen = () => {
   //   return () => {};
   // }, []);
 
-  return (
-    <>
-      <UserNavigation />
-      {/* {user_data?.role === "driver" && <DriverDrawer />}
-      {user_data?.role === "user" && <RideDrawer />} */}
-    </>
-  );
+  return <UserNavigation />;
 };
