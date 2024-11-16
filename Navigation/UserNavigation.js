@@ -10,13 +10,14 @@ import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
+import CheckoutPage from "../screens/UserScreens/CheckoutPage";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="FAQs"
+      initialRouteName="GetEverything"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -25,7 +26,7 @@ export default function UserNavigation() {
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
       <Stack.Screen name="RatingPage" component={RatingPage} />
       <Stack.Screen name="GetEverything" component={GetEverythingPage} />
-
+      <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
       {/* this group of screen is for order  start  dont remove it */}
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
