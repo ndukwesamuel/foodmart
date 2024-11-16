@@ -6,19 +6,34 @@ import DeliveryMap from "../screens/UserScreens/DeliveryMap";
 import RatingPage from "../screens/UserScreens/RatingPage";
 import FoodDetails from "../screens/UserScreens/FoodDetails";
 import GetEverythingPage from "../screens/UserScreens/GetEverythingPage";
+import DeliveredOrders from "../screens/Orders/DeliveredOrders";
+import MyOrder from "../screens/Orders/MyOrder";
+import MyFavorite from "../screens/Orders/MyFavorite";
+import FAQs from "../screens/FAQs";
+// import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="FoodDetails"
+      initialRouteName="FAQs"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="Home" component={Home} />
+
       <Stack.Screen name="FoodDetails" component={FoodDetails} />
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
       <Stack.Screen name="RatingPage" component={RatingPage} />
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="GetEverything" component={GetEverythingPage}/>
+      <Stack.Screen name="GetEverything" component={GetEverythingPage} />
+
+      {/* this group of screen is for order  start  dont remove it */}
+      <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
+      <Stack.Screen name="MyFavorite" component={MyFavorite} />
+      <Stack.Screen name="MyOrder" component={MyOrder} />
+
+      {/* the order screen end here */}
+
+      <Stack.Screen name="FAQs" component={FAQs} />
     </Stack.Navigator>
   );
 }

@@ -12,16 +12,16 @@ import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 
 export default function FoodDetails() {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
   const [count, setCount] = useState(0);
 
   const increment = () => setCount(count + 1);
   const decrement = () => setCount(count - 1);
 
-  const navigateFunc = () =>{
-    navigation.navigate("GetEverything")
-  }
-  
+  const navigateFunc = () => {
+    navigation.navigate("GetEverything");
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -91,7 +91,7 @@ export default function FoodDetails() {
             <View style={styles.line} />
           </View>
         </View>
-        <PrimaryButton buttonText={"Add for 10,000"} action={navigateFunc}/>
+        <PrimaryButton buttonText={"Add for 10,000"} action={navigateFunc} />
       </View>
     </ScrollView>
   );

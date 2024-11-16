@@ -34,9 +34,11 @@ export default function DeliveryMap() {
               borderWidth: 1,
               flexDirection: "row",
               justifyContent: "center",
-              margin:"auto"
+              margin: "auto",
             }}
-          ><Text>Move</Text></Pressable>
+          >
+            <Text>Move</Text>
+          </Pressable>
         </View>
         <View style={{ gap: 10 }}>
           <Text style={{ fontSize: 16 }}>Estimated Time of Arrival</Text>

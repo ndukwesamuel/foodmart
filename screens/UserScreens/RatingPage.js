@@ -12,11 +12,12 @@ import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 
 export default function RatingPage() {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Pressable onPress={() => navigation.goBack()}
+        <Pressable
+          onPress={() => navigation.goBack()}
           style={{ position: "absolute", marginTop: 40, paddingHorizontal: 10 }}
         >
           <Image source={require("../../assets/Foodmart/backArrow.png")} />
