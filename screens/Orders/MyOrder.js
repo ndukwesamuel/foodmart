@@ -1,138 +1,104 @@
+import React from "react";
 import {
-  FlatList,
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  Image,
+  StyleSheet,
+  TextInput,
+  ScrollView,
 } from "react-native";
-import React, { useState } from "react";
-import { PrimaryButton } from "../../components/shared/Button";
-import { useNavigation } from "@react-navigation/native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
-import AppScreen from "../../components/shared/AppScreen";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
-import { maincolors } from "../../utills/Themes";
-import { Formbutton } from "../../components/shared/InputForm";
+import AppScreen from "../../components/shared/AppScreen";
 
 export default function MyOrder() {
-  const navigation = useNavigation();
-  const [count, setCount] = useState(0);
-
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
-
-  const navigateFunc = () => {
-    navigation.navigate("GetEverything");
-  };
-
   return (
     <AppScreen>
       <View style={styles.container}>
         <ReusableBackButton
           style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
         />
-        <ReusableTitle />
+        <ReusableTitle data="My Orders" />
         <View
           style={{
             paddingHorizontal: 30,
             marginVertical: 20,
           }}
         >
-          <FlatList
-            data={[1, 2]}
-            renderItem={({ item }) => (
-              <>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    // paddingHorizontal: 0,
-                  }}
-                >
-                  <View
-                    style={{
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontWeight: "400",
-                        fontSize: 18,
-                        color: maincolors.primary,
-                      }}
-                    >
-                      Store 1
-                    </Text>
+          <View style={styles.statusSection}>
+            <Text style={styles.status}>Delivered</Text>
+            <Text style={styles.orderId}>Order ID: E8F99P</Text>
+            <Text style={styles.dateTime}>24-01-2024 | 12:30PM</Text>
+          </View>
 
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      x2 Special Rice
-                    </Text>
-
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      5000
-                    </Text>
-
-                    <View>
-                      <Formbutton
-                        buttonStyle={{
-                          backgroundColor: maincolors.primary, // "#4CAF50",
-                          paddingVertical: 6,
-                          paddingHorizontal: 45,
-                          borderRadius: 8,
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        textStyle={{
-                          color: "#fff",
-                          fontSize: 16,
-                          fontWeight: "600",
-                        }}
-                        icon={
-                          <Image
-                            source={require("../../assets/Foodmart/Vector3.png")}
-                          />
-                        }
-                        data="Reorder"
-                        onPress={() => console.log("Save button pressed")}
-                      />
-                    </View>
-                  </View>
-                  <Image
-                    source={require("../../assets/Foodmart/food.png")}
-                    style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: 6,
-                    }}
-                  />
+          <ScrollView>
+            <View style={styles.restaurantSection}>
+              <Text style={styles.restaurantTitle}>Restaurant 1</Text>
+              <View style={styles.itemRow}>
+                <Text style={styles.itemQuantity}>x1</Text>
+                <View style={styles.itemDetails}>
+                  <Text style={styles.itemName}>Special Rice</Text>
+                  <Text style={styles.itemOptions}>
+                    x1 Option 1 {"\n"}x1 Option 3
+                  </Text>
                 </View>
-                <View
-                  style={{
-                    borderWidth: 0.5,
-                    borderColor: maincolors.lightgray, //"#C4C4C4",
-                    marginBottom: 10,
-                  }}
+                <Text style={styles.itemPrice}>₦15,000</Text>
+              </View>
+
+              <View style={styles.itemRow}>
+                <Text style={styles.itemQuantity}>x3</Text>
+                <View style={styles.itemDetails}>
+                  <Text style={styles.itemName}>Special Rice</Text>
+                  <Text style={styles.itemOptions}>
+                    x1 Option 2 {"\n"}x1 Option 3
+                  </Text>
+                </View>
+                <Text style={styles.itemPrice}>₦25,000</Text>
+              </View>
+
+              <View style={styles.cutlerySection}>
+                <Image
+                  source={require("../../assets/Foodmart/Vector4.png")} // Replace with your cutlery image path
+                  style={styles.cutleryIcon}
                 />
-              </>
-            )}
-          />
+                <Text style={styles.cutleryText}>Cutlery Included</Text>
+              </View>
+
+              <View style={styles.deliverySection}>
+                <Text style={styles.sectionTitle}>Delivery Details</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Address lorem dolor officia..."
+                />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Address lorem dolor officia..."
+                />
+              </View>
+
+              <View style={styles.summarySection}>
+                <Text style={styles.sectionTitle}>Summary</Text>
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryLabel}>Sub Total</Text>
+                  <Text style={styles.summaryValue}>₦40,500</Text>
+                </View>
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryLabel}>Delivery Fee</Text>
+                  <Text style={styles.summaryValue}>₦2,000</Text>
+                </View>
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryLabel}>Service</Text>
+                  <Text style={styles.summaryValue}>₦500</Text>
+                </View>
+                <View style={styles.totalRow}>
+                  <Text style={styles.totalLabel}>Total</Text>
+                  <Text style={styles.totalValue}>₦42,500</Text>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
         </View>
+        <View style={styles.container}></View>
       </View>
     </AppScreen>
   );
@@ -140,53 +106,128 @@ export default function MyOrder() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", paddingTop: 20 },
-  textArea: {
-    backgroundColor: "white",
-    paddingTop: 32,
-    paddingBottom: 24,
-    gap: 16,
-    paddingHorizontal: 20,
-  },
-  line: {
-    borderColor: "#9B9B9B4D",
-    borderWidth: 1,
-  },
-  secondaryText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#023526",
-  },
-  option: { fontSize: 16, fontWeight: "300" },
-  container2: {
+
+  header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 20,
-    position: "relative",
+    marginBottom: 20,
   },
-  button: {
-    backgroundColor: "#f0f0f0",
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
+  backArrow: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
-  buttonText: {
-    fontSize: 18,
+  headerTitle: {
+    fontSize: 20,
     fontWeight: "bold",
   },
-  countContainer: {
-    backgroundColor: "#003d32",
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 10,
+  statusSection: {
+    marginBottom: 20,
   },
-  count: {
-    color: "#fff",
-    fontSize: 18,
+  status: {
+    color: "green",
+    fontSize: 16,
     fontWeight: "bold",
+  },
+  orderId: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 5,
+  },
+  dateTime: {
+    fontSize: 14,
+    color: "#555",
+    marginTop: 5,
+  },
+  restaurantSection: {
+    marginBottom: 20,
+  },
+  restaurantTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  itemRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  itemQuantity: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
+  itemDetails: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  itemOptions: {
+    fontSize: 12,
+    color: "#555",
+  },
+  itemPrice: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  cutlerySection: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  cutleryIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  cutleryText: {
+    fontSize: 14,
+  },
+  deliverySection: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 10,
+  },
+  summarySection: {
+    marginBottom: 20,
+  },
+  summaryRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  summaryLabel: {
+    fontSize: 14,
+    color: "#555",
+  },
+  summaryValue: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  totalLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  totalValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "green",
   },
 });

@@ -16,8 +16,8 @@ import AppScreen from "../../components/shared/AppScreen";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import { maincolors } from "../../utills/Themes";
 import { Formbutton } from "../../components/shared/InputForm";
-
-export default function DeliveredOrders() {
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+export default function MyFavorite() {
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
 
@@ -34,7 +34,7 @@ export default function DeliveredOrders() {
         <ReusableBackButton
           style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
         />
-        <ReusableTitle data="Delivered Orders" />
+        <ReusableTitle data="My Favorites" />
 
         <View
           style={{
@@ -51,11 +51,14 @@ export default function DeliveredOrders() {
                     flexDirection: "row",
                     justifyContent: "space-between",
                     // paddingHorizontal: 0,
+                    alignItems: "center",
                   }}
                 >
                   <View
                     style={{
                       marginBottom: 20,
+                      width: "60%",
+                      gap: 10,
                     }}
                   >
                     <Text
@@ -65,7 +68,7 @@ export default function DeliveredOrders() {
                         color: maincolors.primary,
                       }}
                     >
-                      Store 1
+                      Restaurant 1
                     </Text>
 
                     <Text
@@ -75,7 +78,7 @@ export default function DeliveredOrders() {
                         fontSize: 16,
                       }}
                     >
-                      x2 Special Rice
+                      Special Rice
                     </Text>
 
                     <Text
@@ -85,33 +88,28 @@ export default function DeliveredOrders() {
                         fontSize: 16,
                       }}
                     >
-                      5000
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et sed dolore
+                      magna.
                     </Text>
 
-                    <View>
-                      <Formbutton
-                        buttonStyle={{
-                          backgroundColor: maincolors.primary, // "#4CAF50",
-                          paddingVertical: 6,
-                          paddingHorizontal: 45,
-                          borderRadius: 8,
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        textStyle={{
-                          color: "#fff",
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          // fontFamily:
+                          fontWeight: "300",
                           fontSize: 16,
-                          fontWeight: "600",
                         }}
-                        icon={
-                          <Image
-                            source={require("../../assets/Foodmart/Vector3.png")}
-                          />
-                        }
-                        data="Reorder"
-                        onPress={navigateFunc} //() => console.log("MyOrder")}
-                      />
+                      >
+                        5000
+                      </Text>
+
+                      <FontAwesome name="heart" size={24} color="black" />
                     </View>
                   </View>
                   <Image

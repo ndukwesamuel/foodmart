@@ -32,6 +32,7 @@ export const ReusableTitle = ({
   imageSource,
   imageStyle = {},
   children,
+  data,
 }) => {
   const navigation = useNavigation();
   return (
@@ -43,7 +44,7 @@ export const ReusableTitle = ({
           fontSize: 24,
         }}
       >
-        Delivered Orders
+        {data}
       </Text>
     </View>
   );
