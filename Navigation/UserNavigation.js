@@ -10,6 +10,9 @@ import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
+import HomeScreen from "../screens/HomeScreen";
+import MainHomescreen from "../screens/UserScreens/MainHomescreen";
+import RestaurantMenuScreen from "../screens/UserScreens/RestaurantMenuScreen";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +22,12 @@ export default function UserNavigation() {
       initialRouteName="FAQs"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="MainHomescreen" component={MainHomescreen} />
+      <Stack.Screen
+        name="RestaurantMenuScreen"
+        component={RestaurantMenuScreen}
+      />
 
       <Stack.Screen name="FoodDetails" component={FoodDetails} />
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
