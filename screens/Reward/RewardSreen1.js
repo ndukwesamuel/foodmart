@@ -5,8 +5,11 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 
 
 import ProfilePicture from '../../assets/1.png';
-import checkedIcon from '../../assets/checked.png'
+import checkedIcon from '../../assets/checked.png';
+
+import { useNavigation } from "@react-navigation/native";
 const FirstRewardScreen = () => {
+    const Navigation = useNavigation();
     const Data = [
         {
             id: '1',
@@ -87,7 +90,9 @@ const FirstRewardScreen = () => {
                     borderRadius: 5,
                     marginTop: 20,
                     marginLeft: 34
-                }}>
+                }}
+                onPress={() => Navigation.navigate('SecondRewardPage')}
+                >
                     <Text style={{fontSize: 18}}>Redeem Points</Text>
                 </Pressable>
             </View>
