@@ -22,6 +22,7 @@
       ]
     ],
     "ios": {
+      "jsEngine": "jsc",
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": ["audio"],
@@ -50,6 +51,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "jsEngine": "hermes",
     "extra": {}
   }
 }

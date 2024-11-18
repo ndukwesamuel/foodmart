@@ -10,13 +10,14 @@ import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
+import FirstRewardScreen from "../screens/Reward/RewardSreen1";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="FAQs"
+      initialRouteName="FirstRewardPage"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -30,6 +31,7 @@ export default function UserNavigation() {
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
       <Stack.Screen name="MyOrder" component={MyOrder} />
+      <Stack.Screen name="FirstRewardPage" component={FirstRewardScreen}/>
 
       {/* the order screen end here */}
 

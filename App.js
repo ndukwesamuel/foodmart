@@ -26,25 +26,25 @@ import Auth from "./screens/Auth";
 import OtpScreen from "./screens/OtpScreen";
 
 // Main Screens
-import HomeScreen from "./screens/RiderScreen/HomeScreen";
+// import HomeScreen from "./screens/RiderScreen/HomeScreen";
 // booking screens
-import BookATripScreen from "./screens/Booking/BookATripScreen";
-import AvailabeBusScreen from "./screens/Booking/AvailabeBusScreen";
-import SelectedRouteScreen from "./screens/Booking/SelectedRouteScreen";
-import SelectSeatScreen from "./screens/Booking/SelectSeatScreen";
+// import BookATripScreen from "./screens/Booking/BookATripScreen";
+// import AvailabeBusScreen from "./screens/Booking/AvailabeBusScreen";
+// import SelectedRouteScreen from "./screens/Booking/SelectedRouteScreen";
+// import SelectSeatScreen from "./screens/Booking/SelectSeatScreen";
 
 // payment screens
-import RouteInfoScreen from "./screens/Payment/RouteInfoScreen";
-import PaymentTypeScreen from "./screens/Payment/PaymentTypeScreen";
-import PayWithCardScreen from "./screens/Payment/PayWithCardScreen";
-import PayWithTransferScreen from "./screens/Payment/PayWithTransferScreen";
+// import RouteInfoScreen from "./screens/Payment/RouteInfoScreen";
+// import PaymentTypeScreen from "./screens/Payment/PaymentTypeScreen";
+// import PayWithCardScreen from "./screens/Payment/PayWithCardScreen";
+// import PayWithTransferScreen from "./screens/Payment/PayWithTransferScreen";
 
-import { reset_login } from "./Redux/AuthSlice";
-import { BookATripSlice_reset } from "./Redux/BookATripSlice";
+// import { reset_login } from "./Redux/AuthSlice";
+// import { BookATripSlice_reset } from "./Redux/BookATripSlice";
 
-import RideDrawer from "./Navigation/RideDrawer";
-import DriverDrawer from "./Navigation/DriverDrawer";
-import ProfilePictureScreen from "./components/Auth/ProfilePictureScreen";
+// import RideDrawer from "./Navigation/RideDrawer";
+// import DriverDrawer from "./Navigation/DriverDrawer";
+// import ProfilePictureScreen from "./components/Auth/ProfilePictureScreen";
 import UserNavigation from "./Navigation/UserNavigation";
 
 const queryClient = new QueryClient();
@@ -128,8 +128,9 @@ export const NavigationScreen = () => {
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {user_data?.data?.token && <MainScreen />}
-      {!user_data?.data?.token && <StartScreen />}
+      {/* {user_data?.data?.token && <MainScreen />}
+      {!user_data?.data?.token && <StartScreen />} */}
+      <MainScreen/>
       <Toast />
     </NavigationContainer>
   );
