@@ -7,14 +7,20 @@ import {
   Image,
   StyleSheet,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Eye icon for password visibility toggle
 import AppscreenLogo from "../shared/AppscreenLogo";
 import { Forminput, Forminputpassword } from "../shared/InputForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Login_Fun } from "../../Redux/AuthSlice";
+import { maincolors } from "../../utills/Themes";
 
 const SignIn = ({ navigation, onSetAuth }) => {
+  const user_dat = useSelector((state) => state.Auth);
+  console.log({
+    kdkdkd: user_dat?.user_isLoading,
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -86,19 +92,23 @@ const SignIn = ({ navigation, onSetAuth }) => {
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.signInButton}
-          onPress={() =>
-            dispatch(
-              Login_Fun({
-                email,
-                password,
-              })
-            )
-          }
-        >
-          <Text style={styles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
+        {user_dat?.user_isLoading ? (
+          <ActivityIndicator size="small" color={maincolors.primary} />
+        ) : (
+          <TouchableOpacity
+            style={styles.signInButton}
+            onPress={() =>
+              dispatch(
+                Login_Fun({
+                  email,
+                  password,
+                })
+              )
+            }
+          >
+            <Text style={styles.signInButtonText}>Sign In</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.signUpContainer}

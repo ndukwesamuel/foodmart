@@ -22,6 +22,9 @@ import { onBoaringAction, reset_isOnboarding } from "./Redux/OnboardingSlice";
 import OnBoardingPage from "./screens/OnboardingPage";
 import Auth from "./screens/Auth";
 
+// otp screen
+import OtpScreen from "./screens/OtpScreen";
+
 import UserNavigation from "./Navigation/UserNavigation";
 
 const queryClient = new QueryClient();
@@ -87,7 +90,7 @@ export const StartScreen = ({}) => {
 
   const dispatch = useDispatch();
 
-  return <>{!isOnboarding ? <Auth /> : <OnBoardingPage />}</>;
+  return <Auth />;
 };
 
 export const NavigationScreen = () => {
@@ -100,7 +103,7 @@ export const NavigationScreen = () => {
   const [country, setCountry] = useState("Loading...");
 
   console.log({
-    kkkk: user_data?.data?.token,
+    kkkk: user_data,
   });
   return (
     <NavigationContainer>
