@@ -26,6 +26,7 @@ const initialState = {
 
 const Login_Fun_Service = async (data) => {
   let url = `${API_BASEURL}login`;
+  console.log({log: url})
 
   try {
     const response = await axios.post(url, data);
