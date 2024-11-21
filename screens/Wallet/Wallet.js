@@ -8,8 +8,10 @@ import {
   Image,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Wallet() {
+    const navigation = useNavigation()
   const [transactions, setTransactions] = useState([
     {
       id: "1",
@@ -57,11 +59,11 @@ export default function Wallet() {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("TopupScreen")}>
             <Image source={require("../../assets/Foodmart/top-up.png")} />
             <Text style={styles.buttonText}>Top Up</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WithdrawalScreen")}>
             <Image source={require("../../assets/Foodmart/withdraw.png")} />
             <Text style={styles.buttonText}>Withdraw</Text>
           </TouchableOpacity>
