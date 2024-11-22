@@ -25,27 +25,9 @@ import Auth from "./screens/Auth";
 // otp screen
 import OtpScreen from "./screens/OtpScreen";
 
-// Main Screens
-import HomeScreen from "./screens/RiderScreen/HomeScreen";
-// booking screens
-import BookATripScreen from "./screens/Booking/BookATripScreen";
-import AvailabeBusScreen from "./screens/Booking/AvailabeBusScreen";
-import SelectedRouteScreen from "./screens/Booking/SelectedRouteScreen";
-import SelectSeatScreen from "./screens/Booking/SelectSeatScreen";
-
-// payment screens
-import RouteInfoScreen from "./screens/Payment/RouteInfoScreen";
-import PaymentTypeScreen from "./screens/Payment/PaymentTypeScreen";
-import PayWithCardScreen from "./screens/Payment/PayWithCardScreen";
-import PayWithTransferScreen from "./screens/Payment/PayWithTransferScreen";
-
-import { reset_login } from "./Redux/AuthSlice";
-import { BookATripSlice_reset } from "./Redux/BookATripSlice";
-
-import RideDrawer from "./Navigation/RideDrawer";
-import DriverDrawer from "./Navigation/DriverDrawer";
-import ProfilePictureScreen from "./components/Auth/ProfilePictureScreen";
 import UserNavigation from "./Navigation/UserNavigation";
+import Security from "./components/Auth/Security";
+import { UserProfile_Fun } from "./Redux/AuthSlice";
 
 const queryClient = new QueryClient();
 
@@ -110,7 +92,7 @@ export const StartScreen = ({}) => {
 
   const dispatch = useDispatch();
 
-  return <>{!isOnboarding ? <Auth /> : <OnBoardingPage />}</>;
+  return <Auth />;
 };
 
 export const NavigationScreen = () => {
@@ -136,19 +118,51 @@ export const NavigationScreen = () => {
 };
 
 const MainScreen = () => {
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
+
+  const dispatch = useDispatch();
+
+  console.log({
+    kk: user_profile_data?.data?.has_default_address,
+  });
+
+  useEffect(() => {
+    dispatch(UserProfile_Fun());
+
+    return () => {};
+  }, []);
+
+  const isRegistered =
+    user_profile_data?.data?.has_filled_security_question !== false;
+  //  &&
+  // user_profile_data?.data?.has_default_address !== false;
+
+  console.log({
+    ddd: isRegistered,
+  });
+
+  if (isRegistered) {
+    return <UserNavigation />;
+  } else {
+    return (
+      <>
+        {!user_profile_data?.data?.has_filled_security_question && <Security />}
+        {/* {!user_profile_data?.data?.has_default_address && <Security />} */}
+      </>
+    );
+  }
+};
+
+const BeforeLOginScreen = () => {
   const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!["driver", "user"].includes(user_data?.role)) {
-  //     dispatch(reset_isOnboarding());
-  //     dispatch(reset_login());
-  //     dispatch(BookATripSlice_reset());
-  //   }
+  console.log({
+    kk: user_data?.data?.user,
+  });
 
-  //   return () => {};
-  // }, []);
-
-  return <UserNavigation />;
+  return <Text> kaka</Text>;
 };

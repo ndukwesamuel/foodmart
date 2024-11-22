@@ -10,22 +10,36 @@ import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
+import HomeScreen from "../screens/HomeScreen";
+import MainHomescreen from "../screens/UserScreens/MainHomescreen";
+import RestaurantMenuScreen from "../screens/UserScreens/RestaurantMenuScreen";
+import CheckoutPage from "../screens/UserScreens/CheckoutPage";
+import Wallet from "../screens/Wallet/Wallet";
+import WithdrawalScreen from "../screens/Wallet/WithdrawalScreen";
+import TopupScreen from "../screens/Wallet/TopupScreen";
+import PersonalInfomationScreen from "../screens/UserScreens/PersonalInfomationScreen";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="FAQs"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="MainHomescreen" component={MainHomescreen} />
+      <Stack.Screen
+        name="RestaurantMenuScreen"
+        component={RestaurantMenuScreen}
+      />
 
       <Stack.Screen name="FoodDetails" component={FoodDetails} />
+      <Stack.Screen name="GetEverything" component={GetEverythingPage} />
+      <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
+
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
       <Stack.Screen name="RatingPage" component={RatingPage} />
-      <Stack.Screen name="GetEverything" component={GetEverythingPage} />
-
       {/* this group of screen is for order  start  dont remove it */}
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
@@ -34,6 +48,15 @@ export default function UserNavigation() {
       {/* the order screen end here */}
 
       <Stack.Screen name="FAQs" component={FAQs} />
+      <Stack.Screen
+        name="PersonalInfomationScreen"
+        component={PersonalInfomationScreen}
+      />
+
+      {/* { Wallet screens start here} */}
+      <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
+      <Stack.Screen name="TopupScreen" component={TopupScreen} />
+      <Stack.Screen name="Wallet" component={Wallet} />
     </Stack.Navigator>
   );
 }
