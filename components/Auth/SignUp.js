@@ -67,6 +67,9 @@ const SignUp = ({ onSetAuth }) => {
           Accept: "application/json",
         },
       };
+      console.log({
+        data_info,
+      });
       return axios.post(url, data_info, config);
     },
     {
@@ -355,7 +358,7 @@ const SignUp = ({ onSetAuth }) => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               <Text style={styles.modalHeader}>Select Gender</Text>
-              {["Male", "Female", "Prefer not to say"].map((option) => (
+              {["male", "female"].map((option) => (
                 <Pressable
                   key={option}
                   onPress={() => selectGender(option)}
@@ -373,67 +376,6 @@ const SignUp = ({ onSetAuth }) => {
 };
 
 export default SignUp;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-
-//     paddingHorizontal: 10,
-//     backgroundColor: maincolors.white,
-//   },
-//   header: {
-//     fontSize: 24,
-//     lineHeight: 36,
-//     fontWeight: "900",
-//     textAlign: "center",
-//   },
-//   subHeader: {
-//     fontSize: 12,
-//     lineHeight: 36,
-//     fontWeight: "400",
-//   },
-//   inputContainer: {
-//     gap: 5,
-//   },
-//   labels: {
-//     fontSize: 14,
-//     fontWeight: "500",
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: maincolors.inputcolor, // "#ccc",
-//     backgroundColor: maincolors.inputcolor, // "#ccc",
-//     borderRadius: 5,
-//     padding: 10,
-//   },
-//   buttonContainer: {
-//     justifyContent: "flex-end",
-//     alignItems: "center",
-//     paddingVertical: 30,
-//   },
-//   button: {
-//     padding: 10,
-//     borderRadius: 5,
-//     backgroundColor: maincolors.primary, //"#001272",
-//     width: "100%",
-//   },
-//   buttonText: {
-//     textAlign: "center",
-//     color: "white",
-//     fontSize: 16,
-//     fontWeight: "700",
-//     lineHeight: 24.05,
-//   },
-//   footerText: {
-//     fontSize: 14,
-//     lineHeight: 22.4,
-//   },
-//   loginText: {
-//     fontSize: 16,
-//     fontWeight: "500",
-//     lineHeight: 25.6,
-//   },
-// });
 
 const styles = StyleSheet.create({
   container: {

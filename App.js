@@ -26,6 +26,8 @@ import Auth from "./screens/Auth";
 import OtpScreen from "./screens/OtpScreen";
 
 import UserNavigation from "./Navigation/UserNavigation";
+import Security from "./components/Auth/Security";
+import { UserProfile_Fun } from "./Redux/AuthSlice";
 
 const queryClient = new QueryClient();
 
@@ -116,19 +118,53 @@ export const NavigationScreen = () => {
 };
 
 const MainScreen = () => {
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
+
+  const dispatch = useDispatch();
+
+  console.log({
+    kk: user_profile_data?.data?.has_default_address,
+  });
+
+  useEffect(() => {
+    dispatch(UserProfile_Fun());
+
+    return () => {};
+  }, []);
+
+  const isRegistered =
+    user_profile_data?.data?.has_filled_security_question !== false;
+  //  &&
+  // user_profile_data?.data?.has_default_address !== false;
+
+  console.log({
+    ddd: isRegistered,
+  });
+
+  if (isRegistered) {
+    return <UserNavigation />;
+  } else {
+    return (
+      <>
+        {!user_profile_data?.data?.has_filled_security_question && <Security />}
+        {/* {!user_profile_data?.data?.has_default_address && <Security />} */}
+      </>
+    );
+  }
+
+  // return <UserNavigation />;
+};
+
+const BeforeLOginScreen = () => {
   const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!["driver", "user"].includes(user_data?.role)) {
-  //     dispatch(reset_isOnboarding());
-  //     dispatch(reset_login());
-  //     dispatch(BookATripSlice_reset());
-  //   }
+  console.log({
+    kk: user_data?.data?.user,
+  });
 
-  //   return () => {};
-  // }, []);
-
-  return <UserNavigation />;
+  return <Text> kaka</Text>;
 };
