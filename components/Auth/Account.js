@@ -41,7 +41,7 @@ const Account = ({ onCLose }) => {
     {
       title: "F.A.Qs",
       icon: <Feather name="help-circle" size={24} color="#1F2937" />,
-      screen: "FaqScreen",
+      screen: "FAQs",
     },
     {
       title: "Support",

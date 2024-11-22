@@ -26,7 +26,7 @@ const Stack = createNativeStackNavigator();
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="FirstRewardPage"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -46,8 +46,8 @@ export default function UserNavigation() {
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
       <Stack.Screen name="MyOrder" component={MyOrder} />
-      <Stack.Screen name="FirstRewardPage" component={FirstRewardScreen}/>
-      <Stack.Screen name="SecondRewardPage" component={SecondRewardScreen}/>
+      <Stack.Screen name="RewardsScreen" component={FirstRewardScreen} />
+      <Stack.Screen name="PointHistory" component={SecondRewardScreen} />
 
       {/* the order screen end here */}
 
