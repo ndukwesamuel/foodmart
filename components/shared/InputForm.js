@@ -25,6 +25,7 @@ export const Forminput = ({ placeholder, onChangeText, value, style }) => {
           padding: 10,
           borderRadius: 5,
           fontSize: 16,
+          height:42,
           // backgroundColor: "#F6F8FAE5",
           ...style, // merge custom style passed as a prop
         }}
@@ -127,10 +128,10 @@ export const FormLabel = ({ data }) => {
   return (
     <Text
       style={{
-        color: "rgba(38, 50, 56, 0.71)",
+        color: "#023526",
         fontWeight: "400",
-        fontSize: 13,
-        fontFamily: "RobotoSlab-Medium",
+        fontSize: 14,
+        // fontFamily: ",
         marginBottom: 5,
       }}
     >

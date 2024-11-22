@@ -14,15 +14,19 @@ import HomeScreen from "../screens/HomeScreen";
 import MainHomescreen from "../screens/UserScreens/MainHomescreen";
 import RestaurantMenuScreen from "../screens/UserScreens/RestaurantMenuScreen";
 import CheckoutPage from "../screens/UserScreens/CheckoutPage";
+import Wallet from "../screens/Wallet/Wallet";
+import WithdrawalScreen from "../screens/Wallet/WithdrawalScreen";
+import TopupScreen from "../screens/Wallet/TopupScreen";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Wallet"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="Wallet" component={Wallet} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="MainHomescreen" component={MainHomescreen} />
       <Stack.Screen
@@ -43,6 +47,10 @@ export default function UserNavigation() {
       {/* the order screen end here */}
 
       <Stack.Screen name="FAQs" component={FAQs} />
+
+      {/* { Wallet screens start here} */}
+      <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
+      <Stack.Screen name="TopupScreen" component={TopupScreen} />
     </Stack.Navigator>
   );
 }
