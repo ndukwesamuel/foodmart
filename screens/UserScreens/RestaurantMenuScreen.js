@@ -9,9 +9,13 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import AppScreen from "../../components/shared/AppScreen";
+import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
+import { useNavigation } from "@react-navigation/native";
 
 const RestaurantMenuScreen = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const navigation = useNavigation();
 
   // Sample menu data
   const menuData = [
@@ -49,85 +53,98 @@ const RestaurantMenuScreen = () => {
       : menuData.filter((item) => item.category === activeTab);
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Image Header */}
-      <Image
-        source={{ uri: "https://via.placeholder.com/300" }} // Replace with real image
-        style={styles.headerImage}
-      />
+    <AppScreen>
+      <ScrollView style={styles.container}>
+        {/* Image Header */}
+        <Image
+          source={{
+            uri: "https://s3-alpha-sig.figma.com/img/d1d3/e77b/bc3cbdbceb823813881db3d60cc27d10?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZWXRtETGfIKWq6COC1~Bhpqo3TbUVmPuUklAeBNNUY1cJgdTPI49WQfMQ9ThtJ49km16mgJe4Ce~IGQ8dBS7hEdLRdCpsf2qpTvnQy8z0qKuevLo0o~l2A8emasaMPPxKnNjlZXUBzzYUdDbF4UVunrKOZkL5teYvFUanEv6LCsk2~JWwZm~Jty68HOOeFXlBvDfjxWvHThz3QRBEgfy6H94JJzhHpOe5tWWajIJ3DP~IaKJXkEMUfbB5F6FCVLrVWZxwzGEh8CFuZFPPOliLfC39eIDxq0bUZjhB5KHj8G5C9R4T7UpniDi6lAb4PmfD1cspMFA-agBKoPa8PL7UA__",
+          }} // Replace with real image
+          style={styles.headerImage}
+        />
 
-      {/* Restaurant Info */}
-      <View style={styles.infoContainer}>
-        <Text style={styles.restaurantName}>Restaurant 6</Text>
-        <View style={styles.row}>
-          <Text style={styles.rating}>⭐ 4.0</Text>
-          <Text style={styles.reviews}>(515)</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.infoText}>Preparation Time: 25 - 35 min</Text>
-          <Text style={styles.infoText}>
-            Available Delivery Time: Instant Delivery
-          </Text>
-        </View>
-      </View>
+        <ReusableBackButton
+          style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
+        />
 
-      {/* Search Bar */}
-      <TextInput style={styles.searchBar} placeholder="Search menu items" />
-
-      {/* Tab Buttons */}
-      <View style={styles.tabs}>
-        {["All", "Special Meals", "Main Meals", "Drinks"].map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            style={[
-              styles.tabButton,
-              activeTab === tab && styles.activeTabButton,
-            ]}
-            onPress={() => setActiveTab(tab)}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                activeTab === tab && styles.activeTabText,
-              ]}
-            >
-              {tab}
+        {/* Restaurant Info */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.restaurantName}>Restaurant 6 ememe</Text>
+          <View style={styles.row}>
+            <Text style={styles.rating}>⭐ 4.0</Text>
+            <Text style={styles.reviews}>(515)</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.infoText}>Preparation Time: 25 - 35 min</Text>
+            <Text style={styles.infoText}>
+              Available Delivery Time: Instant Delivery
             </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Menu List */}
-      {["Special Meals", "Main Meals", "Drinks"].map((category) => (
-        <View key={category}>
-          {filteredMenu.some((item) => item.category === category) && (
-            <>
-              <Text style={styles.sectionTitle}>{category.toUpperCase()}</Text>
-              {filteredMenu
-                .filter((item) => item.category === category)
-                .map((item) => (
-                  <View key={item.id} style={styles.menuItem}>
-                    <View style={styles.menuDetails}>
-                      <Text style={styles.menuTitle}>{item.title}</Text>
-                      <Text style={styles.menuDescription}>
-                        {item.description}
-                      </Text>
-                      <Text style={styles.menuPrice}>{item.price}</Text>
-                    </View>
-                    <Image
-                      source={{ uri: item.image }}
-                      style={styles.menuImage}
-                    />
-                    <TouchableOpacity style={styles.addButton}>
-                      <Text style={styles.addButtonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-            </>
-          )}
+          </View>
         </View>
-      ))}
-    </ScrollView>
+
+        {/* Search Bar */}
+        <TextInput style={styles.searchBar} placeholder="Search menu items" />
+
+        {/* Tab Buttons */}
+        <View style={styles.tabs}>
+          {["All", "Special Meals", "Main Meals", "Drinks"].map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[
+                styles.tabButton,
+                activeTab === tab && styles.activeTabButton,
+              ]}
+              onPress={() => setActiveTab(tab)}
+            >
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  activeTab === tab && styles.activeTabText,
+                ]}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Menu List */}
+        {["Special Meals", "Main Meals", "Drinks"].map((category) => (
+          <View key={category}>
+            {filteredMenu.some((item) => item.category === category) && (
+              <>
+                <Text style={styles.sectionTitle}>
+                  {category.toUpperCase()}
+                </Text>
+                {filteredMenu
+                  .filter((item) => item.category === category)
+                  .map((item) => (
+                    <View key={item.id} style={styles.menuItem}>
+                      <View style={styles.menuDetails}>
+                        <Text style={styles.menuTitle}>{item.title}</Text>
+                        <Text style={styles.menuDescription}>
+                          {item.description}
+                        </Text>
+                        <Text style={styles.menuPrice}>{item.price}</Text>
+                      </View>
+                      <Image
+                        source={{ uri: item.image }}
+                        style={styles.menuImage}
+                      />
+                      <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => navigation.navigate("FoodDetails")}
+                      >
+                        <Text style={styles.addButtonText}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+              </>
+            )}
+          </View>
+        ))}
+      </ScrollView>
+    </AppScreen>
   );
 };
 

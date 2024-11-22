@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,8 +16,11 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import Account from "../components/Auth/Account";
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+  const [showaccount, setShowaccount] = useState(false);
   return (
     <AppScreen>
       <View
@@ -30,12 +33,14 @@ const HomeScreen = () => {
       >
         {/* Header Section */}
         <View style={styles.header}>
-          <Image
-            source={{
-              uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
-            }} // Replace with profile picture URL
-            style={styles.profileImage}
-          />
+          <TouchableOpacity onPress={() => setShowaccount(true)}>
+            <Image
+              source={{
+                uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
+              }} // Replace with profile picture URL
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
 
           <View
             style={[
@@ -48,6 +53,7 @@ const HomeScreen = () => {
             ]}
           >
             <AntDesign name="search1" size={24} color="black" />
+
             <TextInput placeholder="search" style={styles.searchInput} />
           </View>
           <View style={styles.iconContainer}>
@@ -64,95 +70,105 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Address Section */}
-        <View style={styles.addressContainer}>
-          <Text style={styles.addressText}>Address lorem dolor officia...</Text>
-        </View>
+        {!showaccount ? (
+          <>
+            {/* Address Section */}
+            <View style={styles.addressContainer}>
+              <Text style={styles.addressText}>
+                Address lorem dolor officia...
+              </Text>
+            </View>
 
-        {/* Cashback Promo Section */}
-        <View style={styles.promoContainer}>
-          <View>
-            <Text style={styles.promoText}>Get 20% cashback this weekend!</Text>
-            <Text style={styles.promoCode}>Using promo code</Text>
-            <Text style={styles.boldText}>#HURRAY31</Text>
-          </View>
+            {/* Cashback Promo Section */}
+            <View style={styles.promoContainer}>
+              <View>
+                <Text style={styles.promoText}>
+                  Get 20% cashback this weekend!
+                </Text>
+                <Text style={styles.promoCode}>Using promo code</Text>
+                <Text style={styles.boldText}>#HURRAY31</Text>
+              </View>
 
-          <View>
-            <Image
-              source={{
-                uri: "https://s3-alpha-sig.figma.com/img/de2c/d1c7/c1ef1b8e0645087980b220d0e63f6b27?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=SJOxr~6YjLibtCxH-8C6~5grlETFghSEWB4v84pxPP2VZ-fOE8pfuMJYVL5wKc2ejeZw4Zr~FH2mrX-kPB~clRkH-49Mz2t7MfkCjat8f68hdUgUW8qJTs9K5ZjF5mWiKbf7guUSc~c52hwFxVsg2oukM4Oz2ZRdlHpgmXHN3SHvEAjCP8gm4Uf0JM5XRoGBolsBv6F4nIJLXkRN~aWIUUXjKxqAyD1MClvm19v8pIHbicWYQ24A-hw-aek6gZDRmI0-~RkFFxNe8~U~JLWj16QFQ-8T4yugdzTSMOpby2PBb9ibwhSFm0W0bh2kBa-5RpjPrcfiAU0zJ0F9WE0ePg__",
-              }}
-              style={{
-                width: 100,
-                height: 100,
-              }}
-            />
-          </View>
-        </View>
+              <View>
+                <Image
+                  source={{
+                    uri: "https://s3-alpha-sig.figma.com/img/de2c/d1c7/c1ef1b8e0645087980b220d0e63f6b27?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=SJOxr~6YjLibtCxH-8C6~5grlETFghSEWB4v84pxPP2VZ-fOE8pfuMJYVL5wKc2ejeZw4Zr~FH2mrX-kPB~clRkH-49Mz2t7MfkCjat8f68hdUgUW8qJTs9K5ZjF5mWiKbf7guUSc~c52hwFxVsg2oukM4Oz2ZRdlHpgmXHN3SHvEAjCP8gm4Uf0JM5XRoGBolsBv6F4nIJLXkRN~aWIUUXjKxqAyD1MClvm19v8pIHbicWYQ24A-hw-aek6gZDRmI0-~RkFFxNe8~U~JLWj16QFQ-8T4yugdzTSMOpby2PBb9ibwhSFm0W0bh2kBa-5RpjPrcfiAU0zJ0F9WE0ePg__",
+                  }}
+                  style={{
+                    width: 100,
+                    height: 100,
+                  }}
+                />
+              </View>
+            </View>
 
-        {/* Greeting Section */}
-        <View>
-          <Text style={styles.greetingText}>Hello User,</Text>
-          <Text style={styles.subText}>Go through;</Text>
-        </View>
+            {/* Greeting Section */}
+            <View>
+              <Text style={styles.greetingText}>Hello User,</Text>
+              <Text style={styles.subText}>Go through;</Text>
+            </View>
 
-        {/* Discounts & Restaurants Sections */}
-        <View
-          style={{
-            // borderWidth: 1,
-            flex: 1,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#FDEAFF",
-              paddingVertical: 20,
-              borderRadius: 10,
-              marginBottom: 10,
-            }}
-          >
+            {/* Discounts & Restaurants Sections */}
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                alignSelf: "center",
+                // borderWidth: 1,
+                flex: 1,
               }}
             >
-              <Image
-                source={{
-                  uri: "https://s3-alpha-sig.figma.com/img/de83/e010/9d7f0465473f1920b8ac765eb8ea253e?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H8KeCnjbciX2hDWR5klMUwplX4tnHM6om9SZ8K~RjkNZFypw0lhS7~OQOVr2uVtCiUEUfmG6EcVHEbBE32a4zRckgS48mrMySRV2tsgzdyKL9CJrd8aPvXYjYhOaTTnZYIAYW8i1AOyBSKtpnVMrBhneaUpbxbKNi5Q54qpjUCEkdQGe1mYVDjTF43eam~5Wn91rcHX5CAP5siMjDNCB0Bu8X1j0HvDsZVeBwZypMfBzdqrsDZIQIC3n9LLGsfn4R2Sdw4l841vj57VYCaUiUpCb0RzpT7jdvngOI3lbfvx1oj8ZHfd2xeS2sQhsD5adLdDg92PERvaK7VyG-NYj-g__",
-                }} // Replace with discount image URL
-                style={styles.optionIcon}
-              />
-              <Text style={styles.optionText}>Discounts</Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FDEAFF",
+                  paddingVertical: 20,
+                  borderRadius: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: "https://s3-alpha-sig.figma.com/img/de83/e010/9d7f0465473f1920b8ac765eb8ea253e?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H8KeCnjbciX2hDWR5klMUwplX4tnHM6om9SZ8K~RjkNZFypw0lhS7~OQOVr2uVtCiUEUfmG6EcVHEbBE32a4zRckgS48mrMySRV2tsgzdyKL9CJrd8aPvXYjYhOaTTnZYIAYW8i1AOyBSKtpnVMrBhneaUpbxbKNi5Q54qpjUCEkdQGe1mYVDjTF43eam~5Wn91rcHX5CAP5siMjDNCB0Bu8X1j0HvDsZVeBwZypMfBzdqrsDZIQIC3n9LLGsfn4R2Sdw4l841vj57VYCaUiUpCb0RzpT7jdvngOI3lbfvx1oj8ZHfd2xeS2sQhsD5adLdDg92PERvaK7VyG-NYj-g__",
+                    }} // Replace with discount image URL
+                    style={styles.optionIcon}
+                  />
+                  <Text style={styles.optionText}>Discounts</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFEAEA",
+                  paddingVertical: 20,
+                  borderRadius: 10,
+                  marginBottom: 10,
+                }}
+                onPress={() => navigation.navigate("MainHomescreen")}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: "https://s3-alpha-sig.figma.com/img/ee77/dadf/2ce413b72e9acde68de20afc7bef46ff?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FQNR0mEF-9~OKcypt4SJczM6UBieekdKI3M4GDVhPcoWyD14USHrNFaoEo0l5Yxge1XtN036UYzwsyAj~E1UZ1dEVkm9qhvO7rDAuLIHP67uV7FnAisM8nqeLjQA~X484LeCoE630-0h6J4tNAEDswc1csY3EI2e3ho8fT78Zuwmen9ACIALHeGm8F~JDJ9-KV2wqktWnf6bh2Ow5f7duAo4BpDUNRsq59VVHXLnUtcqYoEl8QuIwFKZ4t4lEcYOl4fE0VG0a~CHJJxgAlWGEyFLeiv~DI~o7uiVs7-v9YOB6GScjTethgdMwoXjY7aIn~3qmryOWqathk0naytOmQ__",
+                    }} // Replace with restaurant image URL
+                    style={styles.optionIcon}
+                  />
+                  <Text style={styles.optionText}>Restaurants</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#FFEAEA",
-              paddingVertical: 20,
-              borderRadius: 10,
-              marginBottom: 10,
-            }}
-            onPress={() => navigation.navigate("MainHomescreen")}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                alignSelf: "center",
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://s3-alpha-sig.figma.com/img/ee77/dadf/2ce413b72e9acde68de20afc7bef46ff?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FQNR0mEF-9~OKcypt4SJczM6UBieekdKI3M4GDVhPcoWyD14USHrNFaoEo0l5Yxge1XtN036UYzwsyAj~E1UZ1dEVkm9qhvO7rDAuLIHP67uV7FnAisM8nqeLjQA~X484LeCoE630-0h6J4tNAEDswc1csY3EI2e3ho8fT78Zuwmen9ACIALHeGm8F~JDJ9-KV2wqktWnf6bh2Ow5f7duAo4BpDUNRsq59VVHXLnUtcqYoEl8QuIwFKZ4t4lEcYOl4fE0VG0a~CHJJxgAlWGEyFLeiv~DI~o7uiVs7-v9YOB6GScjTethgdMwoXjY7aIn~3qmryOWqathk0naytOmQ__",
-                }} // Replace with restaurant image URL
-                style={styles.optionIcon}
-              />
-              <Text style={styles.optionText}>Restaurants</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+          </>
+        ) : (
+          <Account onCLose={() => setShowaccount(false)} />
+        )}
       </View>
     </AppScreen>
   );

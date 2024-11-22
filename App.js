@@ -105,13 +105,13 @@ export const NavigationScreen = () => {
   const [country, setCountry] = useState("Loading...");
 
   console.log({
-    kkkk: user_data,
+    kkkk: user_data?.data?.token,
   });
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {!user_data?.data?.token && <MainScreen />}
-      {user_data?.data?.token && <StartScreen />}
+      {user_data?.data?.token && <MainScreen />}
+      {!user_data?.data?.token && <StartScreen />}
       <Toast />
     </NavigationContainer>
   );
@@ -153,8 +153,6 @@ const MainScreen = () => {
       </>
     );
   }
-
-  // return <UserNavigation />;
 };
 
 const BeforeLOginScreen = () => {

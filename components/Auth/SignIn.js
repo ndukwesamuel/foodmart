@@ -18,9 +18,7 @@ import { maincolors } from "../../utills/Themes";
 
 const SignIn = ({ navigation, onSetAuth }) => {
   const user_dat = useSelector((state) => state.Auth);
-  console.log({
-    kdkdkd: user_dat?.user_isLoading,
-  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);

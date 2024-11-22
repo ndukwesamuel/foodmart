@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 
 export default function Wallet() {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
   const [transactions, setTransactions] = useState([
     {
       id: "1",
@@ -46,10 +47,15 @@ export default function Wallet() {
   return (
     <View style={styles.container}>
       {/* Total Balance Section */}
+      <ReusableBackButton
+        style={{ position: "absolute", top: 80, zIndex: 1, left: 20 }}
+      />
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceLabel}>Total Balance</Text>
-        <View style={{flexDirection:'row', alignItems:"center", gap:16}}>
-          <Text style={styles.balanceValue}>{isPasswordVisible? "₦170,000.00" : "****"}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+          <Text style={styles.balanceValue}>
+            {isPasswordVisible ? "₦170,000.00" : "****"}
+          </Text>
           <TouchableOpacity onPress={togglePasswordVisibility}>
             <MaterialIcons
               name={isPasswordVisible ? "visibility" : "visibility-off"}
@@ -59,11 +65,17 @@ export default function Wallet() {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("TopupScreen")}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("TopupScreen")}
+          >
             <Image source={require("../../assets/Foodmart/top-up.png")} />
             <Text style={styles.buttonText}>Top Up</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WithdrawalScreen")}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("WithdrawalScreen")}
+          >
             <Image source={require("../../assets/Foodmart/withdraw.png")} />
             <Text style={styles.buttonText}>Withdraw</Text>
           </TouchableOpacity>
