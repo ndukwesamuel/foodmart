@@ -10,6 +10,8 @@ import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
+import FirstRewardScreen from "../screens/Reward/RewardSreen1";
+import SecondRewardScreen from "../screens/Reward/RewardScreen2";
 import HomeScreen from "../screens/HomeScreen";
 import MainHomescreen from "../screens/UserScreens/MainHomescreen";
 import RestaurantMenuScreen from "../screens/UserScreens/RestaurantMenuScreen";
@@ -44,6 +46,8 @@ export default function UserNavigation() {
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
       <Stack.Screen name="MyOrder" component={MyOrder} />
+      <Stack.Screen name="RewardsScreen" component={FirstRewardScreen} />
+      <Stack.Screen name="PointHistory" component={SecondRewardScreen} />
 
       {/* the order screen end here */}
 
