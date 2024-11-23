@@ -30,7 +30,6 @@ export default function UserNavigation() {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
