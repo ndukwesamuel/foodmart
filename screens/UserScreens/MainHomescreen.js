@@ -1,15 +1,4 @@
-// import { View, Text } from 'react-native'
-// import React from 'react'
-
-// export default function MainHomescreen() {
-//   return (
-//     <View>
-//       <Text>MainHomescreen</Text>
-//     </View>
-//   )
-// }
-
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -28,10 +17,13 @@ import {
 import AppScreen from "../../components/shared/AppScreen";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import Account from "../../components/Auth/Account";
 
 const MainHomescreen = () => {
   const { user_data } = useSelector((state) => state.Auth);
   const navigation = useNavigation();
+
+  const [showaccount, setShowaccount] = useState(false);
 
   console.log({
     ksks: user_data?.data?.user?.name,
@@ -88,12 +80,14 @@ const MainHomescreen = () => {
       >
         {/* Header Section */}
         <View style={styles.header}>
-          <Image
-            source={{
-              uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
-            }} // Replace with profile picture URL
-            style={styles.profileImage}
-          />
+          <TouchableOpacity onPress={() => setShowaccount(true)}>
+            <Image
+              source={{
+                uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
+              }} // Replace with profile picture URL
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
 
           <View
             style={[
@@ -121,64 +115,68 @@ const MainHomescreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView style={styles.container}>
-          {/* Greeting Section */}
-          <Text style={styles.greeting}>
-            What are you ordering today {user_data?.data?.user?.name}?
-          </Text>
+        {!showaccount ? (
+          <ScrollView style={styles.container}>
+            {/* Greeting Section */}
+            <Text style={styles.greeting}>
+              What are you ordering today {user_data?.data?.user?.name}?
+            </Text>
 
-          {/* Featured Section */}
-          <View style={styles.featuredContainer}>
-            <Image
-              source={{ uri: "https://via.placeholder.com/300" }} // Replace with featured image
-              style={styles.featuredImage}
-            />
-            <View style={styles.discountBadge}>
-              <Text style={styles.discountText}>Get up to 20% Discount</Text>
+            {/* Featured Section */}
+            <View style={styles.featuredContainer}>
+              <Image
+                source={{ uri: "https://via.placeholder.com/300" }} // Replace with featured image
+                style={styles.featuredImage}
+              />
+              <View style={styles.discountBadge}>
+                <Text style={styles.discountText}>Get up to 20% Discount</Text>
+              </View>
             </View>
-          </View>
 
-          {/* Categories */}
-          <Text style={styles.sectionTitle}>Categories</Text>
-          <View style={styles.categoriesContainer}>
-            <TouchableOpacity style={styles.categoryButton}>
-              <Text style={styles.categoryText}>Discounts</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.categoryButton, styles.inactiveCategory]}
-            >
-              <Text style={styles.inactiveCategoryText}>Scheduled</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.categoryButton, styles.inactiveCategory]}
-            >
-              <Text style={styles.inactiveCategoryText}>Deliver Now</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Restaurants */}
-          <FlatList
-            data={featuredRestaurants}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.restaurantCard}
-                onPress={() => navigation.navigate("RestaurantMenuScreen")}
-              >
-                <Image
-                  source={{ uri: item.image }}
-                  style={styles.restaurantImage}
-                />
-                <View style={styles.ratingBadge}>
-                  <Text style={styles.ratingText}>{item.rating}</Text>
-                </View>
-                <Text style={styles.restaurantName}>{item.name}</Text>
-                <Text style={styles.restaurantTime}>9:00AM - 9:00PM</Text>
+            {/* Categories */}
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <View style={styles.categoriesContainer}>
+              <TouchableOpacity style={styles.categoryButton}>
+                <Text style={styles.categoryText}>Discounts</Text>
               </TouchableOpacity>
-            )}
-          />
-        </ScrollView>
+              <TouchableOpacity
+                style={[styles.categoryButton, styles.inactiveCategory]}
+              >
+                <Text style={styles.inactiveCategoryText}>Scheduled</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.categoryButton, styles.inactiveCategory]}
+              >
+                <Text style={styles.inactiveCategoryText}>Deliver Now</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Restaurants */}
+            <FlatList
+              data={featuredRestaurants}
+              keyExtractor={(item) => item.id}
+              numColumns={2}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.restaurantCard}
+                  onPress={() => navigation.navigate("RestaurantMenuScreen")}
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.restaurantImage}
+                  />
+                  <View style={styles.ratingBadge}>
+                    <Text style={styles.ratingText}>{item.rating}</Text>
+                  </View>
+                  <Text style={styles.restaurantName}>{item.name}</Text>
+                  <Text style={styles.restaurantTime}>9:00AM - 9:00PM</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </ScrollView>
+        ) : (
+          <Account onCLose={() => setShowaccount(false)} />
+        )}
       </View>
     </AppScreen>
   );

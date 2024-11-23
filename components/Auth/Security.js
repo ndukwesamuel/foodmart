@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,42 +10,69 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { checkOtp, setOtpEmail } from "../../Redux/OnboardingSlice";
-import { Forminput, Forminputpassword } from "../shared/InputForm";
+import { Forminput } from "../shared/InputForm";
 import { maincolors } from "../../utills/Themes";
 import AppscreenLogo from "../shared/AppscreenLogo";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
-
+console.log({
+  ggg: API_BASEURL,
+});
 const Security = ({ onSetAuth2 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
 
+  const [answer_question, setAnswer_question] = useState("");
   const [formData, setFormData] = useState({
     questions: "",
     answer: "",
-    password: "",
-    name: "",
-    mobile_number: "",
-    phoneNumber: "",
-    homeAddress: "",
-    referral_code: "",
-    gender: "",
-    occupation: "",
-    hobbies: "",
-    dob: new Date(), // Initial DOB
   });
+  const [securityQuestions, setsecurityQuestions] = useState(null);
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const [isGenderModalVisible, setGenderModalVisible] = useState(false);
+  const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
 
   const otpemail = useSelector((state) => state?.OnboardingSlice);
-  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
+
+  const fetchSecurityQuestions = async () => {
+    try {
+      const response = await fetch(`${API_BASEURL}v1/security-questions`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch security questions");
+      }
+
+      const data = await response.json();
+
+      console.log("Security Questions:", { kaka: data?.data });
+
+      setsecurityQuestions(data?.data);
+      return data;
+    } catch (error) {
+      console.log({
+        jj: error?.response,
+      });
+      console.error("Error fetching security questions:", error.message);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchSecurityQuestions();
+
+    return () => {};
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -54,11 +81,11 @@ const Security = ({ onSetAuth2 }) => {
     }));
   };
 
-  const onChangeDOB = (event, selectedDate) => {
-    const currentDate = selectedDate || formData.dob;
-    setShowDatePicker(false); // Hide date picker after selection
-    handleInputChange("dob", currentDate);
+  const selectQuestion = (question) => {
+    handleInputChange("questions", question);
+    setQuestionModalVisible(false);
   };
+
   const Registration_Mutation = useMutation(
     (data_info) => {
       const url = `${API_BASEURL}register`;
@@ -79,10 +106,35 @@ const Security = ({ onSetAuth2 }) => {
         dispatch(checkOtp(true));
       },
       onError: (error) => {
-        console.log({
-          ddd: error?.response?.data,
-          ddd: error?.response?.data?.errors,
+        Toast.show({
+          type: "error",
+          text1: `${error?.response?.data?.message}`,
         });
+      },
+    }
+  );
+
+  const SUbmitAnswer_Mutation = useMutation(
+    (data_info) => {
+      const url = `${API_BASEURL}v1/security-questions`;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+        },
+      };
+      return axios.post(url, data_info, config);
+    },
+    {
+      onSuccess: (success) => {
+        Toast.show({
+          type: "success",
+          text1: `${success?.data?.message}`,
+        });
+        dispatch(checkOtp(true));
+      },
+      onError: (error) => {
         Toast.show({
           type: "error",
           text1: `${error?.response?.data?.message}`,
@@ -92,153 +144,92 @@ const Security = ({ onSetAuth2 }) => {
   );
 
   const handleSignUp = () => {
-    const {
-      name,
-      password,
-      email,
-      mobile_number,
-      gender,
-      dob,
-      occupation,
-      hobbies,
-      referral_code,
-      homeAddress,
-    } = formData;
-
-    let newmail = email.toLowerCase();
-    dispatch(setOtpEmail(newmail));
-
     console.log({
-      jdjdj: formData,
+      jgjg: formData,
     });
-
-    console.log({
-      name,
-      email,
-      mobile_number,
-      gender,
-      date_of_birth: dob,
-      occupation,
-      referral_code,
-      hobbies,
-      password,
-      password_confirmation: password,
-      homeAddress,
-    });
-    Registration_Mutation.mutate({
-      name,
-      email: email.toLowerCase(),
-      mobile_number,
-      gender,
-      date_of_birth: dob,
-      occupation,
-      referral_code,
-      hobbies,
-      password,
-      password_confirmation: password,
-      homeAddress,
-      user_type: "customer",
-    });
-  };
-
-  const openGenderModal = () => {
-    setGenderModalVisible(true);
-  };
-
-  const selectGender = (gender) => {
-    handleInputChange("gender", gender);
-    setGenderModalVisible(false);
+    let data = {
+      question: formData?.questions,
+      answer: formData?.answer,
+    };
+    SUbmitAnswer_Mutation.mutate(data);
   };
 
   return (
     <AppscreenLogo>
       <ScrollView style={styles.container}>
-        <View style={{}}>
-          <View style={{ alignSelf: "center" }}>
-            <Text style={styles.header}>Welcome!</Text>
-            <Text style={styles.subHeader}>Let’s Get Started</Text>
-          </View>
-
-          <View
-            style={{
-              gap: 10,
-            }}
-          >
-            <View style={[styles.inputContainer]}>
-              <Text style={styles.labels}>Select security question </Text>
-              <Pressable onPress={openGenderModal} style={styles.input}>
-                <Text style={{ color: formData.gender ? "black" : "gray" }}>
-                  {formData.gender || "Select Gender"}
-                </Text>
-              </Pressable>
-            </View>
-
-            {/** Full Name */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.labels}>Answer</Text>
-              <Forminput
-                placeholder="Answer"
-                onChangeText={(text) => handleInputChange("answer", text)}
-                value={formData.answer}
-                style={styles.input}
-              />
-            </View>
-
-            <View>
-              <Text style={styles.footerText}>
-                By clicking this box, i have read, understood and agreed to the
-                <Text
-                  onPress={() => console.log("this is me")}
-                  style={styles.loginText}
-                >
-                  terms and conditions
-                </Text>
-                of FalconEx
-              </Text>
-            </View>
-          </View>
-
-          {/** Action Button */}
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={handleSignUp} style={styles.button}>
-              {Registration_Mutation.isLoading ? (
-                <ActivityIndicator size="small" color="white" />
-              ) : (
-                <Text style={styles.buttonText}>Sign Up</Text>
-              )}
-            </Pressable>
-            <Pressable>
-              <Text style={styles.footerText}>
-                Already have an Account?
-                <Text
-                  onPress={() => onSetAuth("sign-in")}
-                  style={styles.loginText}
-                >
-                  Sign In
-                </Text>
-              </Text>
-            </Pressable>
-          </View>
+        <View style={{ alignSelf: "center" }}>
+          <Text style={styles.header}>Set Security Question</Text>
         </View>
 
-        {/* Gender Modal */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.labels}>Select security question</Text>
+          <Pressable
+            onPress={() => setQuestionModalVisible(true)}
+            style={styles.input}
+          >
+            <Text style={{ color: formData.questions ? "black" : "gray" }}>
+              {formData.questions || "Select a question"}
+            </Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.labels}>Answer</Text>
+          <Forminput
+            placeholder="Answer"
+            onChangeText={(text) => handleInputChange("answer", text)}
+            value={formData.answer}
+            style={styles.input}
+          />
+        </View>
+
+        <View>
+          <Text style={styles.footerText}>
+            By clicking this box, i have read, understood and agreed to the
+            <Text
+              onPress={() => console.log("this is me")}
+              style={styles.loginText}
+            >
+              terms and conditions
+            </Text>
+            of FalconEx
+          </Text>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          {SUbmitAnswer_Mutation.isLoading ? (
+            <ActivityIndicator size="large" color={maincolors.primary} />
+          ) : (
+            <Pressable onPress={handleSignUp} style={styles.button}>
+              <Text style={styles.buttonText}>Create</Text>
+            </Pressable>
+          )}
+        </View>
+
+        {/* Security Questions Modal */}
         <Modal
           transparent={true}
-          visible={isGenderModalVisible}
-          onRequestClose={() => setGenderModalVisible(false)}
+          visible={isQuestionModalVisible}
+          onRequestClose={() => setQuestionModalVisible(false)}
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
-              <Text style={styles.modalHeader}>Select Questions</Text>
-              {["Male", "Female", "Prefer not to say"].map((option) => (
-                <Pressable
-                  key={option}
-                  onPress={() => selectGender(option)}
-                  style={styles.modalOption}
-                >
-                  <Text style={styles.modalOptionText}>{option}</Text>
-                </Pressable>
-              ))}
+              <Text style={styles.modalHeader}>Select a Question</Text>
+              {!securityQuestions ? (
+                <ActivityIndicator size="large" color={maincolors.primary} />
+              ) : (
+                securityQuestions?.["security-questions"]?.map(
+                  (question, index) => (
+                    <Pressable
+                      key={index}
+                      onPress={() => selectQuestion(question)}
+                      style={styles.modalOption}
+                    >
+                      <Text style={styles.modalOptionText}>{question}</Text>
+                    </Pressable>
+                  )
+                )
+              )}
             </View>
           </View>
         </Modal>
@@ -257,17 +248,11 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    lineHeight: 36,
-    fontWeight: "900",
+    fontWeight: "700",
     textAlign: "center",
   },
-  subHeader: {
-    fontSize: 12,
-    lineHeight: 36,
-    fontWeight: "400",
-  },
   inputContainer: {
-    gap: 5,
+    marginVertical: 10,
   },
   labels: {
     fontSize: 14,
@@ -281,9 +266,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   buttonContainer: {
-    justifyContent: "flex-end",
+    marginVertical: 20,
     alignItems: "center",
-    paddingVertical: 30,
   },
   button: {
     padding: 10,
@@ -296,7 +280,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "700",
-    lineHeight: 24.05,
   },
   modalOverlay: {
     flex: 1,
@@ -318,7 +301,7 @@ const styles = StyleSheet.create({
   },
   modalOption: {
     paddingVertical: 10,
-    alignItems: "center",
+    // alignItems: "center",
   },
   modalOptionText: {
     fontSize: 16,
