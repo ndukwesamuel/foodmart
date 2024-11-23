@@ -46,7 +46,7 @@ const Account = ({ onCLose }) => {
     {
       title: "Support",
       icon: <Feather name="headphones" size={24} color="#1F2937" />,
-      screen: "SupportScreen",
+      screen: "Support",
     },
     {
       title: "Settings",
