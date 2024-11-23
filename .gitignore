@@ -19,3 +19,4 @@ ios/
 android/
 
 .env
+.git/
