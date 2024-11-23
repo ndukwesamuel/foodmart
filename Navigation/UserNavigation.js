@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="Chat"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -49,11 +49,12 @@ export default function UserNavigation() {
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
       <Stack.Screen name="MyOrder" component={MyOrder} />
-      <Stack.Screen name="FirstRewardPage" component={FirstRewardScreen}/>
-      <Stack.Screen name="SecondRewardPage" component={SecondRewardScreen}/>
-      <Stack.Screen name="Support" component={SupportMainPage}/>
-      <Stack.Screen name="ReportIssue" component={ReportIssuePage}/>
-      <Stack.Screen name="Chat" component={ChatPage}/>
+
+      <Stack.Screen name="FirstRewardPage" component={FirstRewardScreen} />
+      <Stack.Screen name="SecondRewardPage" component={SecondRewardScreen} />
+      <Stack.Screen name="Support" component={SupportMainPage} />
+      <Stack.Screen name="ReportIssue" component={ReportIssuePage} />
+      <Stack.Screen name="Chat" component={ChatPage} />
       <Stack.Screen name="RewardsScreen" component={FirstRewardScreen} />
       <Stack.Screen name="PointHistory" component={SecondRewardScreen} />
 
