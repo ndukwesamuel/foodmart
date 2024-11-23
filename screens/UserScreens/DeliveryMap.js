@@ -41,7 +41,7 @@ export default function DeliveryMap() {
           </Pressable>
         </View>
         <View style={{ gap: 10 }}>
-          <Text style={{ fontSize: 16 }}>Estimated Time of Arrival</Text>
+          <Text style={{ fontSize: 16 }}> Estimated Time of Arrival</Text>
           <Text style={{ fontSize: 16, color: "#F79B2C" }}>20 mins away</Text>
           <Text style={{ fontSize: 20 }}>!2:50PM - 11:40PM</Text>
         </View>
