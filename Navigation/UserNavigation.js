@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator();
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Chat"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
