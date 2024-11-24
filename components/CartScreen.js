@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import { Feather, SimpleLineIcons } from "@expo/vector-icons";
 import { maincolors } from "../utills/Themes";
+import DeliveredOrders, {
+  DeliveredOrdersComponent,
+} from "../screens/Orders/DeliveredOrders";
 
 const CartScreen = () => {
   const [tab, settab] = useState("cart");
@@ -194,44 +197,53 @@ const CartScreen = () => {
   return (
     <View style={styles.container}>
       {/* Tabs */}
-      <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => settab("cart")}>
-          <Text style={[styles.tab, tab === "cart" && styles.activeTab]}>
-            Cart
-          </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => settab("ongoing")}>
-          <Text style={[styles.tab, tab === "ongoing" && styles.activeTab]}>
-            Ongoing
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => settab("delivered")}>
-          <Text style={[styles.tab, tab === "delivered" && styles.activeTab]}>
-            Delivered
-          </Text>
-        </TouchableOpacity>
+      <View
+        style={{
+          paddingHorizontal: 16,
+        }}
+      >
+        <View style={styles.tabs}>
+          <TouchableOpacity onPress={() => settab("cart")}>
+            <Text style={[styles.tab, tab === "cart" && styles.activeTab]}>
+              Cart
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => settab("ongoing")}>
+            <Text style={[styles.tab, tab === "ongoing" && styles.activeTab]}>
+              Ongoing
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => settab("delivered")}>
+            <Text style={[styles.tab, tab === "delivered" && styles.activeTab]}>
+              Delivered
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Cart List */}
+
+        {tab === "cart" && (
+          <FlatList
+            data={cartData}
+            renderItem={renderCartSections}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+
+        {tab === "ongoing" && (
+          <FlatList
+            data={OngoingtData}
+            renderItem={renderOngoingSections}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
 
-      {/* Cart List */}
-
-      {tab === "cart" && (
-        <FlatList
-          data={cartData}
-          renderItem={renderCartSections}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-
-      {tab === "ongoing" && (
-        <FlatList
-          data={OngoingtData}
-          renderItem={renderOngoingSections}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <View>{tab === "delivered" && <DeliveredOrdersComponent />}</View>
     </View>
   );
 };
@@ -240,7 +252,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
+    // borderWidth: 1,
   },
   header: {
     flexDirection: "row",
