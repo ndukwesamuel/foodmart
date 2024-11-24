@@ -77,25 +77,6 @@ const CartScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Image
-          source={{ uri: "https://via.placeholder.com/40" }}
-          style={styles.avatar}
-        />
-        <View style={styles.searchBar}>
-          <Feather name="search" size={20} color="#6c757d" />
-          <Text style={styles.searchText}>search</Text>
-        </View>
-        <Feather
-          name="shopping-bag"
-          size={24}
-          color="#6c757d"
-          style={styles.icon}
-        />
-        <Feather name="bell" size={24} color="#6c757d" style={styles.icon} />
-      </View>
-
       {/* Tabs */}
       <View style={styles.tabs}>
         <Text style={[styles.tab, styles.activeTab]}>Cart</Text>

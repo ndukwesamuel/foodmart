@@ -24,6 +24,16 @@ const HomeScreen = () => {
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
+
+  const cart_state = () => {
+    if (notification === "cart") {
+      setnotification("home");
+    } else {
+      setnotification("cart");
+    }
+    console.log("this is working ");
+  };
+
   return (
     <AppScreen>
       <View
@@ -60,7 +70,7 @@ const HomeScreen = () => {
             <TextInput placeholder="search" style={styles.searchInput} />
           </View>
           <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={() => setnotification("cart")}>
+            <TouchableOpacity onPress={cart_state}>
               <MaterialCommunityIcons
                 name="cart-outline"
                 size={24}
