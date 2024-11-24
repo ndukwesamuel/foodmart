@@ -75,8 +75,14 @@ const FirstRewardScreen = () => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("PointHistory")}
-        ></TouchableOpacity>
-        <Text style={styles.LinkText}>View Points History</Text>
+          style={
+            {
+              // alignSelf: "flex-end",
+            }
+          }
+        >
+          <Text style={styles.LinkText}>View Points History</Text>
+        </TouchableOpacity>
       </View>
       <View>
         <View
@@ -160,6 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flex: 1,
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: 19,
   },
@@ -172,8 +179,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#F79B2C",
     fontSize: 16,
-    position: "absolute",
-    right: 24,
+    // position: "absolute",
+    // right: 24,
   },
 });
 
