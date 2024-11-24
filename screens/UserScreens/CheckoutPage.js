@@ -227,14 +227,10 @@ export default function CheckoutPage() {
                   </View>
                 </View>
               </View>
-<<<<<<< HEAD
-              <PrimaryButton buttonText={"Confirm Order"} action={() => useNavigation().navigate("CompleteOrder")}/>
-=======
               <PrimaryButton
                 buttonText={"Confirm Order"}
                 action={() => setcheckout(false)}
               />
->>>>>>> 68672c930c91a3663a9ad25ed9bf9d8255b53744
             </View>
           </ScrollView>
         </View>
