@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,49 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, SimpleLineIcons } from "@expo/vector-icons";
+import { maincolors } from "../utills/Themes";
 
 const CartScreen = () => {
+  const [tab, settab] = useState("cart");
   const cartData = [
+    {
+      restaurant: "Restaurant 1",
+      items: [
+        {
+          name: "Rice",
+          price: 5500,
+          quantity: 1,
+          image: "https://via.placeholder.com/80",
+        },
+        {
+          name: "Drink",
+          price: 5500,
+          quantity: 1,
+          image: "https://via.placeholder.com/80",
+        },
+      ],
+    },
+    {
+      restaurant: "Restaurant 2",
+      items: [
+        {
+          name: "Avocado",
+          price: 5500,
+          quantity: 1,
+          image: "https://via.placeholder.com/80",
+        },
+        {
+          name: "Avocado",
+          price: 5500,
+          quantity: 1,
+          image: "https://via.placeholder.com/80",
+        },
+      ],
+    },
+  ];
+
+  const OngoingtData = [
     {
       restaurant: "Restaurant 1",
       items: [
@@ -75,22 +114,124 @@ const CartScreen = () => {
     </View>
   );
 
+  const renderOngoingSections = ({ item }) => (
+    <View
+      style={{
+        marginBottom: 16,
+        padding: 16,
+        // backgroundColor: "#f8f9fa",
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "#C4C4C4",
+      }}
+    >
+      <View style={styles.cartHeader}>
+        <View>
+          <Text style={styles.restaurantName}>{item.restaurant}</Text>
+          <Text style={styles.restaurantName}>₦5,500</Text>
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.deleteAll}>Order ID: E8F99P</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: "#C4C4C4",
+          marginVertical: 10,
+        }}
+      />
+
+      <Text>Share this code with your rider</Text>
+
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 10,
+        }}
+      >
+        {[7, 7, 7, 7].map((item) => (
+          <View
+            style={{
+              backgroundColor: "#F4F4F4CC",
+              borderRadius: 5,
+              // backgroundColor: "red",
+              padding: 15,
+              paddingHorizontal: 20,
+            }}
+          >
+            <Text>{item}</Text>
+          </View>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: maincolors.primary,
+          }}
+        >
+          Track Order
+        </Text>
+        <SimpleLineIcons
+          name="arrow-right"
+          size={15}
+          color={maincolors.primary}
+        />
+        <SimpleLineIcons
+          name="arrow-right"
+          size={15}
+          color={maincolors.primary}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {/* Tabs */}
       <View style={styles.tabs}>
-        <Text style={[styles.tab, styles.activeTab]}>Cart</Text>
-        <Text style={styles.tab}>Ongoing</Text>
-        <Text style={styles.tab}>Delivered</Text>
+        <TouchableOpacity onPress={() => settab("cart")}>
+          <Text style={[styles.tab, tab === "cart" && styles.activeTab]}>
+            Cart
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => settab("ongoing")}>
+          <Text style={[styles.tab, tab === "ongoing" && styles.activeTab]}>
+            Ongoing
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => settab("delivered")}>
+          <Text style={[styles.tab, tab === "delivered" && styles.activeTab]}>
+            Delivered
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Cart List */}
-      <FlatList
-        data={cartData}
-        renderItem={renderCartSections}
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-      />
+
+      {tab === "cart" && (
+        <FlatList
+          data={cartData}
+          renderItem={renderCartSections}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+
+      {tab === "ongoing" && (
+        <FlatList
+          data={OngoingtData}
+          renderItem={renderOngoingSections}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
