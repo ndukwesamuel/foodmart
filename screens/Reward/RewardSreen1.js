@@ -12,8 +12,9 @@ import {
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 
-import ProfilePicture from "../../assets/1.png";
-import checkedIcon from "../../assets/checked.png";
+// import ProfilePicture from "../../assets/1.png";
+// import ProfilePicture from '../../assets/1.png'
+// import checkedIcon from "../../assets/checked.png";
 
 import { useNavigation } from "@react-navigation/native";
 const FirstRewardScreen = () => {
@@ -51,7 +52,7 @@ const FirstRewardScreen = () => {
         }}
       >
         <Image
-          source={checkedIcon}
+          source={require('../../assets/checked.png')}
           style={{ height: 20, width: 20, marginRight: 10 }}
         />
         <Text>{item}</Text>
@@ -94,7 +95,7 @@ const FirstRewardScreen = () => {
           }}
         >
           <Image
-            source={ProfilePicture}
+            source={require("../../assets/1.png")}
             style={{
               height: 95,
               width: 95,

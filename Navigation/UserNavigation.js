@@ -11,7 +11,7 @@ import MyOrder from "../screens/Orders/MyOrder";
 import MyFavorite from "../screens/Orders/MyFavorite";
 import FAQs from "../screens/FAQs";
 import FirstRewardScreen from "../screens/Reward/RewardSreen1";
-import SecondRewardScreen from "../screens/Reward/RewardScreen2";
+// import SecondRewardScreen from "../screens/Reward/RewardScreen2";
 import HomeScreen from "../screens/HomeScreen";
 import MainHomescreen from "../screens/UserScreens/MainHomescreen";
 import RestaurantMenuScreen from "../screens/UserScreens/RestaurantMenuScreen";
@@ -22,14 +22,17 @@ import ChatPage from "../screens/Support/chatPage";
 import Wallet from "../screens/Wallet/Wallet";
 import WithdrawalScreen from "../screens/Wallet/WithdrawalScreen";
 import TopupScreen from "../screens/Wallet/TopupScreen";
+// import PersonalInfomationScreen from "../screens/UserScreens/PersonalInfomationScreen";
+import SecondRewardScreen from "../screens/Reward/RewardScreen2";
 import PersonalInfomationScreen from "../screens/UserScreens/PersonalInfomationScreen";
+import TopupScreen2 from "../screens/Wallet/TopupScreen2";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Wallet"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -51,7 +54,7 @@ export default function UserNavigation() {
       <Stack.Screen name="MyOrder" component={MyOrder} />
 
       <Stack.Screen name="FirstRewardPage" component={FirstRewardScreen} />
-      <Stack.Screen name="SecondRewardPage" component={SecondRewardScreen} />
+      {/* <Stack.Screen name="SecondRewardPage" component={SecondRewardScreen} /> */}
       <Stack.Screen name="Support" component={SupportMainPage} />
       <Stack.Screen name="ReportIssue" component={ReportIssuePage} />
       <Stack.Screen name="Chat" component={ChatPage} />
@@ -69,6 +72,7 @@ export default function UserNavigation() {
       {/* { Wallet screens start here} */}
       <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
       <Stack.Screen name="TopupScreen" component={TopupScreen} />
+      <Stack.Screen name="TopupScreen2" component={TopupScreen2}/>
       <Stack.Screen name="Wallet" component={Wallet} />
     </Stack.Navigator>
   );
