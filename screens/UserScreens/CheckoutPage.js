@@ -14,6 +14,7 @@ import AppScreen from "../../components/shared/AppScreen";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import OrderPlacingScreen from "../../components/CheckoutStatus";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CheckoutPage() {
   const [checkout, setcheckout] = useState(false);
@@ -219,7 +220,7 @@ export default function CheckoutPage() {
                   </View>
                 </View>
               </View>
-              <PrimaryButton buttonText={"Confirm Order"} />
+              <PrimaryButton buttonText={"Confirm Order"} action={() => useNavigation().navigate("CompleteOrder")}/>
             </View>
           </ScrollView>
         </View>
