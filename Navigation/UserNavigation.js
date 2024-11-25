@@ -29,6 +29,7 @@ import DetailsPage from "../screens/Detail/detailsPage";
 import TopupScreen2 from "../screens/Wallet/TopupScreen2";
 import Notification from "../screens/Notification";
 import CompleteOrder from "../screens/UserScreens/CompleteOrder";
+import UpdatePassword from "../screens/Detail/updatePassword";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,8 @@ export default function UserNavigation() {
       <Stack.Screen name="RewardsScreen" component={FirstRewardScreen} />
       <Stack.Screen name="PointHistory" component={SecondRewardScreen} />
       <Stack.Screen name="Detail" component={DetailsPage} />
+      <Stack.Screen name="Detail" component={DetailsPage} />
+      <Stack.Screen name="updatePassword" component={UpdatePassword} />
 
       {/* the order screen end here */}
 
