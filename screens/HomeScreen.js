@@ -17,10 +17,23 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Account from "../components/Auth/Account";
+import CartScreen from "../components/CartScreen";
 const HomeScreen = () => {
   const navigation = useNavigation();
 
   const [showaccount, setShowaccount] = useState(false);
+
+  const [notification, setnotification] = useState("home");
+
+  const cart_state = () => {
+    if (notification === "cart") {
+      setnotification("home");
+    } else {
+      setnotification("cart");
+    }
+    console.log("this is working ");
+  };
+
   return (
     <AppScreen>
       <View
@@ -33,7 +46,7 @@ const HomeScreen = () => {
       >
         {/* Header Section */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => setShowaccount(true)}>
+          <TouchableOpacity onPress={() => setnotification("account")}>
             <Image
               source={{
                 uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
@@ -57,20 +70,19 @@ const HomeScreen = () => {
             <TextInput placeholder="search" style={styles.searchInput} />
           </View>
           <View style={styles.iconContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={cart_state}>
               <MaterialCommunityIcons
                 name="cart-outline"
                 size={24}
                 color="black"
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
               <Ionicons name="notifications-outline" size={24} color="black" />
             </TouchableOpacity>
           </View>
         </View>
-
-        {!showaccount ? (
+        {notification === "home" && (
           <>
             {/* Address Section */}
             <View style={styles.addressContainer}>
@@ -166,8 +178,10 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
           </>
-        ) : (
-          <Account onCLose={() => setShowaccount(false)} />
+        )}
+        {notification === "cart" && <CartScreen />}
+        {notification === "account" && (
+          <Account onCLose={() => setnotification("home")} />
         )}
       </View>
     </AppScreen>
