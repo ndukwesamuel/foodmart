@@ -29,13 +29,14 @@ import TopupScreen2 from "../screens/Wallet/TopupScreen2";
 import Notification from "../screens/Notification";
 import CompleteOrder from "../screens/UserScreens/CompleteOrder";
 import CancelDelivery from "../screens/UserScreens/CancelDelivery";
+import OrderStatus from "../screens/UserScreens/OrderStatus";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="CompleteOrder"
+      initialRouteName="OrderStatus"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -51,9 +52,10 @@ export default function UserNavigation() {
 
       <Stack.Screen name="DeliveryMap" component={DeliveryMap} />
       <Stack.Screen name="RatingPage" component={RatingPage} />
-      <Stack.Screen name="CompleteOrder" component={CompleteOrder}/>
-      <Stack.Screen name="Notification" component={Notification}/>
-      <Stack.Screen name="CancelDelivery" component={CancelDelivery}/>
+      <Stack.Screen name="CompleteOrder" component={CompleteOrder} />
+      <Stack.Screen name="Notification" component={Notification} />
+      <Stack.Screen name="CancelDelivery" component={CancelDelivery} />
+      <Stack.Screen name="OrderStatus" component={OrderStatus} />
       {/* this group of screen is for order  start  dont remove it */}
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
@@ -78,7 +80,7 @@ export default function UserNavigation() {
       {/* { Wallet screens start here} */}
       <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
       <Stack.Screen name="TopupScreen" component={TopupScreen} />
-      <Stack.Screen name="TopupScreen2" component={TopupScreen2}/>
+      <Stack.Screen name="TopupScreen2" component={TopupScreen2} />
       <Stack.Screen name="Wallet" component={Wallet} />
     </Stack.Navigator>
   );
