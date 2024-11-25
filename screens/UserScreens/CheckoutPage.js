@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "../../components/shared/Button";
 import { CustomCheckbox, Forminput } from "../../components/shared/InputForm";
 import Checkbox from "expo-checkbox";
@@ -16,7 +16,14 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import OrderPlacingScreen from "../../components/CheckoutStatus";
 
 export default function CheckoutPage() {
-  const [checkout, setcheckout] = useState(false);
+  const [checkout, setcheckout] = useState(true);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setcheckout(false);
+  //   }, 10000);
+  //   return () => {};
+  // }, []);
+
   return (
     <AppScreen>
       {checkout ? (
@@ -219,12 +226,15 @@ export default function CheckoutPage() {
                   </View>
                 </View>
               </View>
-              <PrimaryButton buttonText={"Confirm Order"} />
+              <PrimaryButton
+                buttonText={"Confirm Order"}
+                action={() => setcheckout(false)}
+              />
             </View>
           </ScrollView>
         </View>
       ) : (
-        <OrderPlacingScreen />
+        <OrderPlacingScreen action={() => setcheckout(true)} />
       )}
     </AppScreen>
   );
