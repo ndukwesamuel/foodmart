@@ -24,13 +24,14 @@ import WithdrawalScreen from "../screens/Wallet/WithdrawalScreen";
 import TopupScreen from "../screens/Wallet/TopupScreen";
 import PersonalInfomationScreen from "../screens/UserScreens/PersonalInfomationScreen";
 import DetailsPage from "../screens/Detail/detailsPage";
+import UpdatePassword from "../screens/Detail/updatePassword";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
 export default function UserNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="Detail"
+      initialRouteName="updatePassword"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -59,6 +60,7 @@ export default function UserNavigation() {
       <Stack.Screen name="RewardsScreen" component={FirstRewardScreen} />
       <Stack.Screen name="PointHistory" component={SecondRewardScreen} />
       <Stack.Screen name="Detail" component={DetailsPage}/>
+      <Stack.Screen name="updatePassword" component={UpdatePassword}/>
 
       {/* the order screen end here */}
 
