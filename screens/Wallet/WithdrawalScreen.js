@@ -52,7 +52,7 @@ export default function WithdrawalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 40,
   },
   pageTitle: {
     fontSize: 24,
