@@ -35,109 +35,115 @@ export default function DeliveredOrders() {
           style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
         />
         <ReusableTitle data="Delivered Orders" />
-
-        <View
-          style={{
-            paddingHorizontal: 30,
-            marginVertical: 20,
-          }}
-        >
-          <FlatList
-            data={[1, 2]}
-            renderItem={({ item }) => (
-              <>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    // paddingHorizontal: 0,
-                  }}
-                >
-                  <View
-                    style={{
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontWeight: "400",
-                        fontSize: 18,
-                        color: maincolors.primary,
-                      }}
-                    >
-                      Store 1
-                    </Text>
-
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      x2 Special Rice
-                    </Text>
-
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      5000
-                    </Text>
-
-                    <View>
-                      <Formbutton
-                        buttonStyle={{
-                          backgroundColor: maincolors.primary, // "#4CAF50",
-                          paddingVertical: 6,
-                          paddingHorizontal: 45,
-                          borderRadius: 8,
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        textStyle={{
-                          color: "#fff",
-                          fontSize: 16,
-                          fontWeight: "600",
-                        }}
-                        icon={
-                          <Image
-                            source={require("../../assets/Foodmart/Vector3.png")}
-                          />
-                        }
-                        data="Reorder"
-                        onPress={navigateFunc} //() => console.log("MyOrder")}
-                      />
-                    </View>
-                  </View>
-                  <Image
-                    source={require("../../assets/Foodmart/food.png")}
-                    style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: 6,
-                    }}
-                  />
-                </View>
-                <View
-                  style={{
-                    borderWidth: 0.5,
-                    borderColor: maincolors.lightgray, //"#C4C4C4",
-                    marginBottom: 10,
-                  }}
-                />
-              </>
-            )}
-          />
-        </View>
       </View>
+
+      <DeliveredOrdersComponent action={navigateFunc} />
     </AppScreen>
   );
 }
+
+export const DeliveredOrdersComponent = ({ action }) => {
+  return (
+    <View
+      style={{
+        paddingHorizontal: 30,
+        marginVertical: 20,
+      }}
+    >
+      <FlatList
+        data={[1, 2]}
+        renderItem={({ item }) => (
+          <>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                // paddingHorizontal: 0,
+              }}
+            >
+              <View
+                style={{
+                  marginBottom: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "400",
+                    fontSize: 18,
+                    color: maincolors.primary,
+                  }}
+                >
+                  Store 1
+                </Text>
+
+                <Text
+                  style={{
+                    // fontFamily:
+                    fontWeight: "300",
+                    fontSize: 16,
+                  }}
+                >
+                  x2 Special Rice
+                </Text>
+
+                <Text
+                  style={{
+                    // fontFamily:
+                    fontWeight: "300",
+                    fontSize: 16,
+                  }}
+                >
+                  5000
+                </Text>
+
+                <View>
+                  <Formbutton
+                    buttonStyle={{
+                      backgroundColor: maincolors.primary, // "#4CAF50",
+                      paddingVertical: 6,
+                      paddingHorizontal: 45,
+                      borderRadius: 8,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    textStyle={{
+                      color: "#fff",
+                      fontSize: 16,
+                      fontWeight: "600",
+                    }}
+                    icon={
+                      <Image
+                        source={require("../../assets/Foodmart/Vector3.png")}
+                      />
+                    }
+                    data="Reorder"
+                    onPress={action} //() => console.log("MyOrder")}
+                  />
+                </View>
+              </View>
+              <Image
+                source={require("../../assets/Foodmart/food.png")}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 6,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: maincolors.lightgray, //"#C4C4C4",
+                marginBottom: 10,
+              }}
+            />
+          </>
+        )}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", paddingTop: 20 },

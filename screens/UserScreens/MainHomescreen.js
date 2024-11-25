@@ -18,6 +18,7 @@ import AppScreen from "../../components/shared/AppScreen";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Account from "../../components/Auth/Account";
+import CartScreen from "../../components/CartScreen";
 
 const MainHomescreen = () => {
   const { user_data } = useSelector((state) => state.Auth);
@@ -28,6 +29,9 @@ const MainHomescreen = () => {
   console.log({
     ksks: user_data?.data?.user?.name,
   });
+
+  const [notification, setnotification] = useState("home");
+
   // Dummy data for restaurants and categories
   const featuredRestaurants = [
     {
@@ -68,6 +72,14 @@ const MainHomescreen = () => {
     },
   ];
 
+  const cart_state = () => {
+    if (notification === "cart") {
+      setnotification("home");
+    } else {
+      setnotification("cart");
+    }
+    console.log("this is working ");
+  };
   return (
     <AppScreen>
       <View
@@ -80,7 +92,8 @@ const MainHomescreen = () => {
       >
         {/* Header Section */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => setShowaccount(true)}>
+          <TouchableOpacity onPress={() => setnotification("account")}>
+            {/* <TouchableOpacity onPress={() => setShowaccount(true)}> */}
             <Image
               source={{
                 uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
@@ -103,7 +116,12 @@ const MainHomescreen = () => {
             <TextInput placeholder="search" style={styles.searchInput} />
           </View>
           <View style={styles.iconContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("kdkd");
+                cart_state();
+              }}
+            >
               <MaterialCommunityIcons
                 name="cart-outline"
                 size={24}
@@ -115,7 +133,8 @@ const MainHomescreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {!showaccount ? (
+
+        {notification === "home" && (
           <ScrollView style={styles.container}>
             {/* Greeting Section */}
             <Text style={styles.greeting}>
@@ -174,8 +193,11 @@ const MainHomescreen = () => {
               )}
             />
           </ScrollView>
-        ) : (
-          <Account onCLose={() => setShowaccount(false)} />
+        )}
+
+        {notification === "cart" && <CartScreen />}
+        {notification === "account" && (
+          <Account onCLose={() => setnotification("home")} />
         )}
       </View>
     </AppScreen>
