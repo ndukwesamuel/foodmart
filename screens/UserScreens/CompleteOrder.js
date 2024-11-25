@@ -7,8 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CompleteOrder() {
+  const navigation = useNavigation()
   const orderSummary = [
     {
       id: "1",
@@ -66,7 +68,7 @@ export default function CompleteOrder() {
       </View>
 
       {/* Cancel Order Button */}
-      <TouchableOpacity style={styles.cancelButton}>
+      <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("CancelDelivery")}>
         <Text style={styles.cancelButtonText}>Cancel Order</Text>
       </TouchableOpacity>
     </View>

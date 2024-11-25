@@ -28,6 +28,7 @@ import PersonalInfomationScreen from "../screens/UserScreens/PersonalInfomationS
 import TopupScreen2 from "../screens/Wallet/TopupScreen2";
 import Notification from "../screens/Notification";
 import CompleteOrder from "../screens/UserScreens/CompleteOrder";
+import CancelDelivery from "../screens/UserScreens/CancelDelivery";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ export default function UserNavigation() {
       <Stack.Screen name="RatingPage" component={RatingPage} />
       <Stack.Screen name="CompleteOrder" component={CompleteOrder}/>
       <Stack.Screen name="Notification" component={Notification}/>
+      <Stack.Screen name="CancelDelivery" component={CancelDelivery}/>
       {/* this group of screen is for order  start  dont remove it */}
       <Stack.Screen name="DeliveredOrders" component={DeliveredOrders} />
       <Stack.Screen name="MyFavorite" component={MyFavorite} />
