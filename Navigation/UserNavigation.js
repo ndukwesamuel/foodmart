@@ -74,9 +74,6 @@ export default function UserNavigation() {
       <Stack.Screen name="Detail" component={DetailsPage}/>
       <Stack.Screen name="updatePassword" component={UpdatePassword}/>
       <Stack.Screen name="OtpVerification" component={OtpVerification}/>
-      <Stack.Screen name="Detail" component={DetailsPage} />
-      <Stack.Screen name="Detail" component={DetailsPage} />
-      <Stack.Screen name="updatePassword" component={UpdatePassword} />
 
       {/* the order screen end here */}
 
