@@ -110,10 +110,10 @@ export const NavigationScreen = () => {
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {/* {user_data?.data?.token && <MainScreen />}
-      {!user_data?.data?.token && <StartScreen />}  */}
-      <UserNavigation/>
-      <Toast />
+      {user_data?.data?.token && <MainScreen />}
+      {!user_data?.data?.token && <StartScreen />} 
+      {/* <UserNavigation/> */}
+      {/* <Toast /> */}
     </NavigationContainer>
   );
 };

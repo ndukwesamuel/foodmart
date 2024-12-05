@@ -4,10 +4,10 @@ import { handleApiError } from "./shareApi";
 import axios from "axios";
 
 import Toast from "react-native-toast-message";
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+// const API_BASEURL = ;
 
 console.log({
-  kdkd: API_BASEURL,
+  // kdkd: API_BASEURL,
 });
 // import { Alert } from "react-native";
 
@@ -28,7 +28,7 @@ const initialState = {
 };
 
 const Login_Fun_Service = async (data) => {
-  let url = `${API_BASEURL}login`;
+  let url = `https://foodmart-backend.gigtech.site/api/login`;
   console.log({ log: url });
 
   try {
