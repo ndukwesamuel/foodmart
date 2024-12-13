@@ -58,7 +58,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
 
   const Resend_Mutation = useMutation(
     (data_info) => {
-      let url = `${API_BASEURL}api/auth/send-otp`;
+      let url = `https://foodmart-backend.gigtech.site/api/send-verification-otp`;
 
       let datas = {
         email: otpemail,

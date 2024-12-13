@@ -20,6 +20,7 @@ import AppscreenLogo from "../shared/AppscreenLogo";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+// const API_BASEURL = process.env
 
 const SignUp = ({ onSetAuth }) => {
   const navigation = useNavigation();
@@ -60,7 +61,8 @@ const SignUp = ({ onSetAuth }) => {
   };
   const Registration_Mutation = useMutation(
     (data_info) => {
-      const url = `${API_BASEURL}register`;
+      const url = `https://foodmart-backend.gigtech.site/api/v1/customer/register`;
+      console.log({ url: url });
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +117,8 @@ const SignUp = ({ onSetAuth }) => {
     } = formData;
 
     let newmail = email.toLowerCase();
-    dispatch(setOtpEmail(newmail));
+    // dispatch(setOtpEmail(newmail));
+    onSetAuth("sign-in");
 
     console.log({
       jdjdj: formData,

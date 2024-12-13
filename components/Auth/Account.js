@@ -9,8 +9,11 @@ import {
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { maincolors } from "../../utills/Themes";
+import { useDispatch } from "react-redux";
+import { reset_login } from "../../Redux/AuthSlice";
 
 const Account = ({ onCLose }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const menuItems = [
     {
@@ -56,7 +59,14 @@ const Account = ({ onCLose }) => {
     {
       title: "Log Out",
       icon: <Feather name="log-out" size={24} color="#FFA500" />,
-      screen: "LogoutScreen",
+      action: () => {
+        // Perform logout logic here
+        dispatch(reset_login())
+        console.log("User logged out");
+
+        // Redirect to login or home screen
+        navigation.navigate("LoginScreen"); // Change to your login or home screen
+      },
     },
   ];
 
@@ -75,7 +85,9 @@ const Account = ({ onCLose }) => {
         {menuItems.map((item, index) => (
           <TouchableOpacity
             key={index}
-            onPress={() => navigation.navigate(item.screen)}
+            onPress={
+              item.action ? item.action : () => navigation.navigate(item.screen)
+            }
           >
             {/* Separator */}
             {index === 4 && <View style={styles.separator} />}

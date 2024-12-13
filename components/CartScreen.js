@@ -12,8 +12,10 @@ import { maincolors } from "../utills/Themes";
 import DeliveredOrders, {
   DeliveredOrdersComponent,
 } from "../screens/Orders/DeliveredOrders";
+import { useNavigation } from "@react-navigation/native";
 
 const CartScreen = () => {
+  const navigation = useNavigation()
   const [tab, settab] = useState("cart");
   const cartData = [
     {
@@ -111,7 +113,7 @@ const CartScreen = () => {
         </TouchableOpacity>
       </View>
       {renderCartItems(item.items)}
-      <TouchableOpacity style={styles.checkoutButton}>
+      <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate("CheckoutPage")}>
         <Text style={styles.checkoutText}>Continue to checkout</Text>
       </TouchableOpacity>
     </View>
