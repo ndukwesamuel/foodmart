@@ -25,15 +25,20 @@ const initialState = {
 };
 
 const Login_Fun_Service = async (data) => {
-  let url = `${API_BASEURL}api/auth/signin`;
-
+  let url = `${API_BASEURL}login`;
+  console.log({
+    url,
+  });
+  console.log({
+    aaa: data,
+  });
   try {
     const response = await axios.post(url, data);
     console.log({ response: response.data });
     return response.data;
   } catch (error) {
     console.log({
-      ddd: error,
+      ddd: error?.response?.data,
     });
     throw error;
   }
@@ -43,6 +48,9 @@ export const Login_Fun = createAsyncThunk(
   "auth/Login_Fun",
   async (data, thunkAPI) => {
     try {
+      console.log({
+        ksks: data,
+      });
       return await Login_Fun_Service(data);
     } catch (error) {
       const errorMessage = handleApiError(error);
