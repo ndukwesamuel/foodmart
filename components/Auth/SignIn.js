@@ -13,8 +13,6 @@ import { Ionicons } from "@expo/vector-icons"; // Eye icon for password visibili
 import AppscreenLogo from "../shared/AppscreenLogo";
 import { Forminput, Forminputpassword } from "../shared/InputForm";
 import { useDispatch, useSelector } from "react-redux";
-import { Login_Fun } from "../../Redux/AuthSlice";
-import { maincolors } from "../../utills/Themes";
 
 const SignIn = ({ navigation, onSetAuth }) => {
   const user_dat = useSelector((state) => state.Auth);
@@ -90,23 +88,9 @@ const SignIn = ({ navigation, onSetAuth }) => {
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
 
-        {user_dat?.user_isLoading ? (
-          <ActivityIndicator size="small" color={maincolors.primary} />
-        ) : (
-          <TouchableOpacity
-            style={styles.signInButton}
-            onPress={() =>
-              dispatch(
-                Login_Fun({
-                  email,
-                  password,
-                })
-              )
-            }
-          >
-            <Text style={styles.signInButtonText}>Sign In</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity style={styles.signInButton}>
+          <Text style={styles.signInButtonText}>Sign In</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.signUpContainer}
