@@ -126,7 +126,7 @@ const MainScreen = () => {
   const dispatch = useDispatch();
 
   console.log({
-    kk: user_profile_data,
+    kk: user_profile_data?.meta[0]?.onboarding,
   });
 
   useEffect(() => {
@@ -134,6 +134,12 @@ const MainScreen = () => {
 
     return () => {};
   }, []);
+
+  if (
+    !user_profile_data?.meta[0]?.onboarding?.has_verified_email_or_mobile_number
+  ) {
+    return <OtpScreen />; //Close={logoutData} />;
+  }
 
   const isRegistered =
     user_profile_data?.data?.has_filled_security_question !== false;
