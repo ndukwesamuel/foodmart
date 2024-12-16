@@ -163,9 +163,9 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
           width: 35,
         }}
         onPress={() => {
-          console.log("this is otpemail", otpemail);
-          dispatch(checkOtp(false));
-          onSetAuth("sign-in");
+          // console.log("this is otpemail", otpemail);
+          // dispatch(checkOtp(false));
+          // onSetAuth("sign-in");
           dispatch(reset_login());
         }}
       >
