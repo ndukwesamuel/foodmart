@@ -20,6 +20,9 @@ import AppscreenLogo from "../shared/AppscreenLogo";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+console.log({
+  jjj: API_BASEURL,
+});
 // const API_BASEURL = process.env
 
 const SignUp = ({ onSetAuth }) => {
@@ -86,12 +89,10 @@ const SignUp = ({ onSetAuth }) => {
         });
 
         dispatch(checkOtp(true));
-
         onSetAuth("otp");
       },
       onError: (error) => {
         console.log({
-          ddd: error?.response?.data,
           ddd: error?.response?.data?.errors,
         });
         Toast.show({
@@ -117,12 +118,8 @@ const SignUp = ({ onSetAuth }) => {
     } = formData;
 
     let newmail = email.toLowerCase();
-    // dispatch(setOtpEmail(newmail));
-    onSetAuth("sign-in");
-
-    console.log({
-      jdjdj: formData,
-    });
+    dispatch(setOtpEmail(newmail));
+    // onSetAuth("sign-in");
 
     console.log({
       name,

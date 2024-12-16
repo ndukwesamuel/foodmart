@@ -12,6 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons"; // Eye icon for password visibility toggle
 import AppscreenLogo from "../shared/AppscreenLogo";
 import { Forminput, Forminputpassword } from "../shared/InputForm";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignIn = ({ navigation, onSetAuth }) => {
   const user_dat = useSelector((state) => state.Auth);

@@ -38,6 +38,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
   const dispatch = useDispatch();
   console.log({
     otpdata,
+    as: otpemail,
   });
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
