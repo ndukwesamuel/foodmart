@@ -27,6 +27,10 @@ import { reset_login } from "../Redux/AuthSlice";
 import { maincolors } from "../utills/Themes";
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
+console.log({
+  ddd: API_BASEURL,
+});
+
 const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
   const { otpemail, otp: otpdata } = useSelector(
     (state) => state?.OnboardingSlice
@@ -54,7 +58,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
 
   const Resend_Mutation = useMutation(
     (data_info) => {
-      let url = `${API_BASEURL}api/auth/send-otp`;
+      let url = `https://foodmart-backend.gigtech.site/api/send-verification-otp`;
 
       let datas = {
         email: otpemail,
@@ -96,13 +100,13 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
     }
   );
 
-  const Verify_Mutation = useMutation(
+  const Otp_Mutation = useMutation(
     (data_info) => {
-      let url = `${API_BASEURL}api/auth/verify-otp`;
+      let url = `${API_BASEURL}send-verification-otp`;
 
       let datas = {
-        email: otpemail,
-        otp: code,
+        // email: otpemail,
+        code: code,
       };
       console.log({
         datas,
@@ -117,7 +121,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
         },
       };
 
-      return axios.post(url, datas, config);
+      // return axios.post(url, datas, config);
     },
     {
       onSuccess: (success) => {
@@ -265,10 +269,10 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
                 marginTop: 10,
                 paddingVertical: 5,
               }}
-              // onPress={() => Verify_Mutation.mutate()}
-              onPress={() => onSetAuth2("change")}
+              onPress={() => Otp_Mutation.mutate()}
+              // onPress={() => onSetAuth2("change")}
             >
-              {Verify_Mutation?.isLoading ? (
+              {Otp_Mutation?.isLoading ? (
                 <ActivityIndicator size="large" color="blue" />
               ) : (
                 <Text

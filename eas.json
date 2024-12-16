@@ -15,12 +15,12 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://busapp-server-api.cedumas.com/"
+        "EXPO_PUBLIC_API_URL": "https://foodmart-backend.gigtech.site/api"
       }
     },
     "test": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://busapp-server-api.cedumas.com/"
+        "EXPO_PUBLIC_API_URL": "https://foodmart-backend.gigtech.site/api"
       }
     }
   }

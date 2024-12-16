@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import axios from "axios";
@@ -16,8 +17,10 @@ import { checkOtp, setOtpEmail } from "../../Redux/OnboardingSlice";
 import { Forminput, Forminputpassword } from "../shared/InputForm";
 import { maincolors } from "../../utills/Themes";
 import AppscreenLogo from "../shared/AppscreenLogo";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+// const API_BASEURL = process.env
 
 const SignUp = ({ onSetAuth }) => {
   const navigation = useNavigation();
@@ -26,12 +29,20 @@ const SignUp = ({ onSetAuth }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    firstName: "",
-    lastName: "",
+    name: "",
+    mobile_number: "",
     phoneNumber: "",
     homeAddress: "",
-    referralCode: "",
+    referral_code: "",
+    gender: "",
+    occupation: "",
+    hobbies: "",
+    dob: new Date(), // Initial DOB
   });
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [isGenderModalVisible, setGenderModalVisible] = useState(false);
 
   const otpemail = useSelector((state) => state?.OnboardingSlice);
   const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
@@ -43,26 +54,46 @@ const SignUp = ({ onSetAuth }) => {
     }));
   };
 
+  const onChangeDOB = (event, selectedDate) => {
+    const currentDate = selectedDate || formData.dob;
+    setShowDatePicker(false); // Hide date picker after selection
+    handleInputChange("dob", currentDate);
+  };
   const Registration_Mutation = useMutation(
     (data_info) => {
-      const url = `${API_BASEURL}api/auth/signup`;
+      const url = `https://foodmart-backend.gigtech.site/api/v1/customer/register`;
+      console.log({ url: url });
       const config = {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
       };
+      console.log({
+        data_info,
+      });
       return axios.post(url, data_info, config);
     },
     {
       onSuccess: (success) => {
+        console.log({
+          ksksk: success?.data?.data,
+          ksksk: success?.data?.message,
+        });
         Toast.show({
           type: "success",
           text1: `${success?.data?.message}`,
         });
+
         dispatch(checkOtp(true));
+
+        onSetAuth("otp");
       },
       onError: (error) => {
+        console.log({
+          ddd: error?.response?.data,
+          ddd: error?.response?.data?.errors,
+        });
         Toast.show({
           type: "error",
           text1: `${error?.response?.data?.message}`,
@@ -72,17 +103,63 @@ const SignUp = ({ onSetAuth }) => {
   );
 
   const handleSignUp = () => {
-    const { email, password, firstName, lastName, phoneNumber, homeAddress } =
-      formData;
-    dispatch(setOtpEmail(email));
-    Registration_Mutation.mutate({
-      email,
+    const {
+      name,
       password,
-      userName: firstName,
-      lastName,
-      phoneNumber,
-      homeLocation: homeAddress,
+      email,
+      mobile_number,
+      gender,
+      dob,
+      occupation,
+      hobbies,
+      referral_code,
+      homeAddress,
+    } = formData;
+
+    let newmail = email.toLowerCase();
+    // dispatch(setOtpEmail(newmail));
+    onSetAuth("sign-in");
+
+    console.log({
+      jdjdj: formData,
     });
+
+    console.log({
+      name,
+      email,
+      mobile_number,
+      gender,
+      date_of_birth: dob,
+      occupation,
+      referral_code,
+      hobbies,
+      password,
+      password_confirmation: password,
+      homeAddress,
+    });
+    Registration_Mutation.mutate({
+      name,
+      email: email.toLowerCase(),
+      mobile_number,
+      gender,
+      date_of_birth: dob,
+      occupation,
+      referral_code,
+      hobbies,
+      password,
+      password_confirmation: password,
+      homeAddress,
+      user_type: "customer",
+    });
+  };
+
+  const openGenderModal = () => {
+    setGenderModalVisible(true);
+  };
+
+  const selectGender = (gender) => {
+    handleInputChange("gender", gender);
+    setGenderModalVisible(false);
   };
 
   return (
@@ -104,8 +181,8 @@ const SignUp = ({ onSetAuth }) => {
               <Text style={styles.labels}>Full Name</Text>
               <Forminput
                 placeholder="Full Name"
-                onChangeText={(text) => handleInputChange("firstName", text)}
-                value={formData.firstName}
+                onChangeText={(text) => handleInputChange("name", text)}
+                value={formData.name}
                 style={styles.input}
               />
             </View>
@@ -126,8 +203,10 @@ const SignUp = ({ onSetAuth }) => {
               <Text style={styles.labels}>Mobile Number</Text>
               <Forminput
                 placeholder="Mobile Number"
-                onChangeText={(text) => handleInputChange("phoneNumber", text)}
-                value={formData.phoneNumber}
+                onChangeText={(text) =>
+                  handleInputChange("mobile_number", text)
+                }
+                value={formData.mobile_number}
                 style={styles.input}
               />
             </View>
@@ -148,32 +227,28 @@ const SignUp = ({ onSetAuth }) => {
                 ]}
               >
                 <Text style={styles.labels}>Gender</Text>
-                <Forminput
-                  placeholder="Gender"
-                  onChangeText={(text) =>
-                    handleInputChange("phoneNumber", text)
-                  }
-                  value={formData.phoneNumber}
-                  style={styles.input}
-                />
+                <Pressable onPress={openGenderModal} style={styles.input}>
+                  <Text style={{ color: formData.gender ? "black" : "gray" }}>
+                    {formData.gender || "Select Gender"}
+                  </Text>
+                </Pressable>
               </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  {
-                    width: "50%",
-                  },
-                ]}
-              >
+
+              <View style={styles.inputContainer}>
                 <Text style={styles.labels}>Date of Birth (optional)</Text>
-                <Forminput
-                  placeholder="DOB"
-                  onChangeText={(text) =>
-                    handleInputChange("phoneNumber", text)
-                  }
-                  value={formData.phoneNumber}
-                  style={styles.input}
-                />
+                <Pressable onPress={() => setShowDatePicker(true)}>
+                  <Text style={styles.input}>
+                    {formData.dob.toDateString()}
+                  </Text>
+                </Pressable>
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={formData.dob}
+                    mode="date"
+                    display="default"
+                    onChange={onChangeDOB}
+                  />
+                )}
               </View>
             </View>
 
@@ -195,10 +270,8 @@ const SignUp = ({ onSetAuth }) => {
                 <Text style={styles.labels}>Occupation (optional)</Text>
                 <Forminput
                   placeholder="Occupation"
-                  onChangeText={(text) =>
-                    handleInputChange("phoneNumber", text)
-                  }
-                  value={formData.phoneNumber}
+                  onChangeText={(text) => handleInputChange("occupation", text)}
+                  value={formData.occupation}
                   style={styles.input}
                 />
               </View>
@@ -213,10 +286,8 @@ const SignUp = ({ onSetAuth }) => {
                 <Text style={styles.labels}>Hobbies (optional)</Text>
                 <Forminput
                   placeholder="Hobbies"
-                  onChangeText={(text) =>
-                    handleInputChange("phoneNumber", text)
-                  }
-                  value={formData.phoneNumber}
+                  onChangeText={(text) => handleInputChange("hobbies", text)}
+                  value={formData.hobbies}
                   style={styles.input}
                 />
               </View>
@@ -238,8 +309,10 @@ const SignUp = ({ onSetAuth }) => {
               <Text style={styles.labels}>Referral Code (If Applicable)</Text>
               <Forminput
                 placeholder="Referral Code"
-                onChangeText={(text) => handleInputChange("referralCode", text)}
-                value={formData.referralCode}
+                onChangeText={(text) =>
+                  handleInputChange("referral_code", text)
+                }
+                value={formData.referral_code}
                 style={styles.input}
               />
             </View>
@@ -278,6 +351,28 @@ const SignUp = ({ onSetAuth }) => {
             </Pressable>
           </View>
         </View>
+
+        {/* Gender Modal */}
+        <Modal
+          transparent={true}
+          visible={isGenderModalVisible}
+          onRequestClose={() => setGenderModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalHeader}>Select Gender</Text>
+              {["male", "female"].map((option) => (
+                <Pressable
+                  key={option}
+                  onPress={() => selectGender(option)}
+                  style={styles.modalOption}
+                >
+                  <Text style={styles.modalOptionText}>{option}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </AppscreenLogo>
   );
@@ -288,7 +383,6 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     paddingHorizontal: 10,
     backgroundColor: maincolors.white,
   },
@@ -312,8 +406,8 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: maincolors.inputcolor, // "#ccc",
-    backgroundColor: maincolors.inputcolor, // "#ccc",
+    borderColor: maincolors.inputcolor,
+    backgroundColor: maincolors.inputcolor,
     borderRadius: 5,
     padding: 10,
   },
@@ -325,7 +419,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     borderRadius: 5,
-    backgroundColor: maincolors.primary, //"#001272",
+    backgroundColor: maincolors.primary,
     width: "100%",
   },
   buttonText: {
@@ -335,13 +429,29 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 24.05,
   },
-  footerText: {
-    fontSize: 14,
-    lineHeight: 22.4,
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  loginText: {
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalHeader: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalOption: {
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  modalOptionText: {
     fontSize: 16,
-    fontWeight: "500",
-    lineHeight: 25.6,
   },
 });

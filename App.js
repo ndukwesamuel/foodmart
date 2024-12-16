@@ -25,45 +25,9 @@ import Auth from "./screens/Auth";
 // otp screen
 import OtpScreen from "./screens/OtpScreen";
 
-// Main Screens
-import HomeScreen from "./screens/RiderScreen/HomeScreen";
-// booking screens
-import BookATripScreen from "./screens/Booking/BookATripScreen";
-import AvailabeBusScreen from "./screens/Booking/AvailabeBusScreen";
-import SelectedRouteScreen from "./screens/Booking/SelectedRouteScreen";
-import SelectSeatScreen from "./screens/Booking/SelectSeatScreen";
-
-// payment screens
-import RouteInfoScreen from "./screens/Payment/RouteInfoScreen";
-import PaymentTypeScreen from "./screens/Payment/PaymentTypeScreen";
-import PayWithCardScreen from "./screens/Payment/PayWithCardScreen";
-import PayWithTransferScreen from "./screens/Payment/PayWithTransferScreen";
-
-// trip screens
-import OngoingTripScreen from "./screens/Trip/OngoingTripScreen";
-import ArrivingScreen from "./screens/Trip/ArrivingScreen";
-import RatingScreen from "./screens/Trip/RatingScreen";
-import ReportScreen from "./screens/Trip/ReportScreen";
-
-// drawer nav screens
-import ProfileScreen from "./screens/DrawerScreens/ProfileScreen";
-import NotificationScreen from "./screens/DrawerScreens/NotificationScreen";
-import TransactionScreen from "./screens/DrawerScreens/TransactionScreen";
-import BookingsScreen from "./screens/DrawerScreens/BookingsScreen";
-import { reset_login } from "./Redux/AuthSlice";
-import { BookATripSlice_reset } from "./Redux/BookATripSlice";
-
-// driver screens
-import DriverHomeScreen from "./screens/DriverScreens/Home/DriverHomeScreen";
-import StartATripScreen from "./screens/DriverScreens/StartTrip/StartATripScreen";
-import AvailableRouteScreen from "./screens/DriverScreens/StartTrip/AvailableRouteScreen";
-import TripDetailsScreen from "./screens/DriverScreens/StartTrip/TripDetailsScreen";
-import BeginTripScreen from "./screens/DriverScreens/StartTrip/BeginTripScreen";
-import DOnGoingTripScreen from "./screens/DriverScreens/StartTrip/DOnGoingTripScreen";
-import DriverNavigation from "./Navigation/DriverNavigation";
-import RiderNavigation from "./Navigation/RiderNavigation";
-import RideDrawer from "./Navigation/RideDrawer";
-import DriverDrawer from "./Navigation/DriverDrawer";
+import UserNavigation from "./Navigation/UserNavigation";
+import Security from "./components/Auth/Security";
+import { UserProfile_Fun } from "./Redux/AuthSlice";
 
 const queryClient = new QueryClient();
 
@@ -128,7 +92,7 @@ export const StartScreen = ({}) => {
 
   const dispatch = useDispatch();
 
-  return <>{!isOnboarding ? <Auth /> : <OnBoardingPage />}</>;
+  return <Auth />;
 };
 
 export const NavigationScreen = () => {
@@ -141,37 +105,65 @@ export const NavigationScreen = () => {
   const [country, setCountry] = useState("Loading...");
 
   console.log({
-    kkkk: user_data,
+    kkkk: user_data?.data?.token,
   });
   return (
     <NavigationContainer>
       {/* <StartScreen /> */}
-      {user_data?.token && <MainScreen />}
-      {!user_data?.token && <StartScreen />}
-      <Toast />
+      {user_data?.data?.token && <MainScreen />}
+      {!user_data?.data?.token && <StartScreen />} 
+      {/* <UserNavigation/> */}
+      {/* <Toast /> */}
     </NavigationContainer>
   );
 };
 
 const MainScreen = () => {
-  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
 
   const dispatch = useDispatch();
 
+  console.log({
+    kk: user_profile_data?.data?.has_default_address,
+  });
+
   useEffect(() => {
-    if (!["driver", "user"].includes(user_data?.role)) {
-      dispatch(reset_isOnboarding());
-      dispatch(reset_login());
-      dispatch(BookATripSlice_reset());
-    }
+    dispatch(UserProfile_Fun());
 
     return () => {};
   }, []);
 
-  return (
-    <>
-      {user_data?.role === "driver" && <DriverDrawer />}
-      {user_data?.role === "user" && <RideDrawer />}
-    </>
-  );
+  const isRegistered =
+    user_profile_data?.data?.has_filled_security_question !== false;
+  //  &&
+  // user_profile_data?.data?.has_default_address !== false;
+
+  console.log({
+    ddd: isRegistered,
+  });
+
+  if (isRegistered) {
+    return <UserNavigation />;
+  } else {
+    return (
+      <>
+        {!user_profile_data?.data?.has_filled_security_question && <Security />}
+        {/* {!user_profile_data?.data?.has_default_address && <Security />} */}
+      </>
+    );
+  }
+};
+
+const BeforeLOginScreen = () => {
+  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
+
+  const dispatch = useDispatch();
+
+  console.log({
+    kk: user_data?.data?.user,
+  });
+
+  return <Text> kaka</Text>;
 };

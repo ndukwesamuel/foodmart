@@ -4,8 +4,11 @@ import { handleApiError } from "./shareApi";
 import axios from "axios";
 
 import Toast from "react-native-toast-message";
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+// const API_BASEURL = ;
 
+console.log({
+  // kdkd: API_BASEURL,
+});
 // import { Alert } from "react-native";
 
 // let userAPi = process.env.APIBASEURL + "user/login";
@@ -25,13 +28,9 @@ const initialState = {
 };
 
 const Login_Fun_Service = async (data) => {
-  let url = `${API_BASEURL}login`;
-  console.log({
-    url,
-  });
-  console.log({
-    aaa: data,
-  });
+  let url = `https://foodmart-backend.gigtech.site/api/login`;
+  console.log({ log: url });
+
   try {
     const response = await axios.post(url, data);
     console.log({ response: response.data });
@@ -63,8 +62,8 @@ export const UserProfile_Fun = createAsyncThunk(
   "auth/UserProfile_Fun",
   async (_, thunkAPI) => {
     try {
-      let token = thunkAPI.getState()?.Auth?.user_data?.token;
-
+      let token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
+      // ?.data?.token;
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -72,11 +71,9 @@ export const UserProfile_Fun = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get(`${API_BASEURL}api/auth`, config);
+      const response = await axios.get(`${API_BASEURL}v1/profile`, config);
 
       return response.data;
-
-      // return await Login_Fun_Service(data);
     } catch (error) {
       const errorMessage = handleApiError(error);
       return thunkAPI.rejectWithValue(errorMessage);
