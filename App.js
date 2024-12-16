@@ -111,7 +111,7 @@ export const NavigationScreen = () => {
     <NavigationContainer>
       {/* <StartScreen /> */}
       {user_data?.data?.token && <MainScreen />}
-      {!user_data?.data?.token && <StartScreen />} 
+      {!user_data?.data?.token && <StartScreen />}
       {/* <UserNavigation/> */}
       {/* <Toast /> */}
     </NavigationContainer>
@@ -126,7 +126,7 @@ const MainScreen = () => {
   const dispatch = useDispatch();
 
   console.log({
-    kk: user_profile_data?.data?.has_default_address,
+    kk: user_profile_data,
   });
 
   useEffect(() => {
