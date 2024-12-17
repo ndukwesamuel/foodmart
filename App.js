@@ -28,6 +28,7 @@ import OtpScreen from "./screens/OtpScreen";
 import UserNavigation from "./Navigation/UserNavigation";
 import Security from "./components/Auth/Security";
 import { UserProfile_Fun } from "./Redux/AuthSlice";
+import AddressData from "./components/Auth/AddressData";
 
 const queryClient = new QueryClient();
 
@@ -109,11 +110,9 @@ export const NavigationScreen = () => {
   });
   return (
     <NavigationContainer>
-      {/* <StartScreen /> */}
       {user_data?.data?.token && <MainScreen />}
       {!user_data?.data?.token && <StartScreen />}
-      {/* <UserNavigation/> */}
-      {/* <Toast /> */}
+      <Toast />
     </NavigationContainer>
   );
 };
@@ -126,41 +125,38 @@ const MainScreen = () => {
   const dispatch = useDispatch();
 
   console.log({
-    kk: user_profile_data?.meta[0]?.onboarding,
+    onboarding: user_profile_data?.meta[0]?.onboarding,
   });
 
   useEffect(() => {
     dispatch(UserProfile_Fun());
+  }, [dispatch]);
 
-    return () => {};
-  }, []);
+  const onboarding = user_profile_data?.meta[0]?.onboarding;
 
-  if (
-    !user_profile_data?.meta[0]?.onboarding?.has_verified_email_or_mobile_number
-  ) {
-    return <OtpScreen />; //Close={logoutData} />;
+  // Loading State (optional)
+  if (user_isLoading) {
+    return <Loader />; // You can create a loading component
   }
 
-  const isRegistered =
-    user_profile_data?.data?.has_filled_security_question !== false;
-  //  &&
-  // user_profile_data?.data?.has_default_address !== false;
-
-  console.log({
-    ddd: isRegistered,
-  });
-
-  if (isRegistered) {
-    return <UserNavigation />;
-  } else {
-    return (
-      <>
-        {!user_profile_data?.data?.has_filled_security_question && <Security />}
-        {/* {!user_profile_data?.data?.has_default_address && <Security />} */}
-      </>
-    );
+  // Check onboarding steps
+  if (!onboarding?.has_verified_email_or_mobile_number) {
+    return <OtpScreen />;
   }
+
+  if (!onboarding?.has_filled_security_question) {
+    return <Security />;
+  }
+
+  if (!onboarding?.has_default_address) {
+    return <AddressData />;
+  }
+
+  // If all conditions are true, show UserNavigation
+  return <UserNavigation />;
 };
+
+// export default MainScreen;
 
 const BeforeLOginScreen = () => {
   const { user_data, user_isLoading } = useSelector((state) => state?.Auth);

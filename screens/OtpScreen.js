@@ -23,7 +23,7 @@ import {
   reset_otpemail,
   setOtpEmail,
 } from "../Redux/OnboardingSlice";
-import { reset_login } from "../Redux/AuthSlice";
+import { UserProfile_Fun, reset_login } from "../Redux/AuthSlice";
 import { maincolors } from "../utills/Themes";
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -35,6 +35,11 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
   const { otpemail, otp: otpdata } = useSelector(
     (state) => state?.OnboardingSlice
   );
+
+  const { user_data } = useSelector((state) => state.Auth);
+  console.log({
+    lk: user_data?.data?.token,
+  });
   const dispatch = useDispatch();
   console.log({
     otpdata,
@@ -61,20 +66,12 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
     (data_info) => {
       let url = `https://foodmart-backend.gigtech.site/api/send-verification-otp`;
 
-      let datas = {
-        email: otpemail,
-        otp: code,
-      };
-      console.log({
-        datas,
-      });
-
       const config = {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           //   "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${user_data?.token}`,
+          Authorization: `Bearer ${user_data?.data?.token}`,
         },
       };
 
@@ -90,7 +87,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
 
       onError: (error) => {
         console.log({
-          error: error,
+          fada: error?.response?.data,
         });
         Toast.show({
           type: "error",
@@ -103,7 +100,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
 
   const Otp_Mutation = useMutation(
     (data_info) => {
-      let url = `${API_BASEURL}send-verification-otp`;
+      let url = `${API_BASEURL}verify-otp`;
 
       let datas = {
         // email: otpemail,
@@ -117,12 +114,14 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+
           //   "Content-Type": "multipart/form-data",
           // Authorization: `Bearer ${user_data?.token}`,
         },
       };
 
-      // return axios.post(url, datas, config);
+      return axios.post(url, { code: code }, config);
     },
     {
       onSuccess: (success) => {
@@ -130,14 +129,17 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
           type: "success",
           text1: `${success?.data?.message} `,
         });
+        dispatch(UserProfile_Fun());
 
-        dispatch(checkOtp(false));
-        dispatch(reset_otpemail());
-        dispatch(reset_login());
-        onSetAuth("sign-in");
+        // dispatch(checkOtp(false));
+        // dispatch(reset_otpemail());
+        // dispatch(reset_login());
+        // onSetAuth("sign-in");
       },
 
       onError: (error) => {
+        dispatch(UserProfile_Fun());
+
         console.log({
           error: error,
         });
@@ -208,20 +210,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
             Edit Phone Number
           </Text> */}
           </View>
-          {/* 
-          <TouchableOpacity>
-            <Text
-              style={{
-                textAlign: "center",
-                // color: "white",
-                padding: 10,
-              }}
-            >
-              Verify OTP
-            </Text>
-          </TouchableOpacity> */}
 
-          {/* otp form */}
           <View>
             <View
               style={{
@@ -300,7 +289,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
             }
           >
             <Text style={styles.resend}>
-              Resending OTP in 50 seconds
+              Resending OTP
               {/* <Text style={{ fontWeight: "500" }}>Resend</Text> */}
               {Resend_Mutation.isLoading && (
                 <ActivityIndicator color="blue" size="small" />
