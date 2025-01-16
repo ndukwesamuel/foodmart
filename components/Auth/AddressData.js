@@ -70,7 +70,7 @@ const LocationAccessScreen = () => {
         state: address?.region,
         country: address?.country,
         zip: address?.postalCode,
-        is_default: 0,
+        is_default: 1,
         longitude: location.coords.longitude,
         latitude: location.coords.latitude,
       };

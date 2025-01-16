@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#023526"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       [
         "expo-image-picker",
@@ -26,7 +28,9 @@
       "jsEngine": "jsc",
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio"],
+        "UIBackgroundModes": [
+          "audio"
+        ],
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone.",
         "NSLocationWhenInUseUsageDescription": "We need your location to provide accurate delivery and bus tracking information."
@@ -38,7 +42,8 @@
         "com.google.android.gms.permission.AD_ID",
         "android.permission.CAMERA",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION"
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECORD_AUDIO"
       ],
       "config": {
         "googleMaps": {
@@ -57,7 +62,7 @@
     "jsEngine": "hermes",
     "extra": {
       "eas": {
-        "projectId": "84b59ff0-23a9-4719-a0ad-9bd6d7e3fe95"
+        "projectId": "98ce42ba-c88e-452e-b551-e9a4725356e0"
       }
     }
   }

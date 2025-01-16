@@ -18,6 +18,7 @@ import { Forminput, Forminputpassword } from "../shared/InputForm";
 import { maincolors } from "../../utills/Themes";
 import AppscreenLogo from "../shared/AppscreenLogo";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { setToken } from "../../Redux/AuthSlice";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 console.log({
@@ -48,8 +49,13 @@ const SignUp = ({ onSetAuth }) => {
   const [isGenderModalVisible, setGenderModalVisible] = useState(false);
 
   const otpemail = useSelector((state) => state?.OnboardingSlice);
-  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
+  const { user_data, user_isLoading, signup_token } = useSelector(
+    (state) => state?.Auth
+  );
 
+  console.log({
+    oooo: signup_token,
+  });
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -80,14 +86,15 @@ const SignUp = ({ onSetAuth }) => {
     {
       onSuccess: (success) => {
         console.log({
-          ksksk: success?.data?.data,
-          ksksk: success?.data?.message,
+          ksksk: success?.data?.data?.token,
+          // ksksk: success?.data?.message,
         });
         Toast.show({
           type: "success",
           text1: `${success?.data?.message}`,
         });
 
+        dispatch(setToken(success?.data?.data?.token));
         dispatch(checkOtp(true));
         onSetAuth("otp");
       },

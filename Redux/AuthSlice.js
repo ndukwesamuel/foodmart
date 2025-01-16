@@ -20,6 +20,8 @@ const initialState = {
   user_profile_isSuccess: false,
   user_profile_isLoading: false,
   user_profile_message: null,
+
+  signup_token: null,
 };
 
 const Login_Fun_Service = async (data) => {
@@ -81,7 +83,11 @@ export const AuthSlice = createSlice({
   initialState,
   reducers: {
     reset_login: (state) => initialState,
+    setToken: (state, action) => {
+      state.signup_token = action.payload;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(Login_Fun.pending, (state) => {
@@ -129,6 +135,6 @@ export const AuthSlice = createSlice({
   },
 });
 
-export const { reset_login } = AuthSlice.actions;
+export const { reset_login, setToken } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

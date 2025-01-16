@@ -89,34 +89,6 @@ const Security = ({ onSetAuth2 }) => {
     setQuestionModalVisible(false);
   };
 
-  const Registration_Mutation = useMutation(
-    (data_info) => {
-      const url = `${API_BASEURL}register`;
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      };
-      return axios.post(url, data_info, config);
-    },
-    {
-      onSuccess: (success) => {
-        Toast.show({
-          type: "success",
-          text1: `${success?.data?.message}`,
-        });
-        dispatch(checkOtp(true));
-      },
-      onError: (error) => {
-        Toast.show({
-          type: "error",
-          text1: `${error?.response?.data?.message}`,
-        });
-      },
-    }
-  );
-
   const SUbmitAnswer_Mutation = useMutation(
     (data_info) => {
       const url = `${API_BASEURL}v1/security-questions`;
@@ -139,8 +111,6 @@ const Security = ({ onSetAuth2 }) => {
         dispatch(UserProfile_Fun());
       },
       onError: (error) => {
-        dispatch(UserProfile_Fun());
-
         Toast.show({
           type: "error",
           text1: `${error?.response?.data?.message}`,

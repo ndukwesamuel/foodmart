@@ -27,7 +27,7 @@ import OtpScreen from "./screens/OtpScreen";
 
 import UserNavigation from "./Navigation/UserNavigation";
 import Security from "./components/Auth/Security";
-import { UserProfile_Fun } from "./Redux/AuthSlice";
+import { UserProfile_Fun, reset_login } from "./Redux/AuthSlice";
 import AddressData from "./components/Auth/AddressData";
 
 const queryClient = new QueryClient();
@@ -108,6 +108,9 @@ export const NavigationScreen = () => {
   console.log({
     kkkk: user_data?.data?.token,
   });
+
+  // dispatch(reset_login());
+
   return (
     <NavigationContainer>
       {user_data?.data?.token && <MainScreen />}

@@ -25,9 +25,6 @@ const HomeScreen = () => {
     (state) => state?.Auth
   );
 
-  console.log({
-    ksjjj: user_profile_data?.data?.name,
-  });
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");

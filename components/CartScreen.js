@@ -13,9 +13,12 @@ import DeliveredOrders, {
   DeliveredOrdersComponent,
 } from "../screens/Orders/DeliveredOrders";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const CartScreen = () => {
-  const navigation = useNavigation()
+  const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
+
+  const navigation = useNavigation();
   const [tab, settab] = useState("cart");
   const cartData = [
     {
@@ -92,28 +95,67 @@ const CartScreen = () => {
   ];
 
   const renderCartItems = (items) => {
-    return items.map((item, index) => (
-      <View key={index} style={styles.itemContainer}>
-        <Image source={{ uri: item.image }} style={styles.itemImage} />
-        <View style={styles.itemDetails}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemPrice}>₦{item.price.toLocaleString()}</Text>
-        </View>
-        <Text style={styles.itemQuantity}>x{item.quantity}</Text>
+    // return items.map((item, index) => (
+
+    // <View key={index} style={styles.itemContainer}>
+    //   {/* <Image source={{ uri: item.image }} style={styles.itemImage} />
+    // <View style={styles.itemDetails}>
+    //   <Text style={styles.itemName}>{item.name}</Text>
+    //   <Text style={styles.itemPrice}>₦{item.price.toLocaleString()}</Text>
+    // </View>
+    //   <Text style={styles.itemQuantity}>x{item.quantity}</Text> */}
+    // </View>
+    // ));
+
+    return (
+      <View style={styles.itemContainer}>
+        {items?.cart_items.map((cart_item, index) => (
+          <View key={index} style={styles.itemContainer}>
+            <Image
+              source={{
+                uri: cart_item?.menu_item?.default_image?.original_url,
+              }}
+              style={styles.itemImage}
+            />
+
+            {console.log({
+              nvnvnv: cart_item?.menu_item?.default_image?.original_url,
+            })}
+
+            <View style={styles.itemDetails}>
+              <Text style={styles.itemName}>{cart_item?.menu_item?.name}</Text>
+              <Text style={styles.itemPrice}>
+                ₦{cart_item?.menu_item?.price.toLocaleString()}
+              </Text>
+            </View>
+
+            <Text style={styles.itemQuantity}>x{cart_item.quantity}</Text>
+          </View>
+        ))}
       </View>
-    ));
+    );
   };
+
+  console.log({
+    ncc: Get_All_Cart_data,
+  });
 
   const renderCartSections = ({ item }) => (
     <View style={styles.cartSection}>
+      {console.log({
+        mmmmm: item,
+      })}
       <View style={styles.cartHeader}>
-        <Text style={styles.restaurantName}>{item.restaurant}</Text>
+        <Text style={styles.restaurantName}>{item?.vendor?.business_name}</Text>
         <TouchableOpacity>
           <Text style={styles.deleteAll}>Delete All</Text>
         </TouchableOpacity>
       </View>
-      {renderCartItems(item.items)}
-      <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate("CheckoutPage")}>
+      {renderCartItems(item)}
+      <TouchableOpacity
+        style={styles.checkoutButton}
+        onPress={() => navigation.navigate("CheckoutPage", { item })}
+      >
         <Text style={styles.checkoutText}>Continue to checkout</Text>
       </TouchableOpacity>
     </View>
@@ -227,12 +269,14 @@ const CartScreen = () => {
         {/* Cart List */}
 
         {tab === "cart" && (
-          <FlatList
-            data={cartData}
-            renderItem={renderCartSections}
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-          />
+          <>
+            <FlatList
+              data={Get_All_Cart_data}
+              renderItem={renderCartSections}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </>
         )}
 
         {tab === "ongoing" && (

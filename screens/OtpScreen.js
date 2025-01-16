@@ -36,10 +36,12 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
     (state) => state?.OnboardingSlice
   );
 
-  const { user_data } = useSelector((state) => state.Auth);
   console.log({
-    lk: user_data?.data?.token,
+    pop: otpemail,
   });
+
+  const { user_data } = useSelector((state) => state.Auth);
+
   const dispatch = useDispatch();
   console.log({
     otpdata,
@@ -105,23 +107,21 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
       let datas = {
         // email: otpemail,
         code: code,
+        identifier: otpemail, //"customer10@gmail.com",
       };
-      console.log({
-        datas,
-      });
 
       const config = {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${user_data?.data?.token}`,
+          // Authorization: `Bearer ${user_data?.data?.token}`,
 
           //   "Content-Type": "multipart/form-data",
           // Authorization: `Bearer ${user_data?.token}`,
         },
       };
 
-      return axios.post(url, { code: code }, config);
+      return axios.post(url, datas, config);
     },
     {
       onSuccess: (success) => {
@@ -129,17 +129,15 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
           type: "success",
           text1: `${success?.data?.message} `,
         });
-        dispatch(UserProfile_Fun());
+        // dispatch(UserProfile_Fun());
 
-        // dispatch(checkOtp(false));
-        // dispatch(reset_otpemail());
-        // dispatch(reset_login());
-        // onSetAuth("sign-in");
+        dispatch(checkOtp(false));
+        dispatch(reset_otpemail());
+        dispatch(reset_login());
+        onSetAuth("sign-in");
       },
 
       onError: (error) => {
-        dispatch(UserProfile_Fun());
-
         console.log({
           error: error,
         });
@@ -165,10 +163,14 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
           width: 35,
         }}
         onPress={() => {
-          // console.log("this is otpemail", otpemail);
-          // dispatch(checkOtp(false));
-          // onSetAuth("sign-in");
+          console.log({
+            fff: "Ddfdf",
+          });
           dispatch(reset_login());
+          dispatch(checkOtp(false));
+          dispatch(reset_otpemail());
+          dispatch(reset_login());
+          onSetAuth("sign-in");
         }}
       >
         <Ionicons name="arrow-back-sharp" size={24} color="black" />
