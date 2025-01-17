@@ -118,10 +118,10 @@ export default function CheckoutPage({ route }) {
       console.log({
         hfhf: error?.response?.data,
       });
-      Toast.show({
-        type: "error",
-        text1: `${error?.response?.data?.message || "Request failed."}`,
-      });
+      // Toast.show({
+      //   type: "error",
+      //   text1: `${error?.response?.data?.message || "Request failed."}`,
+      // });
     },
   });
 
