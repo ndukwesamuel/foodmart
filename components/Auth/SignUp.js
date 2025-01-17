@@ -18,8 +18,12 @@ import { Forminput, Forminputpassword } from "../shared/InputForm";
 import { maincolors } from "../../utills/Themes";
 import AppscreenLogo from "../shared/AppscreenLogo";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { setToken } from "../../Redux/AuthSlice";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+console.log({
+  jjj: API_BASEURL,
+});
 // const API_BASEURL = process.env
 
 const SignUp = ({ onSetAuth }) => {
@@ -45,8 +49,13 @@ const SignUp = ({ onSetAuth }) => {
   const [isGenderModalVisible, setGenderModalVisible] = useState(false);
 
   const otpemail = useSelector((state) => state?.OnboardingSlice);
-  const { user_data, user_isLoading } = useSelector((state) => state?.Auth);
+  const { user_data, user_isLoading, signup_token } = useSelector(
+    (state) => state?.Auth
+  );
 
+  console.log({
+    oooo: signup_token,
+  });
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -77,21 +86,20 @@ const SignUp = ({ onSetAuth }) => {
     {
       onSuccess: (success) => {
         console.log({
-          ksksk: success?.data?.data,
-          ksksk: success?.data?.message,
+          ksksk: success?.data?.data?.token,
+          // ksksk: success?.data?.message,
         });
         Toast.show({
           type: "success",
           text1: `${success?.data?.message}`,
         });
 
+        dispatch(setToken(success?.data?.data?.token));
         dispatch(checkOtp(true));
-
         onSetAuth("otp");
       },
       onError: (error) => {
         console.log({
-          ddd: error?.response?.data,
           ddd: error?.response?.data?.errors,
         });
         Toast.show({
@@ -117,12 +125,8 @@ const SignUp = ({ onSetAuth }) => {
     } = formData;
 
     let newmail = email.toLowerCase();
-    // dispatch(setOtpEmail(newmail));
-    onSetAuth("sign-in");
-
-    console.log({
-      jdjdj: formData,
-    });
+    dispatch(setOtpEmail(newmail));
+    // onSetAuth("sign-in");
 
     console.log({
       name,

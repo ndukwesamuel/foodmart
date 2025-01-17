@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -12,22 +13,112 @@ import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import AppScreen from "../../components/shared/AppScreen";
+import { maincolors } from "../../utills/Themes";
+import { useApiRequest } from "../../hooks/Mutate";
+import { useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
+const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function FoodDetails() {
+export default function FoodDetails({ route }) {
+  const { item, vendor_id } = route.params;
+  console.log({
+    emeka: item, // route.params,
+  });
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
+
+  console.log({
+    pppp: user_data?.data,
+  });
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
+  // const [total, settotal] = useState(second)
 
   const increment = () => setCount(count + 1);
   const decrement = () => setCount(count - 1);
 
   const navigateFunc = () => {
-    navigation.navigate("GetEverything");
+    let data = {
+      vendor_id: vendor_id,
+      menu_item_id: item?.id,
+      quantity: count,
+
+      // extra_options: [
+      //   {
+      //     id: 1,
+      //     quantity: 2,
+      //   },
+      //   // {
+      //   //   id: 2,
+      //   //   quantity: 2,
+      //   // },
+      //   // {
+      //   //   id: 3,
+      //   //   quantity: 2,
+      //   // },
+      // ],
+    };
+
+    console.log({
+      nnn: data,
+    });
+
+    createCart(data);
   };
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleCheckbox = () => {
+    setIsChecked((prev) => !prev);
+  };
+
+  const { mutate: createCart, isLoading: isLoadingCreateCart } = useApiRequest({
+    url: `${API_BASEURL}v1/customer/carts`,
+    method: "POST",
+    token: user_data?.data?.token || "",
+    onSuccess: (response) => {
+      console.log({
+        vvv: response?.data,
+      });
+      Toast.show({
+        type: "success",
+        text1: `${response?.data?.message}`,
+      });
+
+      navigation.goBack();
+      // console.log("Category created successfully:", response.data);
+    },
+
+    onError: (error) => {
+      console.log({
+        peterkc: error?.response?.data?.message,
+      });
+      Toast.show({
+        type: "error",
+        text1: `${error?.response?.data?.message}`,
+      });
+
+      // return;
+      // console.error("Category creation failed:", error?.response?.data);
+    },
+  });
 
   return (
     <AppScreen>
       <View>
-        <Image source={require("../../assets/Foodmart/food.png")} />
+        <Image
+          source={
+            {
+              uri: item?.default_image?.original_url,
+            }
+            // require("../../assets/Foodmart/food.png")
+          }
+          style={{
+            width: "100%",
+            height: 250,
+          }}
+        />
 
         <ReusableBackButton
           style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
@@ -40,15 +131,16 @@ export default function FoodDetails() {
           >
             <View style={{ width: "60%", gap: 3 }}>
               <Text style={{ fontSize: 18, color: "#F79B2C" }}>
-                Special Rice
+                {item?.name}
               </Text>
               <Text
                 style={{ color: "#686868", fontSize: 12, fontWeight: "300" }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et sed dolore magna.
+                {item?.description}
               </Text>
-              <Text style={{ fontSize: 16, fontWeight: "300" }}>5,500</Text>
+              <Text style={{ fontSize: 16, fontWeight: "300" }}>
+                {item?.price}
+              </Text>
             </View>
             <View>
               <Pressable>
@@ -61,10 +153,73 @@ export default function FoodDetails() {
           <View style={styles.line}></View>
           <View style={{ gap: 16 }}>
             <Text style={styles.secondaryText}>Required *</Text>
-            <View style={{ paddingHorizontal: 10 }}>
+            <View
+              style={{
+                paddingHorizontal: 10,
+
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Text>Takeaway Pack (+500)</Text>
+
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#023526",
+                  borderRadius: 50,
+                  width: 22,
+                  height: 22,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() =>
+                  navigation.navigate("FoodDetails", { itemId: item.id })
+                } // Pass item details to the FoodDetails screen
+              >
+                <Text
+                  style={[
+                    {
+                      color: maincolors.primary,
+                      fontSize: 18,
+                      fontWeight: "bold",
+                    },
+                  ]}
+                >
+                  ✓
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
+
+          <TouchableOpacity
+            style={[
+              {
+                backgroundColor: "#023526",
+                borderRadius: 50,
+                width: 22,
+                height: 22,
+                justifyContent: "center",
+                alignItems: "center",
+              },
+              // isChecked && { backgroundColor: "#007bff" }, // Change style when checked
+            ]}
+            onPress={toggleCheckbox}
+          >
+            <Text
+              style={[
+                {
+                  color: maincolors.primary,
+                  fontSize: 18,
+                  fontWeight: "bold",
+                },
+                { color: isChecked ? maincolors.primary : "black" }, // Change text color when checked
+              ]}
+            >
+              {isChecked ? "✓" : ""}
+            </Text>
+          </TouchableOpacity>
+
           <View style={styles.line}></View>
           <View style={{ gap: 16 }}>
             <Text style={styles.secondaryText}>
@@ -101,7 +256,15 @@ export default function FoodDetails() {
               <View style={styles.line} />
             </View>
           </View>
-          <PrimaryButton buttonText={"Add for 10,000"} action={navigateFunc} />
+
+          {isLoadingCreateCart ? (
+            <ActivityIndicator size="large" color={maincolors.primary} />
+          ) : (
+            <PrimaryButton
+              buttonText={`Add for ${item?.price * count}`}
+              action={navigateFunc}
+            />
+          )}
         </View>
       </ScrollView>
     </AppScreen>

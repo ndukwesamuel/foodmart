@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   StyleSheet,
   FlatList,
   ScrollView,
+  RefreshControl,
+  ActivityIndicator,
 } from "react-native";
 import {
   MaterialCommunityIcons,
@@ -15,20 +17,37 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import AppScreen from "../../components/shared/AppScreen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Account from "../../components/Auth/Account";
 import CartScreen from "../../components/CartScreen";
+import {
+  Featured_restaurant_data_Fun,
+  Get_all_restaurants,
+} from "../../Redux/RestaurantSlice";
+import { Get_all_Cart_Fun } from "../../Redux/CartSlice";
 
-const MainHomescreen = () => {
+const MainHomescreen = ({ route }) => {
+  // console.log({
+  //   jdhd: route?.params,
+  // });
+
+  const [activeCategory, setActiveCategory] = useState("Discounts"); // Default state
+
+  const handlePress = (category) => {
+    setActiveCategory(category);
+  };
+  //   const { coords } = route.params || {}; // Coordinates from previous screen
+
   const { user_data } = useSelector((state) => state.Auth);
+  const {
+    Get_All_Restaurant_data,
+    featured_restaurant_data,
+    Get__Restaurant_detail_isLoading,
+  } = useSelector((state) => state.RestaurantSlice);
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const [showaccount, setShowaccount] = useState(false);
-
-  console.log({
-    ksks: user_data?.data?.user?.name,
-  });
 
   const [notification, setnotification] = useState("home");
 
@@ -72,6 +91,29 @@ const MainHomescreen = () => {
     },
   ];
 
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(Get_all_restaurants(page));
+    dispatch(Featured_restaurant_data_Fun());
+    dispatch(Get_all_Cart_Fun());
+
+    return () => {};
+  }, [page]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    // Set the refreshing state to true
+    setRefreshing(true);
+    dispatch(Get_all_restaurants(page));
+    dispatch(Featured_restaurant_data_Fun());
+    dispatch(Get_all_Cart_Fun());
+
+    // Wait for 2 seconds
+    setRefreshing(false);
+  };
+
   const cart_state = () => {
     if (notification === "cart") {
       setnotification("home");
@@ -96,7 +138,7 @@ const MainHomescreen = () => {
             {/* <TouchableOpacity onPress={() => setShowaccount(true)}> */}
             <Image
               source={{
-                uri: "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
+                uri: user_data?.data?.user?.profile_picture_url, // "https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
               }} // Replace with profile picture URL
               style={styles.profileImage}
             />
@@ -135,7 +177,7 @@ const MainHomescreen = () => {
         </View>
 
         {notification === "home" && (
-          <ScrollView style={styles.container}>
+          <View style={styles.container}>
             {/* Greeting Section */}
             <Text style={styles.greeting}>
               What are you ordering today {user_data?.data?.user?.name}?
@@ -143,56 +185,95 @@ const MainHomescreen = () => {
 
             {/* Featured Section */}
             <View style={styles.featuredContainer}>
-              <Image
-                source={{ uri: "https://via.placeholder.com/300" }} // Replace with featured image
+              {/* <Image
+                source={require("../../assets/Foodmart/sell.png")}
+                // source={{
+                //   uri: featured_restaurant_data[0]?.restaurant_picture,
+                // }} // Replace with featured image
                 style={styles.featuredImage}
-              />
+              /> */}
+
+              {featured_restaurant_data && (
+                <Image
+                  // source={require("../../assets/Foodmart/sell.png")}
+                  source={{
+                    uri: featured_restaurant_data[0]?.restaurant_picture,
+                  }} // Replace with featured image
+                  style={styles.featuredImage}
+                />
+              )}
+
               <View style={styles.discountBadge}>
                 <Text style={styles.discountText}>Get up to 20% Discount</Text>
               </View>
             </View>
 
-            {/* Categories */}
             <Text style={styles.sectionTitle}>Categories</Text>
+
             <View style={styles.categoriesContainer}>
-              <TouchableOpacity style={styles.categoryButton}>
-                <Text style={styles.categoryText}>Discounts</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.categoryButton, styles.inactiveCategory]}
-              >
-                <Text style={styles.inactiveCategoryText}>Scheduled</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.categoryButton, styles.inactiveCategory]}
-              >
-                <Text style={styles.inactiveCategoryText}>Deliver Now</Text>
-              </TouchableOpacity>
+              {["Discounts", "Scheduled", "Deliver Now"].map((category) => (
+                <TouchableOpacity
+                  key={category}
+                  style={[
+                    styles.categoryButton,
+                    activeCategory === category
+                      ? styles.activeCategory
+                      : styles.inactiveCategory,
+                  ]}
+                  onPress={() => handlePress(category)}
+                >
+                  <Text
+                    style={
+                      activeCategory === category
+                        ? styles.activeCategoryText
+                        : styles.inactiveCategoryText
+                    }
+                  >
+                    {category}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
 
             {/* Restaurants */}
             <FlatList
-              data={featuredRestaurants}
+              data={Get_All_Restaurant_data?.data}
               keyExtractor={(item) => item.id}
               numColumns={2}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              // onEndReached={() => setPage(page + 1)}
+              // onEndReachedThreshold={0.5}
+              ListFooterComponent={
+                Get__Restaurant_detail_isLoading ? (
+                  <ActivityIndicator size="large" />
+                ) : null
+              }
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.restaurantCard}
-                  onPress={() => navigation.navigate("RestaurantMenuScreen")}
+                  onPress={() =>
+                    navigation.navigate("RestaurantMenuScreen", { item })
+                  }
                 >
                   <Image
-                    source={{ uri: item.image }}
+                    source={{ uri: item.restaurant_picture }}
                     style={styles.restaurantImage}
                   />
                   <View style={styles.ratingBadge}>
-                    <Text style={styles.ratingText}>{item.rating}</Text>
+                    <Text style={styles.ratingText}>{item?.rating}</Text>
                   </View>
-                  <Text style={styles.restaurantName}>{item.name}</Text>
-                  <Text style={styles.restaurantTime}>9:00AM - 9:00PM</Text>
+                  <Text style={styles.restaurantName}>
+                    {item?.vendor_profile?.business_name}
+                  </Text>
+                  <Text style={styles.restaurantTime}>
+                    9:00AM - 9:00PM/Fake
+                  </Text>
                 </TouchableOpacity>
               )}
             />
-          </ScrollView>
+          </View>
         )}
 
         {notification === "cart" && <CartScreen />}

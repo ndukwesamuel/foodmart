@@ -6,12 +6,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 // const API_BASEURL = ;
 
-console.log({
-  // kdkd: API_BASEURL,
-});
-// import { Alert } from "react-native";
-
-// let userAPi = process.env.APIBASEURL + "user/login";
+const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
 const initialState = {
   user_data: null,
@@ -25,6 +20,8 @@ const initialState = {
   user_profile_isSuccess: false,
   user_profile_isLoading: false,
   user_profile_message: null,
+
+  signup_token: null,
 };
 
 const Login_Fun_Service = async (data) => {
@@ -37,7 +34,7 @@ const Login_Fun_Service = async (data) => {
     return response.data;
   } catch (error) {
     console.log({
-      ddd: error,
+      ddd: error?.response?.data,
     });
     throw error;
   }
@@ -47,6 +44,9 @@ export const Login_Fun = createAsyncThunk(
   "auth/Login_Fun",
   async (data, thunkAPI) => {
     try {
+      console.log({
+        ksks: data,
+      });
       return await Login_Fun_Service(data);
     } catch (error) {
       const errorMessage = handleApiError(error);
@@ -83,7 +83,11 @@ export const AuthSlice = createSlice({
   initialState,
   reducers: {
     reset_login: (state) => initialState,
+    setToken: (state, action) => {
+      state.signup_token = action.payload;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(Login_Fun.pending, (state) => {
@@ -131,6 +135,6 @@ export const AuthSlice = createSlice({
   },
 });
 
-export const { reset_login } = AuthSlice.actions;
+export const { reset_login, setToken } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

@@ -21,7 +21,8 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends.",
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
         }
-      ]
+      ],
+      "expo-location"
     ],
     "ios": {
       "jsEngine": "jsc",
@@ -31,14 +32,18 @@
           "audio"
         ],
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
-        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone.",
+        "NSLocationWhenInUseUsageDescription": "We need your location to provide accurate delivery and bus tracking information."
       }
     },
     "android": {
       "versionCode": 10,
-      "permission": [
+      "permissions": [
         "com.google.android.gms.permission.AD_ID",
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECORD_AUDIO"
       ],
       "config": {
         "googleMaps": {
@@ -49,10 +54,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.samheart.busapp",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "package": "com.samheart.busapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -60,7 +62,7 @@
     "jsEngine": "hermes",
     "extra": {
       "eas": {
-        "projectId": "043aa058-fce8-4b43-a407-fffa3f0478c1"
+        "projectId": "98ce42ba-c88e-452e-b551-e9a4725356e0"
       }
     }
   }

@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import axios from "axios";
@@ -17,6 +18,8 @@ import { checkOtp, setOtpEmail } from "../../Redux/OnboardingSlice";
 import { Forminput } from "../shared/InputForm";
 import { maincolors } from "../../utills/Themes";
 import AppscreenLogo from "../shared/AppscreenLogo";
+import { UserProfile_Fun, reset_login } from "../../Redux/AuthSlice";
+import { Ionicons } from "@expo/vector-icons";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 console.log({
@@ -86,34 +89,6 @@ const Security = ({ onSetAuth2 }) => {
     setQuestionModalVisible(false);
   };
 
-  const Registration_Mutation = useMutation(
-    (data_info) => {
-      const url = `${API_BASEURL}register`;
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      };
-      return axios.post(url, data_info, config);
-    },
-    {
-      onSuccess: (success) => {
-        Toast.show({
-          type: "success",
-          text1: `${success?.data?.message}`,
-        });
-        dispatch(checkOtp(true));
-      },
-      onError: (error) => {
-        Toast.show({
-          type: "error",
-          text1: `${error?.response?.data?.message}`,
-        });
-      },
-    }
-  );
-
   const SUbmitAnswer_Mutation = useMutation(
     (data_info) => {
       const url = `${API_BASEURL}v1/security-questions`;
@@ -132,7 +107,8 @@ const Security = ({ onSetAuth2 }) => {
           type: "success",
           text1: `${success?.data?.message}`,
         });
-        dispatch(checkOtp(true));
+        // dispatch(checkOtp(true));
+        dispatch(UserProfile_Fun());
       },
       onError: (error) => {
         Toast.show({
@@ -156,7 +132,26 @@ const Security = ({ onSetAuth2 }) => {
 
   return (
     <AppscreenLogo>
-      <ScrollView style={styles.container}>
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          top: 50,
+          left: 30,
+          borderWidth: 1,
+          padding: 5,
+          borderRadius: 10,
+          width: 35,
+        }}
+        onPress={() => {
+          // console.log("this is otpemail", otpemail);
+          // dispatch(checkOtp(false));
+          // onSetAuth("sign-in");
+          dispatch(reset_login());
+        }}
+      >
+        <Ionicons name="arrow-back-sharp" size={24} color="black" />
+      </TouchableOpacity>
+      <View style={styles.container}>
         <View style={{ alignSelf: "center" }}>
           <Text style={styles.header}>Set Security Question</Text>
         </View>
@@ -233,7 +228,7 @@ const Security = ({ onSetAuth2 }) => {
             </View>
           </View>
         </Modal>
-      </ScrollView>
+      </View>
     </AppscreenLogo>
   );
 };
