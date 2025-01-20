@@ -50,6 +50,7 @@ const MainHomescreen = ({ route }) => {
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
+  // console.log({Get_All_Restaurant_data: Get_All_Restaurant_data?.data[0].vendor_profile})
 
   // Dummy data for restaurants and categories
   const featuredRestaurants = [

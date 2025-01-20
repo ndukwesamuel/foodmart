@@ -11,6 +11,7 @@ export const useApiRequest = ({
 }) => {
   return useMutation(
     (data) => {
+      console.log({apidata: data})
       const config = {
         headers: {
           "Content-Type": "application/json",

@@ -29,6 +29,10 @@ const RestaurantMenuScreen = ({ route }) => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("All");
   const navigation = useNavigation();
+  console.log({
+    Get__Restaurant_detail_data:
+      Get__Restaurant_detail_data?.data?.vendor_profile?.user_id,
+  });
 
   // Sample menu data
   const menuData = [
@@ -215,7 +219,14 @@ const RestaurantMenuScreen = ({ route }) => {
                           />
                           <TouchableOpacity
                             style={styles.addButton}
-                            onPress={() => navigation.navigate("FoodDetails")}
+                            onPress={() =>
+                              navigation.navigate("FoodDetails", {
+                                item: item,
+                                vendor_id:
+                                  Get__Restaurant_detail_data?.data
+                                    ?.vendor_profile?.user_id,
+                              })
+                            }
                           >
                             <Text style={styles.addButtonText}>+</Text>
                           </TouchableOpacity>
