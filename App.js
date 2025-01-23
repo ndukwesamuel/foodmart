@@ -1,9 +1,14 @@
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Platform,
+} from "react-native";
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
-
 import { useCallback } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -29,6 +34,7 @@ import UserNavigation from "./Navigation/UserNavigation";
 import Security from "./components/Auth/Security";
 import { UserProfile_Fun, reset_login } from "./Redux/AuthSlice";
 import AddressData from "./components/Auth/AddressData";
+import OtpScreen2 from "./screens/OtpScreen2";
 
 const queryClient = new QueryClient();
 
@@ -136,25 +142,24 @@ const MainScreen = () => {
   }, [dispatch]);
 
   const onboarding = user_profile_data?.meta[0]?.onboarding;
-
+  console.log({
+    kkk: onboarding,
+  });
   // Loading State (optional)
-  if (user_isLoading) {
-    return <Loader />; // You can create a loading component
-  }
+  // Check onboarding steps in sequence
+  if (onboarding) {
+    if (!onboarding.has_verified_email_or_mobile_number) {
+      return <OtpScreen2 />;
+    }
 
-  // Check onboarding steps
-  if (!onboarding?.has_verified_email_or_mobile_number) {
-    return <OtpScreen />;
-  }
+    if (!onboarding.has_filled_security_question) {
+      return <Security />;
+    }
 
-  if (!onboarding?.has_filled_security_question) {
-    return <Security />;
+    if (!onboarding.has_default_address) {
+      return <AddressData />;
+    }
   }
-
-  if (!onboarding?.has_default_address) {
-    return <AddressData />;
-  }
-
   // If all conditions are true, show UserNavigation
   return <UserNavigation />;
 };
