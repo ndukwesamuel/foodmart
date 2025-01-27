@@ -127,9 +127,9 @@ const MainScreen = () => {
 
   const dispatch = useDispatch();
 
-  // console.log({
-  //   onboarding: user_profile_data?.meta[0]?.onboarding,
-  // });
+  console.log({
+    onboarding: user_profile_data?.meta[0]?.onboarding,
+  });
 
   useEffect(() => {
     dispatch(UserProfile_Fun());
