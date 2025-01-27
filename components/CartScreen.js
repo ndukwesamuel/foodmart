@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 
 const CartScreen = () => {
   const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
+  console.log({Get_All_Cart_data:Get_All_Cart_data})
 
   const navigation = useNavigation();
   const [tab, settab] = useState("cart");
@@ -136,15 +137,15 @@ const CartScreen = () => {
     );
   };
 
-  console.log({
-    ncc: Get_All_Cart_data,
-  });
+  // console.log({
+  //   ncc: Get_All_Cart_data,
+  // });
 
   const renderCartSections = ({ item }) => (
     <View style={styles.cartSection}>
-      {console.log({
+      {/* {console.log({
         mmmmm: item,
-      })}
+      })} */}
       <View style={styles.cartHeader}>
         <Text style={styles.restaurantName}>{item?.vendor?.business_name}</Text>
         <TouchableOpacity>

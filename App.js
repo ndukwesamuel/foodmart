@@ -89,7 +89,7 @@ export const Loading = () => {
 export const StartScreen = ({}) => {
   const { isOnboarding } = useSelector((state) => state.OnboardingSlice);
 
-  console.log({ isOnboarding });
+  // console.log({ isOnboarding });
 
   const dispatch = useDispatch();
 
@@ -105,9 +105,9 @@ export const NavigationScreen = () => {
 
   const [country, setCountry] = useState("Loading...");
 
-  console.log({
-    kkkk: user_data?.data?.token,
-  });
+  // console.log({
+  //   kkkk: user_data?.data?.token,
+  // });
 
   // dispatch(reset_login());
 
@@ -127,9 +127,9 @@ const MainScreen = () => {
 
   const dispatch = useDispatch();
 
-  console.log({
-    onboarding: user_profile_data?.meta[0]?.onboarding,
-  });
+  // console.log({
+  //   onboarding: user_profile_data?.meta[0]?.onboarding,
+  // });
 
   useEffect(() => {
     dispatch(UserProfile_Fun());

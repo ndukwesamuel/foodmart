@@ -50,47 +50,7 @@ const MainHomescreen = ({ route }) => {
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
-  // console.log({Get_All_Restaurant_data: Get_All_Restaurant_data?.data[0].vendor_profile})
-
-  // Dummy data for restaurants and categories
-  const featuredRestaurants = [
-    {
-      id: "1",
-      name: "Restaurant 1",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-    {
-      id: "2",
-      name: "Restaurant 2",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-    {
-      id: "3",
-      name: "Restaurant 3",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-    {
-      id: "4",
-      name: "Restaurant 4",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-    {
-      id: "5",
-      name: "Restaurant 5",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-    {
-      id: "6",
-      name: "Restaurant 6",
-      image: "https://via.placeholder.com/150",
-      rating: 4.0,
-    },
-  ];
+  // console.log({ Get_All_Restaurant_data: Get_All_Restaurant_data?.data });
 
   const [page, setPage] = useState(1);
 
@@ -269,7 +229,8 @@ const MainHomescreen = ({ route }) => {
                     {item?.vendor_profile?.business_name}
                   </Text>
                   <Text style={styles.restaurantTime}>
-                    9:00AM - 9:00PM/Fake
+                    {item?.current_opening_hour?.open_time} -{" "}
+                    {item?.current_opening_hour?.close_time}
                   </Text>
                 </TouchableOpacity>
               )}

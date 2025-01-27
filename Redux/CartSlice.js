@@ -14,6 +14,12 @@ const initialState = {
   Get_All_Cart_isSuccess: false,
   Get_All_Cart_isLoading: false,
   Get_All_Cart_message: null,
+
+  Get_Cart_Summary_data: null,
+  Get_Cart_Summary_isError: false,
+  Get_Cart_Summary_isSuccess: false,
+  Get_Cart_Summary_isLoading: false,
+  Get_Cart_Summary_message: null,
 };
 
 const fetchResponsData = async (url, thunkAPI) => {
@@ -21,11 +27,12 @@ const fetchResponsData = async (url, thunkAPI) => {
     const token = getToken(thunkAPI);
     const response = await axiosInstance.get(url, getAxiosConfig(token));
 
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log({
-      mnnn: error?.response?.data,
-    });
+    // console.log({
+    //   mnnn: error?.response?.data,
+    // });
     if (error.response) {
       throw new Error(
         `Failed to fetch data: ${error.response.status} - ${
@@ -58,13 +65,30 @@ export const Get_all_Cart_Fun = createAsyncThunk(
       const response = await fetchResponsData(url, thunkAPI);
 
       console.log({
-        jnnn: response.data,
+        // jnnn: response.data,
       });
       return response?.data;
     } catch (error) {
       console.log({ error });
       return thunkAPI.rejectWithValue(
         error.message || "An error occurred while fetching candidate profile"
+      );
+    }
+  }
+);
+
+export const Get_Cart_Summary_Fun = createAsyncThunk(
+  "RestaurantSlice/Get_Cart_summary_Fun",
+  async (query, thunkAPI) => {
+    let url = `/v1/customer/carts/${query}/summary`;
+    try {
+      console.log(url);
+      const response = await fetchResponsData(url, thunkAPI);
+      return response?.data;
+    } catch (error) {
+      console.log({ sumary_error: error });
+      return thunkAPI.rejectWithValue(
+        error.message || "An error occurred while fetching cart summary"
       );
     }
   }
@@ -92,6 +116,23 @@ export const CartSlice = createSlice({
         state.Get_All_Cart_message = action.payload;
         state.Get_All_Cart_data = null;
         state.Get_All_Cart_isSuccess = false;
+      })
+      .addCase(Get_Cart_Summary_Fun.pending, (state) => {
+        state.Get_Cart_Summary_isLoading = true;
+      })
+      .addCase(Get_Cart_Summary_Fun.fulfilled, (state, action) => {
+        state.Get_Cart_Summary_isLoading = false;
+        state.Get_Cart_Summary_isError = false;
+        state.Get_Cart_Summary_data = action.payload;
+        state.Get_Cart_Summary_message = null;
+        state.Get_Cart_Summary_isSuccess = true;
+      })
+      .addCase(Get_Cart_Summary_Fun.rejected, (state, action) => {
+        state.Get_Cart_Summary_isLoading = false;
+        state.Get_Cart_Summary_isError = false;
+        state.Get_Cart_Summary_message = action.payload;
+        state.Get_Cart_Summary_data = null;
+        state.Get_Cart_Summary_isSuccess = false;
       });
   },
 });

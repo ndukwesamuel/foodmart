@@ -17,35 +17,44 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import OrderPlacingScreen from "../../components/CheckoutStatus";
 import { useNavigation } from "@react-navigation/native";
 import { useApiRequest } from "../../hooks/Mutate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { maincolors } from "../../utills/Themes";
 import Toast from "react-native-toast-message";
 import WebView from "react-native-webview";
+import { Get_all_Cart_Fun, Get_Cart_Summary_Fun } from "../../Redux/CartSlice";
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function CheckoutPage({ route }) {
-  const { item } = route?.params;
-  console.log({
-    moses: item,
-  });
+  const dispatch = useDispatch();
+  const { Get_All_Cart_data, Get_Cart_Summary_data } = useSelector(
+    (state) => state.CartSlice
+  );
+  const item = route?.params?.item;
 
+  // console.log({
+  //   selectedItem: Get_Cart_Summary_data,
+  // });
   const navigation = useNavigation();
 
   const [dataSummary, setdataSummary] = useState(null);
 
-  const total = item?.cart_items.reduce((acc, item) => acc + item.sub_total, 0);
+  // const total = item?.cart_items.reduce((acc, item) => acc + item.sub_total, 0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null); // Track selected payment method
 
-  console.log({
-    nnn: total,
-  });
+  // console.log({
+  //   nnn: total,
+  // });
   const [makePaymenr, setMakePaymenr] = useState(null);
   const [checkout, setcheckout] = useState(true);
   useEffect(() => {
+    dispatch(Get_all_Cart_Fun());
+    // dispatch(Get_Cart_Summary_Fun(item.id));
     summary({
       address_id: 1,
       promo_code: "",
     });
+
+    // console.log({dataSummary:dataSummary})
     return () => {};
   }, []);
 
@@ -69,9 +78,9 @@ export default function CheckoutPage({ route }) {
     method: "POST",
     token: user_data?.data?.token || "",
     onSuccess: (response) => {
-      console.log({
-        vvv: response?.data?.data?.payment,
-      });
+      // console.log({
+      //   vvv: response?.data?.data?.payment,
+      // });
 
       setMakePaymenr(response?.data?.data?.payment);
 
@@ -86,9 +95,9 @@ export default function CheckoutPage({ route }) {
     },
 
     onError: (error) => {
-      console.log({
-        peterkc: error?.response?.data?.message,
-      });
+      // console.log({
+      //   peterkc: error?.response?.data?.message,
+      // });
       Toast.show({
         type: "error",
         text1: `${error?.response?.data?.message}`,
@@ -100,27 +109,22 @@ export default function CheckoutPage({ route }) {
   });
 
   const { mutate: summary, isLoading: isLoadingsummary } = useApiRequest({
-    url: `${API_BASEURL}v1/customer/carts/1/summary`,
+    url: `${API_BASEURL}v1/customer/carts/${item.id}/summary`,
 
     method: "GET",
     token: user_data?.data?.token || "",
     onSuccess: (response) => {
       // dispatch(checkOtp(true));
-      console.log({
-        kkk: response?.data?.data,
-      });
+      // console.log({
+      //   kkk: response?.data?.data,
+      // });
 
       setdataSummary(response?.data?.data);
-      // setlga(response?.data?.data);
+      console.log({dataSummary: dataSummary})
     },
     onError: (error) => {
-      // console.error("Registration failed:", error?.response?.data);
-      console.log({
-        hfhf: error?.response?.data,
-      });
-      // Toast.show({
-      //   type: "error",
-      //   text1: `${error?.response?.data?.message || "Request failed."}`,
+      // console.log({
+      //   hfhf: error?.response?.data,
       // });
     },
   });

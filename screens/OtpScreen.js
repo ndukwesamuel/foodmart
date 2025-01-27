@@ -76,7 +76,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
           Authorization: `Bearer ${user_data?.data?.token}`,
         },
       };
-      console.log({data_info:data_info})
+      console.log({ data_info: data_info });
 
       return axios.post(url, data_info, config);
     },
@@ -135,6 +135,7 @@ const OtpScreen = ({ navigation, onSetAuth, onSetAuth2 }) => {
         dispatch(checkOtp(false));
         dispatch(reset_otpemail());
         dispatch(reset_login());
+        dispatch(reser_otp());
         onSetAuth("sign-in");
       },
 

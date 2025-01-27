@@ -29,10 +29,13 @@ const RestaurantMenuScreen = ({ route }) => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("All");
   const navigation = useNavigation();
-  console.log({
-    Get__Restaurant_detail_data:
-      Get__Restaurant_detail_data?.data?.vendor_profile?.user_id,
-  });
+
+  // console.log({item: item, item_id: item.id})
+  // console.log({menu_data: all_menu_item_for_resturant_data})
+  // console.log({
+  //   Get__Restaurant_detail_data:
+  //     Get__Restaurant_detail_data?.data?.vendor_profile?.user_id,
+  // });
 
   // Sample menu data
   const menuData = [
@@ -195,7 +198,7 @@ const RestaurantMenuScreen = ({ route }) => {
 
         {tabnames === "All" ? (
           <>
-            {["Special Meals", "Main Meals", "Drinks"].map((category) => (
+            {/* {["Special Meals", "Main Meals", "Drinks"].map((category) => (
               <View key={category}>
                 {filteredMenu.some((item) => item.category === category) && (
                   <>
@@ -235,7 +238,7 @@ const RestaurantMenuScreen = ({ route }) => {
                   </>
                 )}
               </View>
-            ))}
+            ))} */}
           </>
         ) : (
           <ResturantComponentMenu data={tabnames} />

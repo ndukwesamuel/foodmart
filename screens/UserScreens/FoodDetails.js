@@ -83,6 +83,7 @@ export default function FoodDetails({ route }) {
         text1: `${response?.data?.message}`,
       });
 
+      navigation.navigate("GetEverything", {item: item})
       // navigation.goBack();
       // console.log("Category created successfully:", response.data);
     },
@@ -161,7 +162,7 @@ export default function FoodDetails({ route }) {
             >
               <Text>Takeaway Pack (+500)</Text>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   backgroundColor: "#023526",
                   borderRadius: 50,
@@ -185,37 +186,36 @@ export default function FoodDetails({ route }) {
                 >
                   ✓
                 </Text>
+              </TouchableOpacity> */}
+              <TouchableOpacity
+                style={[
+                  {
+                    backgroundColor: "#023526",
+                    borderRadius: 50,
+                    width: 22,
+                    height: 22,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  },
+                  // isChecked && { backgroundColor: "#007bff" }, // Change style when checked
+                ]}
+                onPress={toggleCheckbox}
+              >
+                <Text
+                  style={[
+                    {
+                      color: maincolors.primary,
+                      fontSize: 18,
+                      fontWeight: "bold",
+                    },
+                    { color: isChecked ? maincolors.primary : "black" }, // Change text color when checked
+                  ]}
+                >
+                  {isChecked ? "✓" : ""}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
-
-          <TouchableOpacity
-            style={[
-              {
-                backgroundColor: "#023526",
-                borderRadius: 50,
-                width: 22,
-                height: 22,
-                justifyContent: "center",
-                alignItems: "center",
-              },
-              // isChecked && { backgroundColor: "#007bff" }, // Change style when checked
-            ]}
-            onPress={toggleCheckbox}
-          >
-            <Text
-              style={[
-                {
-                  color: maincolors.primary,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                },
-                { color: isChecked ? maincolors.primary : "black" }, // Change text color when checked
-              ]}
-            >
-              {isChecked ? "✓" : ""}
-            </Text>
-          </TouchableOpacity>
 
           <View style={styles.line}></View>
           <View style={{ gap: 16 }}>
@@ -258,7 +258,9 @@ export default function FoodDetails({ route }) {
             <ActivityIndicator size="large" color={maincolors.primary} />
           ) : (
             <PrimaryButton
-            buttonText={`Add for ${item?.price && !isNaN(item?.price) ? item.price * count : 0}`}
+              buttonText={`Add for ${
+                item?.price && !isNaN(item?.price) ? item.price * count : 0
+              }`}
               action={navigateFunc}
             />
           )}
