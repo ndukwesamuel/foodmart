@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,14 +13,31 @@ import DeliveredOrders, {
   DeliveredOrdersComponent,
 } from "../screens/Orders/DeliveredOrders";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_orders } from "../Redux/OrderSlice";
 
 const CartScreen = () => {
+  const dispatch = useDispatch();
   const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
-  console.log({Get_All_Cart_data:Get_All_Cart_data})
+  const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
+  // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
+  // console.log({ Get_All_Cart_data: Get_All_Cart_data });
+  console.log({ allOrders: Get_all_orders_data.data[0].vendor });
 
   const navigation = useNavigation();
   const [tab, settab] = useState("cart");
+  useEffect(() => {
+    dispatch(
+      Get_all_orders({
+        cart_id: 1,
+        use_points: true,
+        use_wallet: true,
+        address_id: 1,
+      })
+    );
+
+    return () => {};
+  }, [dispatch]);
   const cartData = [
     {
       restaurant: "Restaurant 1",
@@ -175,11 +192,13 @@ const CartScreen = () => {
     >
       <View style={styles.cartHeader}>
         <View>
-          <Text style={styles.restaurantName}>{item.restaurant}</Text>
-          <Text style={styles.restaurantName}>₦5,500</Text>
+          <Text style={styles.restaurantName}>{item?.vendor?.name}</Text>
+          <Text style={styles.restaurantName}>{item?.total_amount}</Text>
         </View>
         <TouchableOpacity>
-          <Text style={styles.deleteAll}>Order ID: E8F99P</Text>
+          <Text style={styles.deleteAll}>
+            Order ID: {item?.tracking_number}
+          </Text>
         </TouchableOpacity>
       </View>
       <View
@@ -282,7 +301,7 @@ const CartScreen = () => {
 
         {tab === "ongoing" && (
           <FlatList
-            data={OngoingtData}
+            data={Get_all_orders_data?.data}
             renderItem={renderOngoingSections}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
