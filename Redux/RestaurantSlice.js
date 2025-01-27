@@ -179,7 +179,7 @@ export const RestaurantSlice = createSlice({
         state.Get_All_Restaurant_isError = false;
         state.Get_All_Restaurant_data = action.payload;
         state.Get_All_Restaurant_message = null;
-        state.Get_All_Restaurant_message = true;
+        state.Get_All_Restaurant_isSuccess = true;
       })
       .addCase(Get_all_restaurants.rejected, (state, action) => {
         state.Get_All_Restaurant_isLoading = false;
