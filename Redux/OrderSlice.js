@@ -18,7 +18,8 @@ const initialState = {
 
 export const Get_all_orders = createAsyncThunk(
   "OrderSlice/Get_all_orders",
-  async (body, thunkAPI) => {
+  async (orderStatus, thunkAPI) => {
+    // console.log({data: body, order: orderStatus})
     try {
       const token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
 
@@ -33,12 +34,20 @@ export const Get_all_orders = createAsyncThunk(
       // If you need to use GET but also send a body
       const response = await axios.request({
         method: "GET",
-        url: `${API_BASEURL}v1/customer/orders?status=pending&payment_status=pending &per_page=`,
+        url: `${API_BASEURL}v1/customer/orders?status=${orderStatus}&payment_status= &per_page=`,
         headers: config.headers,
-        data: body, // Include body here
+        data: {
+          cart_id: 1,
+          use_points: true,
+          use_wallet: true,
+          address_id: 1,
+        }, // Include body here
       });
+      console.log(
+        `${API_BASEURL}v1/customer/orders?status=${orderStatus}&payment_status= &per_page=`
+      );
 
-    //   console.log({allOrders: response.data.data})
+        console.log({allOrders: response.data.data})
       return response.data;
     } catch (error) {
       // Handle error

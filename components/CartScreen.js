@@ -20,111 +20,43 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
   const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
+  const [orderStatus, setOrderStatus] = useState("ongoing");
   // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
   // console.log({ Get_All_Cart_data: Get_All_Cart_data });
-  console.log({ allOrders: Get_all_orders_data.data[0].vendor });
+  // console.log({ allOrders: Get_all_orders_data?.data[0]?.vendor });
 
   const navigation = useNavigation();
+
+  const handleOrderStatus = (name) => {
+    if (name == "pending") {
+      settab("ongoing");
+    } else {
+      settab(name);
+    }
+
+    const order = name;
+    const body = {
+      cart_id: 1,
+      use_points: true,
+      use_wallet: true,
+      address_id: 1,
+    };
+    dispatch(Get_all_orders(order));
+  };
   const [tab, settab] = useState("cart");
   useEffect(() => {
-    dispatch(
-      Get_all_orders({
-        cart_id: 1,
-        use_points: true,
-        use_wallet: true,
-        address_id: 1,
-      })
-    );
+    const body = {
+      cart_id: 1,
+      use_points: true,
+      use_wallet: true,
+      address_id: 1,
+    };
+    dispatch(Get_all_orders(orderStatus));
 
     return () => {};
   }, [dispatch]);
-  const cartData = [
-    {
-      restaurant: "Restaurant 1",
-      items: [
-        {
-          name: "Rice",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-        {
-          name: "Drink",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-      ],
-    },
-    {
-      restaurant: "Restaurant 2",
-      items: [
-        {
-          name: "Avocado",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-        {
-          name: "Avocado",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-      ],
-    },
-  ];
-
-  const OngoingtData = [
-    {
-      restaurant: "Restaurant 1",
-      items: [
-        {
-          name: "Rice",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-        {
-          name: "Drink",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-      ],
-    },
-    {
-      restaurant: "Restaurant 2",
-      items: [
-        {
-          name: "Avocado",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-        {
-          name: "Avocado",
-          price: 5500,
-          quantity: 1,
-          image: "https://via.placeholder.com/80",
-        },
-      ],
-    },
-  ];
 
   const renderCartItems = (items) => {
-    // return items.map((item, index) => (
-
-    // <View key={index} style={styles.itemContainer}>
-    //   {/* <Image source={{ uri: item.image }} style={styles.itemImage} />
-    // <View style={styles.itemDetails}>
-    //   <Text style={styles.itemName}>{item.name}</Text>
-    //   <Text style={styles.itemPrice}>₦{item.price.toLocaleString()}</Text>
-    // </View>
-    //   <Text style={styles.itemQuantity}>x{item.quantity}</Text> */}
-    // </View>
-    // ));
-
     return (
       <View style={styles.itemContainer}>
         {items?.cart_items.map((cart_item, index) => (
@@ -154,15 +86,8 @@ const CartScreen = () => {
     );
   };
 
-  // console.log({
-  //   ncc: Get_All_Cart_data,
-  // });
-
   const renderCartSections = ({ item }) => (
     <View style={styles.cartSection}>
-      {/* {console.log({
-        mmmmm: item,
-      })} */}
       <View style={styles.cartHeader}>
         <Text style={styles.restaurantName}>{item?.vendor?.business_name}</Text>
         <TouchableOpacity>
@@ -184,7 +109,6 @@ const CartScreen = () => {
       style={{
         marginBottom: 16,
         padding: 16,
-        // backgroundColor: "#f8f9fa",
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#C4C4C4",
@@ -222,7 +146,6 @@ const CartScreen = () => {
             style={{
               backgroundColor: "#F4F4F4CC",
               borderRadius: 5,
-              // backgroundColor: "red",
               padding: 15,
               paddingHorizontal: 20,
             }}
@@ -274,12 +197,12 @@ const CartScreen = () => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => settab("ongoing")}>
+          <TouchableOpacity onPress={() => handleOrderStatus("pending")}>
             <Text style={[styles.tab, tab === "ongoing" && styles.activeTab]}>
               Ongoing
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => settab("delivered")}>
+          <TouchableOpacity onPress={() => handleOrderStatus("delivered")}>
             <Text style={[styles.tab, tab === "delivered" && styles.activeTab]}>
               Delivered
             </Text>
@@ -309,7 +232,11 @@ const CartScreen = () => {
         )}
       </View>
 
-      <View>{tab === "delivered" && <DeliveredOrdersComponent />}</View>
+      <View>
+        {tab === "delivered" && (
+          <DeliveredOrdersComponent item={Get_all_orders_data?.data} />
+        )}
+      </View>
     </View>
   );
 };
@@ -318,8 +245,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // paddingHorizontal: 16,
-    // borderWidth: 1,
   },
   header: {
     flexDirection: "row",

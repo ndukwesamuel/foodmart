@@ -42,7 +42,8 @@ export default function DeliveredOrders() {
   );
 }
 
-export const DeliveredOrdersComponent = ({ action }) => {
+export const DeliveredOrdersComponent = ({ item }) => {
+  console.log({item})
   return (
     <View
       style={{
@@ -51,7 +52,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
       }}
     >
       <FlatList
-        data={[1, 2]}
+        data={item}
         renderItem={({ item }) => (
           <>
             <View
@@ -73,7 +74,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
                     color: maincolors.primary,
                   }}
                 >
-                  Store 1
+                  {item?.vendor?.name}
                 </Text>
 
                 <Text
@@ -118,7 +119,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
                       />
                     }
                     data="Reorder"
-                    onPress={action} //() => console.log("MyOrder")}
+                    // onPress={action} //() => console.log("MyOrder")}
                   />
                 </View>
               </View>
