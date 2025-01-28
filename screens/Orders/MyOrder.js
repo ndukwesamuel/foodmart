@@ -11,7 +11,10 @@ import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import AppScreen from "../../components/shared/AppScreen";
 
-export default function MyOrder() {
+export default function MyOrder({route}) {
+
+  const item = route.params.item
+  console.log({orderitem: item})
   return (
     <AppScreen>
       <View style={styles.container}>

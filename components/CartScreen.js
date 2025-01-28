@@ -41,7 +41,7 @@ const CartScreen = () => {
       use_wallet: true,
       address_id: 1,
     };
-    dispatch(Get_all_orders(order));
+    dispatch(Get_all_orders("pending"));
   };
   const [tab, settab] = useState("cart");
   useEffect(() => {

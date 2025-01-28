@@ -43,11 +43,6 @@ export const Get_all_orders = createAsyncThunk(
           address_id: 1,
         }, // Include body here
       });
-      console.log(
-        `${API_BASEURL}v1/customer/orders?status=${orderStatus}&payment_status= &per_page=`
-      );
-
-        console.log({allOrders: response.data.data})
       return response.data;
     } catch (error) {
       // Handle error
