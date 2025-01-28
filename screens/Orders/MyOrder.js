@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -10,12 +10,19 @@ import {
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import AppScreen from "../../components/shared/AppScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_an_order } from "../../Redux/OrderSlice";
 
-export default function MyOrder({route}) {
-  
+export default function MyOrder({ route }) {
+  const item = route.params.item;
+  const dispatch = useDispatch();
+  const { Get_an_order_data } = useSelector((state) => state.OrderSlice);
 
-  const item = route.params.item
-  console.log({orderitem: item})
+  useEffect(() => {
+    dispatch(Get_an_order(item));
+    return () => {};
+  }, [dispatch]);
+  console.log({ orderitem: Get_an_order_data });
   return (
     <AppScreen>
       <View style={styles.container}>

@@ -24,24 +24,14 @@ export default function DeliveredOrders() {
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
 
-  // const increment = () => setCount(count + 1);
-  // const decrement = () => setCount(count - 1);
-
   const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
 
   useEffect(() => {
-    const body = {
-      cart_id: 1,
-      use_points: true,
-      use_wallet: true,
-      address_id: 1,
-    };
     dispatch(Get_all_orders("pending"));
 
     return () => {};
   }, [dispatch]);
 
-  // console.log({ orders: Get_all_orders_data });
 
   const navigateFunc = ({item}) => {
     navigation.navigate("MyOrder",{item: item.id});
