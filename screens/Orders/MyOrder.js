@@ -12,6 +12,7 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import AppScreen from "../../components/shared/AppScreen";
 
 export default function MyOrder({route}) {
+  
 
   const item = route.params.item
   console.log({orderitem: item})
