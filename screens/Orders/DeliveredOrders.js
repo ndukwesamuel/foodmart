@@ -97,7 +97,7 @@ export const DeliveredOrdersComponent = ({ item , action}) => {
                     fontSize: 16,
                   }}
                 >
-                  x2 Special Rice
+                 X{item?.order_items[0]?.quantity} {item?.order_items[0]?.menu_item?.name}
                 </Text>
 
                 <Text
@@ -107,7 +107,7 @@ export const DeliveredOrdersComponent = ({ item , action}) => {
                     fontSize: 16,
                   }}
                 >
-                  5000
+                  {item?.total_amount}
                 </Text>
 
                 <View>

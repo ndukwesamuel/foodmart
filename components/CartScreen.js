@@ -20,10 +20,10 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
   const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
-  const [orderStatus, setOrderStatus] = useState("ongoing");
+  const [orderStatus, setOrderStatus] = useState("pending");
   // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
   // console.log({ Get_All_Cart_data: Get_All_Cart_data });
-  // console.log({ allOrders: Get_all_orders_data?.data[0]?.vendor });
+  console.log({ allOrders: Get_all_orders_data?.data[0].order_items[0].quantity });
 
   const navigation = useNavigation();
 

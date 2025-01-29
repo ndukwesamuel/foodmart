@@ -22,7 +22,35 @@ export default function MyOrder({ route }) {
     dispatch(Get_an_order(item));
     return () => {};
   }, [dispatch]);
-  console.log({ orderitem: Get_an_order_data });
+  console.log({ orderitem: Get_an_order_data?.data?.order_items });
+  console.log({ id: item });
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemRow}>
+      {/* Quantity */}
+      <Text style={styles.itemQuantity}>x{item.quantity}</Text>
+      
+      {/* Item Details */}
+      <View style={styles.itemDetails}>
+        <Text style={styles.itemName}>{item.menu_item.name}</Text>
+        
+        {/* Extras or Options (if any) */}
+        {item.extras.length > 0 && (
+          <Text style={styles.itemOptions}>
+            {item.extras.map((extra, i) => 
+              `x${extra.quantity} ${extra.name}${i !== item.extras.length - 1 ? '\n' : ''}`
+            )}
+          </Text>
+        )}
+      </View>
+
+      {/* Price */}
+      <Text style={styles.itemPrice}>
+        ₦{parseFloat(item.price).toLocaleString()}
+      </Text>
+    </View>
+  );
+
   return (
     <AppScreen>
       <View style={styles.container}>
@@ -37,14 +65,18 @@ export default function MyOrder({ route }) {
           }}
         >
           <View style={styles.statusSection}>
-            <Text style={styles.status}>Delivered</Text>
-            <Text style={styles.orderId}>Order ID: E8F99P</Text>
+            <Text style={styles.status}>{Get_an_order_data?.data?.status}</Text>
+            <Text style={styles.orderId}>
+              Order ID: {Get_an_order_data?.data?.id}
+            </Text>
             <Text style={styles.dateTime}>24-01-2024 | 12:30PM</Text>
           </View>
 
           <ScrollView>
             <View style={styles.restaurantSection}>
-              <Text style={styles.restaurantTitle}>Restaurant 1</Text>
+              <Text style={styles.restaurantTitle}>
+                {Get_an_order_data?.data?.vendor?.name}
+              </Text>
               <View style={styles.itemRow}>
                 <Text style={styles.itemQuantity}>x1</Text>
                 <View style={styles.itemDetails}>
@@ -77,33 +109,39 @@ export default function MyOrder({ route }) {
 
               <View style={styles.deliverySection}>
                 <Text style={styles.sectionTitle}>Delivery Details</Text>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Address lorem dolor officia..."
-                />
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Address lorem dolor officia..."
-                />
+                <Text style={styles.textInput}>
+                  {Get_an_order_data?.data?.customer?.mobile_number}
+                </Text>
+                <Text style={styles.textInput}>
+                  {Get_an_order_data?.data?.customer_address}
+                </Text>
               </View>
 
               <View style={styles.summarySection}>
                 <Text style={styles.sectionTitle}>Summary</Text>
                 <View style={styles.summaryRow}>
                   <Text style={styles.summaryLabel}>Sub Total</Text>
-                  <Text style={styles.summaryValue}>₦40,500</Text>
+                  <Text style={styles.summaryValue}>
+                    {Get_an_order_data?.data?.sub_total}
+                  </Text>
                 </View>
                 <View style={styles.summaryRow}>
                   <Text style={styles.summaryLabel}>Delivery Fee</Text>
-                  <Text style={styles.summaryValue}>₦2,000</Text>
+                  <Text style={styles.summaryValue}>
+                    {Get_an_order_data?.data?.delivery_fee}
+                  </Text>
                 </View>
                 <View style={styles.summaryRow}>
                   <Text style={styles.summaryLabel}>Service</Text>
-                  <Text style={styles.summaryValue}>₦500</Text>
+                  <Text style={styles.summaryValue}>
+                    {Get_an_order_data?.data?.service_charge}
+                  </Text>
                 </View>
                 <View style={styles.totalRow}>
                   <Text style={styles.totalLabel}>Total</Text>
-                  <Text style={styles.totalValue}>₦42,500</Text>
+                  <Text style={styles.totalValue}>
+                    {Get_an_order_data?.data?.total_amount}
+                  </Text>
                 </View>
               </View>
             </View>
