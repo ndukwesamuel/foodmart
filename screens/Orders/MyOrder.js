@@ -6,12 +6,14 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import AppScreen from "../../components/shared/AppScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { Get_an_order } from "../../Redux/OrderSlice";
+import OrderItems from "../../components/OrderItem";
 
 export default function MyOrder({ route }) {
   const item = route.params.item;
@@ -22,34 +24,10 @@ export default function MyOrder({ route }) {
     dispatch(Get_an_order(item));
     return () => {};
   }, [dispatch]);
-  console.log({ orderitem: Get_an_order_data?.data?.order_items });
+  console.log({
+    orderitem: Get_an_order_data?.data?.order_items[0].extras,
+  });
   console.log({ id: item });
-
-  const renderItem = ({ item }) => (
-    <View style={styles.itemRow}>
-      {/* Quantity */}
-      <Text style={styles.itemQuantity}>x{item.quantity}</Text>
-      
-      {/* Item Details */}
-      <View style={styles.itemDetails}>
-        <Text style={styles.itemName}>{item.menu_item.name}</Text>
-        
-        {/* Extras or Options (if any) */}
-        {item.extras.length > 0 && (
-          <Text style={styles.itemOptions}>
-            {item.extras.map((extra, i) => 
-              `x${extra.quantity} ${extra.name}${i !== item.extras.length - 1 ? '\n' : ''}`
-            )}
-          </Text>
-        )}
-      </View>
-
-      {/* Price */}
-      <Text style={styles.itemPrice}>
-        ₦{parseFloat(item.price).toLocaleString()}
-      </Text>
-    </View>
-  );
 
   return (
     <AppScreen>
@@ -77,27 +55,7 @@ export default function MyOrder({ route }) {
               <Text style={styles.restaurantTitle}>
                 {Get_an_order_data?.data?.vendor?.name}
               </Text>
-              <View style={styles.itemRow}>
-                <Text style={styles.itemQuantity}>x1</Text>
-                <View style={styles.itemDetails}>
-                  <Text style={styles.itemName}>Special Rice</Text>
-                  <Text style={styles.itemOptions}>
-                    x1 Option 1 {"\n"}x1 Option 3
-                  </Text>
-                </View>
-                <Text style={styles.itemPrice}>₦15,000</Text>
-              </View>
-
-              <View style={styles.itemRow}>
-                <Text style={styles.itemQuantity}>x3</Text>
-                <View style={styles.itemDetails}>
-                  <Text style={styles.itemName}>Special Rice</Text>
-                  <Text style={styles.itemOptions}>
-                    x1 Option 2 {"\n"}x1 Option 3
-                  </Text>
-                </View>
-                <Text style={styles.itemPrice}>₦25,000</Text>
-              </View>
+              <OrderItems orderItems={Get_an_order_data?.data?.order_items} />
 
               <View style={styles.cutlerySection}>
                 <Image

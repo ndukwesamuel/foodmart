@@ -23,7 +23,9 @@ const CartScreen = () => {
   const [orderStatus, setOrderStatus] = useState("pending");
   // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
   // console.log({ Get_All_Cart_data: Get_All_Cart_data });
-  console.log({ allOrders: Get_all_orders_data?.data[0].order_items[0].quantity });
+  console.log({
+    allOrders: Get_all_orders_data?.data[0].order_items[0].quantity,
+  });
 
   const navigation = useNavigation();
 
@@ -180,7 +182,9 @@ const CartScreen = () => {
       </TouchableOpacity>
     </View>
   );
-
+  const navigateFunc = ({ item }) => {
+    navigation.navigate("MyOrder", { item: item.id });
+  };
   return (
     <View style={styles.container}>
       {/* Tabs */}
@@ -234,7 +238,7 @@ const CartScreen = () => {
 
       <View>
         {tab === "delivered" && (
-          <DeliveredOrdersComponent item={Get_all_orders_data?.data} />
+          <DeliveredOrdersComponent item={Get_all_orders_data?.data} action={navigateFunc}/>
         )}
       </View>
     </View>
