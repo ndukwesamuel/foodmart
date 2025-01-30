@@ -1,59 +1,115 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
+import { useAnimatedGestureHandler } from "react-native-reanimated";
+import { useMutation } from "react-query";
+import axios from "axios";
 
+const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 const UpdatePassword = () => {
-    return (
-        <View style={{paddingTop: '13%', paddingHorizontal: '5%', backgroundColor: '#fff', height: '100%'}}>
-            <View style={styles.container}>
-                <ReusableBackButton/>
-                <ReusableTitle data={'Change Password'}/>
-                <View></View>
-            </View>
-            <View style={{paddingTop: '13%'}}>
-                <Text>Current Password</Text>
-                <TextInput style={styles.FormTextInput('100%')}/> 
-                <Text>New Password</Text>
-                <TextInput style={styles.FormTextInput("100%")}/>
-                <Text>Confirm Password</Text>
-                <TextInput style={styles.FormTextInput("100%")}/>
-            </View>
-            <Pressable style={styles.SubmitButton}>
-                    <Text style={{
-                        marginVertical: 12,
-                        fontSize: 15,
-                        color: '#fff'
-                    }}>Change Password</Text>
-                </Pressable>
-        </View>
-    )
-}
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+
+  const ChangePassword_Mutation = useMutation(
+    (data_info) => {
+      const url = `${API_BASEURL}v1/profile/password`;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+      return axios.post(url, data_info, config);
+    },
+    {
+      onSuccess: (success) => {
+        Toast.show({
+          type: "success",
+          text1: `${success?.data?.message}`,
+        });
+        dispatch(checkOtp(true));
+      },
+      onError: (error) => {
+        Toast.show({
+          type: "error",
+          text1: `${error?.response?.data?.message}`,
+        });
+      },
+    }
+  );
+
+  return (
+    <View
+      style={{
+        paddingTop: "13%",
+        paddingHorizontal: "5%",
+        backgroundColor: "#fff",
+        height: "100%",
+      }}
+    >
+      <View style={styles.container}>
+        <ReusableBackButton />
+        <ReusableTitle data={"Change Password"} />
+        <View></View>
+      </View>
+      <View style={{ paddingTop: "13%" }}>
+        <Text>Current Password</Text>
+        <TextInput
+          style={styles.FormTextInput("100%")}
+          onChangeText={(text) => setOldPassword(text)}
+        />
+        <Text>New Password</Text>
+        <TextInput
+          style={styles.FormTextInput("100%")}
+          onChangeText={(text) => setNewPassword(text)}
+        />
+        <Text>Confirm Password</Text>
+        <TextInput
+          style={styles.FormTextInput("100%")}
+          onChangeText={(text) => setConfirmedPassword(text)}
+        />
+      </View>
+      <Pressable style={styles.SubmitButton}>
+        <Text
+          style={{
+            marginVertical: 12,
+            fontSize: 15,
+            color: "#fff",
+          }}
+        >
+          Change Password
+        </Text>
+      </Pressable>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    FormTextInput: (width) => ({
-        height: 40,
-        width: width,
-        borderWidth: 2,
-        borderColor: '#F4F4F4',
-        borderRadius: 4,
-        marginVertical: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 5,
-        backgroundColor: '#F4F4F4'
-    }),
-    SubmitButton: {
-        marginTop: '12%',
-        backgroundColor: 'rgba(247, 155, 44, 1)',
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  FormTextInput: (width) => ({
+    height: 40,
+    width: width,
+    borderWidth: 2,
+    borderColor: "#F4F4F4",
+    borderRadius: 4,
+    marginVertical: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    backgroundColor: "#F4F4F4",
+  }),
+  SubmitButton: {
+    marginTop: "12%",
+    backgroundColor: "rgba(247, 155, 44, 1)",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
-export default UpdatePassword
+export default UpdatePassword;
