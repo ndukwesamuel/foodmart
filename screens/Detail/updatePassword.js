@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable, ActivityIndicator } from "react-native";
 
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
@@ -41,6 +41,16 @@ const UpdatePassword = () => {
     }
   );
 
+  const handleChangePassword = () => {
+    const data = {
+      old_password: oldPassword,
+      new_password: newPassword,
+      new_password_confirmation: confirmedPassword,
+    };
+
+    ChangePassword_Mutation.mutate(data)
+  };
+
   return (
     <View
       style={{
@@ -73,7 +83,7 @@ const UpdatePassword = () => {
         />
       </View>
       <Pressable style={styles.SubmitButton}>
-        <Text
+        {ChangePassword_Mutation.isLoading? (<ActivityIndicator size={"small"} color={"white"}/>):(<Text
           style={{
             marginVertical: 12,
             fontSize: 15,
@@ -81,7 +91,7 @@ const UpdatePassword = () => {
           }}
         >
           Change Password
-        </Text>
+        </Text>)}
       </Pressable>
     </View>
   );
