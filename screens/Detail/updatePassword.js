@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import { useAnimatedGestureHandler } from "react-native-reanimated";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
 
 const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
 const UpdatePassword = () => {
+  const { user_data } = useSelector((state) => state?.Auth);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -20,6 +30,7 @@ const UpdatePassword = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
         },
       };
       return axios.post(url, data_info, config);
@@ -30,7 +41,9 @@ const UpdatePassword = () => {
           type: "success",
           text1: `${success?.data?.message}`,
         });
-        dispatch(checkOtp(true));
+        setConfirmedPassword("");
+        setNewPassword("");
+        setOldPassword("");
       },
       onError: (error) => {
         Toast.show({
@@ -48,7 +61,7 @@ const UpdatePassword = () => {
       new_password_confirmation: confirmedPassword,
     };
 
-    ChangePassword_Mutation.mutate(data)
+    ChangePassword_Mutation.mutate(data);
   };
 
   return (
@@ -70,28 +83,35 @@ const UpdatePassword = () => {
         <TextInput
           style={styles.FormTextInput("100%")}
           onChangeText={(text) => setOldPassword(text)}
+          value={oldPassword}
         />
         <Text>New Password</Text>
         <TextInput
           style={styles.FormTextInput("100%")}
           onChangeText={(text) => setNewPassword(text)}
+          value={newPassword}
         />
         <Text>Confirm Password</Text>
         <TextInput
           style={styles.FormTextInput("100%")}
           onChangeText={(text) => setConfirmedPassword(text)}
+          value={confirmedPassword}
         />
       </View>
-      <Pressable style={styles.SubmitButton}>
-        {ChangePassword_Mutation.isLoading? (<ActivityIndicator size={"small"} color={"white"}/>):(<Text
-          style={{
-            marginVertical: 12,
-            fontSize: 15,
-            color: "#fff",
-          }}
-        >
-          Change Password
-        </Text>)}
+      <Pressable style={styles.SubmitButton} onPress={handleChangePassword}>
+        {ChangePassword_Mutation.isLoading ? (
+          <ActivityIndicator size={"small"} color={"white"} />
+        ) : (
+          <Text
+            style={{
+              marginVertical: 12,
+              fontSize: 15,
+              color: "#fff",
+            }}
+          >
+            Change Password
+          </Text>
+        )}
       </Pressable>
     </View>
   );
