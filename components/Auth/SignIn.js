@@ -15,7 +15,11 @@ import { Forminput, Forminputpassword } from "../shared/InputForm";
 import { useDispatch, useSelector } from "react-redux";
 import { Login_Fun } from "../../Redux/AuthSlice";
 import { maincolors } from "../../utills/Themes";
-import { setOtpEmail } from "../../Redux/OnboardingSlice";
+import {
+  checkOtp,
+  reset_otpemail,
+  setOtpEmail,
+} from "../../Redux/OnboardingSlice";
 
 const SignIn = ({ navigation, onSetAuth }) => {
   const user_dat = useSelector((state) => state.Auth);

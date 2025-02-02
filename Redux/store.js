@@ -7,6 +7,7 @@ import BookATripSlice from "./BookATripSlice";
 import AuthSlice from "./AuthSlice";
 import RestaurantSlice from "./RestaurantSlice";
 import CartSlice from "./CartSlice";
+import { OrderSlice } from "./OrderSlice";
 
 // import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   Auth: AuthSlice,
   RestaurantSlice: RestaurantSlice,
   CartSlice: CartSlice,
+  OrderSlice: OrderSlice.reducer
 });
 
 const persistConfig = {

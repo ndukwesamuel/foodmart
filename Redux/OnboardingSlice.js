@@ -16,7 +16,6 @@ export const OnboardingSlice = createSlice({
     reset_otpemail: (state) => {
       state.otpemail = "";
     },
-
     reser_otp: (state) => {
       state.otp = false;
     },

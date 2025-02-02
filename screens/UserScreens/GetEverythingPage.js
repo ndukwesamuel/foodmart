@@ -6,18 +6,31 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 import AppScreen from "../../components/shared/AppScreen";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 import { maincolors } from "../../utills/Themes";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_Cart_Fun } from "../../Redux/CartSlice";
 
 export default function GetEverythingPage() {
+  // const { item } = route?.params;
+  const dispatch = useDispatch();
+  const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
   const navigation = useNavigation();
   const navigationFunc = () => {
-    navigation.navigate("CheckoutPage");
+    navigation.navigate("CheckoutPage", {
+      item: Get_All_Cart_data.slice(-1)[0],
+    });
   };
+
+  useEffect(() => {
+    dispatch(Get_all_Cart_Fun());
+    return () => {};
+  }, []);
+
   return (
     <AppScreen>
       <View

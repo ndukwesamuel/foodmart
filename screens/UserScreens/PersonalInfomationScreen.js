@@ -24,7 +24,7 @@ const PersonalInfomationScreen = ({ onClose }) => {
     {
       title: "My Details",
       icon: <Feather name="user" size={24} color="#FFA500" />,
-      screen: "PersonalInfomationScreen",
+      screen: "Detail",
     },
     {
       title: "Manage cards",
@@ -34,7 +34,7 @@ const PersonalInfomationScreen = ({ onClose }) => {
     {
       title: "Change Password",
       icon: <AntDesign name="lock1" size={24} color="#FFA500" />,
-      screen: "ChangePassword",
+      screen: "updatePassword",
     },
 
     {

@@ -48,8 +48,8 @@ export const ResturantComponentMenu = ({ data }) => {
             }
           >
             <View style={styles.menuDetails}>
-              <Text style={styles.menuTitle}>{item.name}</Text>
-              <Text style={styles.menuDescription}>{item.description}</Text>
+              <Text style={styles.menuTitle}>{item?.name}</Text>
+              <Text style={styles.menuDescription}>{item?.description}</Text>
 
               <View
                 style={{
@@ -62,7 +62,7 @@ export const ResturantComponentMenu = ({ data }) => {
                 <TouchableOpacity
                   style={styles.addButton}
                   onPress={() =>
-                    navigation.navigate("FoodDetails", { itemId: item.id })
+                    navigation.navigate("FoodDetails", { itemId: item?.id })
                   } // Pass item details to the FoodDetails screen
                 >
                   <Text

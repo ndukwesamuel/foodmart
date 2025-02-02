@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
@@ -16,16 +16,25 @@ import AppScreen from "../../components/shared/AppScreen";
 import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import { maincolors } from "../../utills/Themes";
 import { Formbutton } from "../../components/shared/InputForm";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_orders } from "../../Redux/OrderSlice";
 
 export default function DeliveredOrders() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
 
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
+  const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
 
-  const navigateFunc = () => {
-    navigation.navigate("MyOrder");
+  useEffect(() => {
+    dispatch(Get_all_orders("pending"));
+
+    return () => {};
+  }, [dispatch]);
+
+
+  const navigateFunc = ({item}) => {
+    navigation.navigate("MyOrder",{item: item.id});
   };
 
   return (
@@ -35,14 +44,19 @@ export default function DeliveredOrders() {
           style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
         />
         <ReusableTitle data="Delivered Orders" />
+        <View style={{ marginTop: 30 }}>
+          <DeliveredOrdersComponent
+            action={navigateFunc}
+            item={Get_all_orders_data?.data}
+          />
+        </View>
       </View>
-
-      <DeliveredOrdersComponent action={navigateFunc} />
     </AppScreen>
   );
 }
 
-export const DeliveredOrdersComponent = ({ action }) => {
+export const DeliveredOrdersComponent = ({ item , action}) => {
+  console.log({ item });
   return (
     <View
       style={{
@@ -51,7 +65,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
       }}
     >
       <FlatList
-        data={[1, 2]}
+        data={item}
         renderItem={({ item }) => (
           <>
             <View
@@ -63,7 +77,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
             >
               <View
                 style={{
-                  marginBottom: 20,
+                  marginBottom: 40,
                 }}
               >
                 <Text
@@ -73,7 +87,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
                     color: maincolors.primary,
                   }}
                 >
-                  Store 1
+                  {item?.vendor?.name}
                 </Text>
 
                 <Text
@@ -83,7 +97,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
                     fontSize: 16,
                   }}
                 >
-                  x2 Special Rice
+                 X{item?.order_items[0]?.quantity} {item?.order_items[0]?.menu_item?.name}
                 </Text>
 
                 <Text
@@ -93,7 +107,7 @@ export const DeliveredOrdersComponent = ({ action }) => {
                     fontSize: 16,
                   }}
                 >
-                  5000
+                  {item?.total_amount}
                 </Text>
 
                 <View>
@@ -117,8 +131,9 @@ export const DeliveredOrdersComponent = ({ action }) => {
                         source={require("../../assets/Foodmart/Vector3.png")}
                       />
                     }
-                    data="Reorder"
-                    onPress={action} //() => console.log("MyOrder")}
+                    data="Details"
+                    onPress={() => action({item})}
+
                   />
                 </View>
               </View>
