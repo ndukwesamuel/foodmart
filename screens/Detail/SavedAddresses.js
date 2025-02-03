@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,20 +9,30 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_addresses } from "../../Redux/AddressSlice";
 
 const SavedAddresses = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const { Get_all_addresses_data } = useSelector((state) => state.AddressSlice);
+  console.log({ address: Get_all_addresses_data?.data });
   const addresses = [
     { id: "1", address: "345 House Estate, Lekki..." },
     { id: "2", address: "345 House Estate, Lekki..." },
     { id: "3", address: "345 House Estate, Lekki..." },
   ];
 
+  useEffect(() => {
+    dispatch(Get_all_addresses());
+  }, [dispatch]);
   const renderAddress = ({ item }) => (
     <View style={styles.addressContainer}>
       <View style={styles.addressContent}>
         <Icon name="map-marker" size={18} color="#f4a261" style={styles.icon} />
-        <Text style={styles.addressText}>{item.address}</Text>
+        <Text style={styles.addressText} numberOfLines={1} ellipsizeMode="tail">
+          {item?.street_address}, {item?.state}, {item?.country}
+        </Text>
       </View>
       <TouchableOpacity>
         <MaterialIcons name="edit" size={18} color="#5a5a5a" />
@@ -45,7 +55,7 @@ const SavedAddresses = () => {
 
       {/* Address List */}
       <FlatList
-        data={addresses}
+        data={Get_all_addresses_data?.data}
         keyExtractor={(item) => item.id}
         renderItem={renderAddress}
         ListFooterComponent={
