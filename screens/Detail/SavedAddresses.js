@@ -16,12 +16,7 @@ const SavedAddresses = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { Get_all_addresses_data } = useSelector((state) => state.AddressSlice);
-  console.log({ address: Get_all_addresses_data?.data });
-  const addresses = [
-    { id: "1", address: "345 House Estate, Lekki..." },
-    { id: "2", address: "345 House Estate, Lekki..." },
-    { id: "3", address: "345 House Estate, Lekki..." },
-  ];
+  //   console.log({ address: Get_all_addresses_data?.data });
 
   useEffect(() => {
     dispatch(Get_all_addresses());
@@ -65,8 +60,6 @@ const SavedAddresses = () => {
           </TouchableOpacity>
         }
       />
-
-      {/* Add New Address */}
     </View>
   );
 };

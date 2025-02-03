@@ -21,11 +21,6 @@ const CartScreen = () => {
   const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
   const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
   const [orderStatus, setOrderStatus] = useState("pending");
-  // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
-  // console.log({ Get_All_Cart_data: Get_All_Cart_data });
-  console.log({
-    allOrders: Get_all_orders_data?.data[0].order_items[0].quantity,
-  });
 
   const navigation = useNavigation();
 
@@ -35,24 +30,10 @@ const CartScreen = () => {
     } else {
       settab(name);
     }
-
-    const order = name;
-    const body = {
-      cart_id: 1,
-      use_points: true,
-      use_wallet: true,
-      address_id: 1,
-    };
     dispatch(Get_all_orders("pending"));
   };
   const [tab, settab] = useState("cart");
   useEffect(() => {
-    const body = {
-      cart_id: 1,
-      use_points: true,
-      use_wallet: true,
-      address_id: 1,
-    };
     dispatch(Get_all_orders(orderStatus));
 
     return () => {};
@@ -69,10 +50,6 @@ const CartScreen = () => {
               }}
               style={styles.itemImage}
             />
-
-            {console.log({
-              nvnvnv: cart_item?.menu_item?.default_image?.original_url,
-            })}
 
             <View style={styles.itemDetails}>
               <Text style={styles.itemName}>{cart_item?.menu_item?.name}</Text>
@@ -238,7 +215,10 @@ const CartScreen = () => {
 
       <View>
         {tab === "delivered" && (
-          <DeliveredOrdersComponent item={Get_all_orders_data?.data} action={navigateFunc}/>
+          <DeliveredOrdersComponent
+            item={Get_all_orders_data?.data}
+            action={navigateFunc}
+          />
         )}
       </View>
     </View>
