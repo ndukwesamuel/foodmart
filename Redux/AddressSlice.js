@@ -94,6 +94,26 @@ export const AddressSlice = createSlice({
         state.Get_all_addresses_message = action.payload;
         state.Get_all_addresses_data = null;
         state.Get_all_addresses_isSuccess = false;
+      })
+      .addCase(Get_an_address.pending, (state) => {
+        state.Get_an_address_isLoading = true;
+      })
+      .addCase(Get_an_address.fulfilled, (state, action) => {
+        state.Get_an_address_isLoading = false;
+        state.Get_an_address_isError = false;
+        state.Get_an_address_data = action.payload;
+        state.Get_an_address_message = null;
+        state.Get_an_address_isSuccess = true;
+      })
+      .addCase(Get_an_address.rejected, (state, action) => {
+        state.Get_an_address_isLoading = false;
+        state.Get_an_address_isError = true;
+        state.Get_an_address_message = action.payload;
+        state.Get_an_address_data = null;
+        state.Get_an_address_isSuccess = false;
       });
   },
 });
+
+export const {} = AddressSlice.actions
+export default AddressSlice.reducer
