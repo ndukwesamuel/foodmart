@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,8 +18,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Account from "../components/Auth/Account";
 import CartScreen from "../components/CartScreen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UserProfile_Fun } from "../Redux/AuthSlice";
 const HomeScreen = () => {
+  const dispatch = useDispatch()
   const navigation = useNavigation();
   const { user_data, user_isLoading, user_profile_data } = useSelector(
     (state) => state?.Auth
@@ -28,6 +30,9 @@ const HomeScreen = () => {
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
+  useEffect(() =>{
+    dispatch(UserProfile_Fun())
+  }, [dispatch])
 
   const cart_state = () => {
     if (notification === "cart") {

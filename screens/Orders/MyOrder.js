@@ -112,7 +112,12 @@ export default function MyOrder({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white", paddingTop: 20 },
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 20,
+    paddingBottom: 70,
+  },
 
   header: {
     flexDirection: "row",

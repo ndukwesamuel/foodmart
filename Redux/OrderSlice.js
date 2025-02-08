@@ -61,42 +61,42 @@ export const Get_all_orders = createAsyncThunk(
 );
 
 export const Get_an_order = createAsyncThunk(
-    "OrderSlice/Get_an_order",
-    async (params ,thunkAPI) => {
-      // console.log({data: body, order: orderStatus})
-      try {
-        const token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
-  
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-  
-        // If you need to use GET but also send a body
-        const response = await axios.request({
-          method: "GET",
-          url: `${API_BASEURL}v1/customer/orders/${params}`,
-          headers: config.headers,
-          data: {
-            cart_id: 1,
-            use_points: true,
-            use_wallet: true,
-            address_id: 1,
-          }, // Include body here
-        });
-        return response.data;
-      } catch (error) {
-        // Handle error
-        console.error("Error fetching orders:", error);
-        return thunkAPI.rejectWithValue(
-          error.response?.data?.message || "An error occurred"
-        );
-      }
+  "OrderSlice/Get_an_order",
+  async (params, thunkAPI) => {
+    // console.log({data: body, order: orderStatus})
+    try {
+      const token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // If you need to use GET but also send a body
+      const response = await axios.request({
+        method: "GET",
+        url: `${API_BASEURL}v1/customer/orders/${params}`,
+        headers: config.headers,
+        data: {
+          cart_id: 1,
+          use_points: true,
+          use_wallet: true,
+          address_id: 1,
+        }, // Include body here
+      });
+      return response.data;
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching orders:", error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
     }
-  );
+  }
+);
 
 export const OrderSlice = createSlice({
   name: "OrderSlice",
@@ -120,7 +120,8 @@ export const OrderSlice = createSlice({
         state.Get_all_orders_message = action.payload;
         state.Get_all_orders_data = null;
         state.Get_all_orders_isSuccess = false;
-      })      .addCase(Get_an_order.pending, (state) => {
+      })
+      .addCase(Get_an_order.pending, (state) => {
         state.Get_an_order_isLoading = true;
       })
       .addCase(Get_an_order.fulfilled, (state, action) => {

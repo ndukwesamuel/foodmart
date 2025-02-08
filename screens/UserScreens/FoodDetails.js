@@ -28,12 +28,8 @@ export default function FoodDetails({ route }) {
     (state) => state?.Auth
   );
 
-  // console.log({
-  //   pppp: user_data?.data,
-  // });
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
-  // const [total, settotal] = useState(second)
 
   const increment = () => setCount((prev) => prev + 1);
   const decrement = () => setCount((prev) => (prev > 0 ? prev - 1 : 0));
@@ -41,23 +37,7 @@ export default function FoodDetails({ route }) {
   const navigateFunc = () => {
     let data = {
       quantity: count,
-      // vendor_id: vendor_id,
       menu_item_id: item?.id,
-
-      // extra_options: [
-      //   {
-      //     id: 1,
-      //     quantity: 2,
-      //   },
-      //   // {
-      //   //   id: 2,
-      //   //   quantity: 2,
-      //   // },
-      //   // {
-      //   //   id: 3,
-      //   //   quantity: 2,
-      //   // },
-      // ],
     };
 
     console.log({ data: data });

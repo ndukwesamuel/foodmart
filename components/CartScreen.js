@@ -18,8 +18,8 @@ import { Get_all_orders } from "../Redux/OrderSlice";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
-  const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
-  const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
+  const { Get_All_Cart_data } = useSelector((state) => state?.CartSlice);
+  const { Get_all_orders_data } = useSelector((state) => state?.OrderSlice);
   const [orderStatus, setOrderStatus] = useState("pending");
 
   const navigation = useNavigation();
@@ -91,6 +91,7 @@ const CartScreen = () => {
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#C4C4C4",
+        // paddingBottom: 50,
       }}
     >
       <View style={styles.cartHeader}>
@@ -199,6 +200,11 @@ const CartScreen = () => {
               renderItem={renderCartSections}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text style={{ textAlign: "center", marginTop: 20 }}>
+                  No item available in the cart
+                </Text>
+              }
             />
           </>
         )}
@@ -229,7 +235,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingBottom: 50,
   },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -277,6 +285,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#f8f9fa",
     borderRadius: 8,
+    paddingBottom: 50,
   },
   cartHeader: {
     flexDirection: "row",
