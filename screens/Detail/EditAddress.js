@@ -40,8 +40,10 @@ export default function EditAddress() {
         <Text style={styles.label}>Street Address</Text>
         <TextInput
           style={styles.input}
-          value={address?.street || ""}
-          onChangeText={(text) => setAddress({ ...address, street_address: text })}
+          value={address?.street_address || ""}
+          onChangeText={(text) =>
+            setAddress({ ...address, street_address: text })
+          }
           editable={isEditable}
         />
       </View>
@@ -91,7 +93,7 @@ export default function EditAddress() {
         <Text style={styles.label}>Save this address as</Text>
         <TextInput
           style={styles.input}
-          value={address?.nickname || ""}
+          value={address?.name || ""}
           onChangeText={(text) => setAddress({ ...address, name: text })}
           editable={isEditable}
         />
