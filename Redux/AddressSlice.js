@@ -20,6 +20,12 @@ const initialState = {
   Get_an_address_isSuccess: false,
   Get_an_address_isLoading: false,
   Get_an_address_message: null,
+
+  Get_all_states_data: null,
+  Get_all_states_isError: false,
+  Get_all_states_isSuccess: false,
+  Get_all_states_isLoading: false,
+  Get_all_states_message: null,
 };
 
 export const Get_all_addresses = createAsyncThunk(
@@ -38,6 +44,28 @@ export const Get_all_addresses = createAsyncThunk(
         `${API_BASEURL}v1/customer/addresses`,
         config
       );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const Get_all_states = createAsyncThunk(
+  "AddressSlice/Get_all_states",
+  async (data, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(`${API_BASEURL}v1/states`, config);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -111,6 +139,23 @@ export const AddressSlice = createSlice({
         state.Get_an_address_message = action.payload;
         state.Get_an_address_data = null;
         state.Get_an_address_isSuccess = false;
+      })
+      .addCase(Get_all_states.pending, (state) => {
+        state.Get_all_states_isLoading = true;
+      })
+      .addCase(Get_all_states.fulfilled, (state, action) => {
+        state.Get_all_states_isLoading = false;
+        state.Get_all_states_isError = false;
+        state.Get_all_states_data = action.payload;
+        state.Get_all_states_message = null;
+        state.Get_all_states_isSuccess = true;
+      })
+      .addCase(Get_all_states.rejected, (state, action) => {
+        state.Get_all_states_isLoading = false;
+        state.Get_all_states_isError = true;
+        state.Get_all_states_message = action.payload;
+        state.Get_all_states_data = null;
+        state.Get_all_states_isSuccess = false;
       });
   },
 });
