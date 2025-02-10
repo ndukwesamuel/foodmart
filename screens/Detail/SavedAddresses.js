@@ -16,7 +16,7 @@ const SavedAddresses = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { Get_all_addresses_data } = useSelector((state) => state.AddressSlice);
-  //   console.log({ address: Get_all_addresses_data?.data });
+    console.log({ address: Get_all_addresses_data?.data });
 
   useEffect(() => {
     dispatch(Get_all_addresses());
@@ -29,7 +29,7 @@ const SavedAddresses = () => {
           {item?.street_address}, {item?.state}, {item?.country}
         </Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("EditAddress")}>
         <MaterialIcons name="edit" size={18} color="#5a5a5a" />
       </TouchableOpacity>
     </View>

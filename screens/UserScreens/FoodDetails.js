@@ -17,7 +17,7 @@ import { maincolors } from "../../utills/Themes";
 import { useApiRequest } from "../../hooks/Mutate";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/"
 
 export default function FoodDetails({ route }) {
   const { item, vendor_id } = route.params;

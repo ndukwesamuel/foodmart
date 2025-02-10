@@ -6,7 +6,7 @@ import Toast from "react-native-toast-message";
 import { handleApiError } from "./shareApi";
 import { axiosInstance, getAxiosConfig, getToken } from "./ApiConfig";
 
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
 const initialState = {
   Get_all_addresses_data: null,
@@ -60,7 +60,7 @@ export const Get_an_address = createAsyncThunk(
         },
       };
       const response = await axios.get(
-        `${API_BASEURL}v1/customer/addresses/:${data}`,
+        `${API_BASEURL}v1/customer/addresses/${data}`,
         config
       );
       return response.data;
@@ -115,5 +115,5 @@ export const AddressSlice = createSlice({
   },
 });
 
-export const {} = AddressSlice.actions
-export default AddressSlice.reducer
+export const {} = AddressSlice.actions;
+export default AddressSlice.reducer;

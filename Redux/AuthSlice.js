@@ -5,8 +5,7 @@ import axios from "axios";
 
 import Toast from "react-native-toast-message";
 // const API_BASEURL = ;
-
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
 const initialState = {
   user_data: null,
@@ -69,7 +68,7 @@ export const UserProfile_Fun = createAsyncThunk(
         },
       };
       const response = await axios.get(`${API_BASEURL}v1/profile`, config);
-      console.log({profile: response.data})
+      console.log({ profile: response.data });
       return response.data;
     } catch (error) {
       const errorMessage = handleApiError(error);

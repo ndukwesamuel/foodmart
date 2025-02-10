@@ -39,12 +39,12 @@ const MainHomescreen = ({ route }) => {
   };
   //   const { coords } = route.params || {}; // Coordinates from previous screen
 
-  const { user_data } = useSelector((state) => state.Auth);
+  const { user_data } = useSelector((state) => state?.Auth);
   const {
     Get_All_Restaurant_data,
     featured_restaurant_data,
     Get__Restaurant_detail_isLoading,
-  } = useSelector((state) => state.RestaurantSlice);
+  } = useSelector((state) => state?.RestaurantSlice);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [showaccount, setShowaccount] = useState(false);
@@ -53,6 +53,7 @@ const MainHomescreen = ({ route }) => {
   // console.log({ Get_All_Restaurant_data: Get_All_Restaurant_data?.data });
 
   const [page, setPage] = useState(1);
+
 
   useEffect(() => {
     dispatch(Get_all_restaurants(page));

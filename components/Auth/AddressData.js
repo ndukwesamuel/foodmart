@@ -19,11 +19,8 @@ import { UserProfile_Fun, reset_login } from "../../Redux/AuthSlice";
 import { Ionicons } from "@expo/vector-icons";
 
 // import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
-console.log({
-  ksks: API_BASEURL,
-});
 
 const LocationAccessScreen = () => {
   const navigation = useNavigation();
@@ -33,9 +30,6 @@ const LocationAccessScreen = () => {
   );
 
   const dispatch = useDispatch();
-  console.log({
-    lkl: user_data?.data?.token,
-  });
 
   const getLocation = async () => {
     try {
@@ -74,10 +68,6 @@ const LocationAccessScreen = () => {
         longitude: location.coords.longitude,
         latitude: location.coords.latitude,
       };
-      //   console.log({
-      //     kkk: data,
-      //   });
-
       Alert.alert(
         "Confirm Address",
         `Street: ${data.street_address}\nCity: ${data.city}\nState: ${data.state}\nPostal Code: ${data.zip}\nCountry: ${data.country}`,
@@ -100,7 +90,6 @@ const LocationAccessScreen = () => {
           },
         ]
       );
-      //   AddressMutation.mutate(data);
     } catch (error) {
       console.error("Error fetching location:", error);
     }
@@ -121,16 +110,11 @@ const LocationAccessScreen = () => {
     },
     {
       onSuccess: (success) => {
-        console.log({
-          jajaj: success?.data,
-        });
         Toast.show({
           type: "success",
           text1: `${success?.data?.message}`,
         });
         dispatch(UserProfile_Fun());
-
-        // dispatch(checkOtp(true));
       },
       onError: (error) => {
         dispatch(UserProfile_Fun());
@@ -332,9 +316,6 @@ export default function AddressData() {
           zIndex: 10,
         }}
         onPress={() => {
-          // console.log("this is otpemail", otpemail);
-          // dispatch(checkOtp(false));
-          // onSetAuth("sign-in");
           dispatch(reset_login());
         }}
       >
@@ -342,8 +323,5 @@ export default function AddressData() {
       </TouchableOpacity>
       <LocationAccessScreen />
     </>
-    // <View>
-    // <ManualAddressScreen />
-    // </View>
   );
 }

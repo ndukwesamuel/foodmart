@@ -21,18 +21,20 @@ import CartScreen from "../components/CartScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { UserProfile_Fun } from "../Redux/AuthSlice";
 const HomeScreen = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { user_data, user_isLoading, user_profile_data } = useSelector(
     (state) => state?.Auth
   );
 
+  console.log({ user_data: user_data.data.user });
+
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
-  useEffect(() =>{
-    dispatch(UserProfile_Fun())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(UserProfile_Fun());
+  }, [dispatch]);
 
   const cart_state = () => {
     if (notification === "cart") {
@@ -58,7 +60,7 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={() => setnotification("account")}>
             <Image
               source={{
-                uri: user_profile_data?.data?.profile_picture_url, //"https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
+                uri: user_data?.data?.user.profile_picture_url, //"https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
               }} // Replace with profile picture URL
               style={styles.profileImage}
             />
@@ -126,7 +128,7 @@ const HomeScreen = () => {
             {/* Greeting Section */}
             <View>
               <Text style={styles.greetingText}>
-                Hello {user_profile_data?.data?.name},
+                Hello {user_data.data.user?.name},
               </Text>
               <Text style={styles.subText}>Go through;</Text>
             </View>
