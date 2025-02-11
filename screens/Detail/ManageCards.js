@@ -8,6 +8,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { Feather } from "@expo/vector-icons"; // For edit & check icons
+import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
+import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
 
 const ManageCards = () => {
   const [cards, setCards] = useState([
@@ -53,12 +55,8 @@ const ManageCards = () => {
   return (
     <View style={styles.container}>
       {/* Back Button */}
-      <TouchableOpacity style={styles.backButton}>
-        <Feather name="arrow-left" size={24} color="black" />
-      </TouchableOpacity>
-
-      {/* Title */}
-      <Text style={styles.title}>Manage Cards</Text>
+      <ReusableBackButton />
+      <ReusableTitle data={"Manage Cards"} />
 
       {/* Saved Cards */}
       <FlatList

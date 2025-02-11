@@ -197,18 +197,6 @@ export default function EditAddress({ route }) {
         console.warn(err);
       }
     }
-    //  else {
-    //   // For iOS, permissions are usually handled automatically
-    //   navigator.geolocation.getCurrentPosition(
-    //     (position) => {
-    //       const { latitude, longitude } = position.coords;
-    //       setLocation({ latitude, longitude });
-    //       console.log({ location: location });
-    //     },
-    //     (error) => Alert.alert("Error", error.message),
-    //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //   );
-    // }
   };
 
   return (
