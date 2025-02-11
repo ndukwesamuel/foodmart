@@ -22,6 +22,10 @@ import { Get_all_favourites } from "../../Redux/OrderSlice";
 export default function MyFavorite() {
   const dispatch = useDispatch();
   const { Get_all_favourites_data } = useSelector((state) => state?.OrderSlice);
+
+  console.log({
+    Get_all_favourites_data: Get_all_favourites_data.data[0].menu_item,
+  });
   useEffect(() => {
     dispatch(Get_all_favourites());
 
@@ -52,7 +56,7 @@ export default function MyFavorite() {
           }}
         >
           <FlatList
-            data={[1, 2]}
+            data={Get_all_favourites_data.data}
             renderItem={({ item }) => (
               <>
                 <View
@@ -70,7 +74,7 @@ export default function MyFavorite() {
                       gap: 10,
                     }}
                   >
-                    <Text
+                    {/* <Text
                       style={{
                         fontWeight: "400",
                         fontSize: 18,
@@ -78,6 +82,16 @@ export default function MyFavorite() {
                       }}
                     >
                       Restaurant 1
+                    </Text> */}
+
+                    <Text
+                      style={{
+                        // fontFamily:
+                        fontWeight: "300",
+                        fontSize: 16,
+                      }}
+                    >
+                      {item?.menu_item?.name}
                     </Text>
 
                     <Text
@@ -87,19 +101,7 @@ export default function MyFavorite() {
                         fontSize: 16,
                       }}
                     >
-                      Special Rice
-                    </Text>
-
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et sed dolore
-                      magna.
+                      {item?.menu_item?.description}
                     </Text>
 
                     <View
@@ -115,7 +117,7 @@ export default function MyFavorite() {
                           fontSize: 16,
                         }}
                       >
-                        5000
+                        {item?.menu_item?.price}
                       </Text>
 
                       <FontAwesome name="heart" size={24} color="black" />
