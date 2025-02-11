@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
@@ -17,7 +17,16 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import { maincolors } from "../../utills/Themes";
 import { Formbutton } from "../../components/shared/InputForm";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_favourites } from "../../Redux/OrderSlice";
 export default function MyFavorite() {
+  const dispatch = useDispatch();
+  const { Get_all_favourites_data } = useSelector((state) => state?.OrderSlice);
+  useEffect(() => {
+    dispatch(Get_all_favourites());
+
+    return () => {};
+  }, [dispatch]);
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
 

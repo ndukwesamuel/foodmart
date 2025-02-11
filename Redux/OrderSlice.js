@@ -5,7 +5,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 import { handleApiError } from "./shareApi";
 import { axiosInstance, getAxiosConfig, getToken } from "./ApiConfig";
-const API_BASEURL = "https://foodmart-backend.gigtech.site/api/"
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
 const initialState = {
   Get_all_orders_data: null,
@@ -19,6 +19,12 @@ const initialState = {
   Get_an_order_isSuccess: false,
   Get_an_order_isLoading: false,
   Get_an_order_message: null,
+
+  Get_all_favourites_data: null,
+  Get_all_favourites_isError: false,
+  Get_all_favourites_isSuccess: false,
+  Get_all_favourites_isLoading: false,
+  Get_all_favourites_message: null,
 };
 
 export const Get_all_orders = createAsyncThunk(
@@ -97,6 +103,32 @@ export const Get_an_order = createAsyncThunk(
   }
 );
 
+export const Get_all_favourites = createAsyncThunk(
+  "auth/Get_all_favourites",
+  async (_, thunkAPI) => {
+    try {
+      let token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
+      // ?.data?.token;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(
+        `${API_BASEURL}v1/customer/favourites`,
+        config
+      );
+      console.log({ favorites: response.data });
+      return response.data;
+    } catch (error) {
+      const errorMessage = handleApiError(error);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
 export const OrderSlice = createSlice({
   name: "OrderSlice",
   initialState,
@@ -136,6 +168,23 @@ export const OrderSlice = createSlice({
         state.Get_an_order_message = action.payload;
         state.Get_an_order_data = null;
         state.Get_an_order_isSuccess = false;
+      })
+      .addCase(Get_all_favourites.pending, (state) => {
+        state.Get_all_favourites_isLoading = true;
+      })
+      .addCase(Get_all_favourites.fulfilled, (state, action) => {
+        state.Get_all_favourites_isLoading = false;
+        state.Get_all_favourites_isError = false;
+        state.Get_all_favourites_data = action.payload;
+        state.Get_all_favourites_message = null;
+        state.Get_all_favourites_isSuccess = true;
+      })
+      .addCase(Get_all_favourites.rejected, (state, action) => {
+        state.Get_all_favourites_isLoading = false;
+        state.Get_all_favourites_isError = true;
+        state.Get_all_favourites_message = action.payload;
+        state.Get_all_favourites_data = null;
+        state.Get_all_favourites_isSuccess = false;
       });
   },
 });
