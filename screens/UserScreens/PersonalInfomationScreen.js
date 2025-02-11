@@ -29,7 +29,7 @@ const PersonalInfomationScreen = ({ onClose }) => {
     {
       title: "Manage cards",
       icon: <Feather name="credit-card" size={24} color="#FFA500" />,
-      screen: "WalletScreen",
+      screen: "ManageCards",
     },
     {
       title: "Change Password",

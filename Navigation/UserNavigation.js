@@ -34,6 +34,7 @@ import CancelDelivery from "../screens/UserScreens/CancelDelivery";
 import OrderStatus from "../screens/UserScreens/OrderStatus";
 import SavedAddresses from "../screens/Detail/SavedAddresses";
 import EditAddress from "../screens/Detail/EditAddress";
+import ManageCards from "../screens/Detail/ManageCards";
 // import DeliveredOrders from "../screens/Orders/DeliveredOrders";
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,7 @@ export default function UserNavigation() {
       <Stack.Screen name="updatePassword" component={UpdatePassword} />
       <Stack.Screen name="SavedAddresses" component={SavedAddresses} />
       <Stack.Screen name="EditAddress" component={EditAddress} />
+      <Stack.Screen name="ManageCards" component={ManageCards} />
       {/* the order screen end here */}
 
       <Stack.Screen name="FAQs" component={FAQs} />
