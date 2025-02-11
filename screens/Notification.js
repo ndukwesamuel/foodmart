@@ -20,44 +20,6 @@ export default function Notification() {
     dispatch(Get_all_notifications());
     return () => {};
   }, [dispatch]);
-  const notifications = [
-    {
-      id: "1",
-      title: "Canceled Request",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "package-variant",
-    },
-    {
-      id: "2",
-      title: "Money Received",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "currency-usd",
-    },
-    {
-      id: "3",
-      title: "You've arrived at your destination",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "map-marker",
-    },
-    {
-      id: "4",
-      title: "Canceled Request",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "package-variant",
-    },
-    {
-      id: "5",
-      title: "Money Received",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "currency-usd",
-    },
-    {
-      id: "6",
-      title: "You've arrived at your destination",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "map-marker",
-    },
-  ];
   const [search, setSearch] = useState("");
   const renderNotification = ({ item }) => (
     <View>
