@@ -19,13 +19,18 @@ import { Formbutton } from "../../components/shared/InputForm";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Get_all_favourites } from "../../Redux/OrderSlice";
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import { useMutation } from "react-query";
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
+
 export default function MyFavorite() {
   const dispatch = useDispatch();
   const { Get_all_favourites_data } = useSelector((state) => state?.OrderSlice);
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
 
-  console.log({
-    Get_all_favourites_data: Get_all_favourites_data.data[0].menu_item,
-  });
   useEffect(() => {
     dispatch(Get_all_favourites());
 
@@ -40,6 +45,32 @@ export default function MyFavorite() {
   const navigateFunc = () => {
     navigation.navigate("MyOrder");
   };
+
+  const DeleteFavourite_Mutation = useMutation(
+    (data_info) => {
+      const url = `${API_BASEURL}v1/customer/favourites`;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+        },
+      };
+      return axios.post(url, data_info, config);
+    },
+    {
+      onSuccess: (success) => {
+        Toast.show({ type: "success", text1: `${success?.data?.message}` });
+        dispatch(Get_all_favourites());
+      },
+      onError: (error) => {
+        Toast.show({
+          type: "error",
+          text1: `${error?.response?.data?.message}`,
+        });
+      },
+    }
+  );
 
   return (
     <AppScreen>
@@ -120,7 +151,15 @@ export default function MyFavorite() {
                         {item?.menu_item?.price}
                       </Text>
 
-                      <FontAwesome name="heart" size={24} color="black" />
+                      <TouchableOpacity
+                        onPress={() =>
+                          DeleteFavourite_Mutation.mutate({
+                            menu_item_id: item.id,
+                          })
+                        }
+                      >
+                        <FontAwesome name="heart" size={24} color="black" />
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <Image
