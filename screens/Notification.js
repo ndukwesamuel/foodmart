@@ -73,8 +73,8 @@ export default function Notification() {
           style={styles.notificationIcon}
         />
         <View style={styles.notificationText}>
-          <Text style={styles.notificationTitle}>{item.title}</Text>
-          <Text style={styles.notificationDescription}>{item.description}</Text>
+          <Text style={styles.notificationTitle}>{item?.type}</Text>
+          <Text style={styles.notificationDescription}>{item?.message}</Text>
         </View>
       </View>
       <View style={styles.divider} />
@@ -107,7 +107,7 @@ export default function Notification() {
 
       {/* Notifications List */}
       <FlatList
-        data={notifications}
+        data={notification_data?.data}
         keyExtractor={(item) => item.id}
         renderItem={renderNotification}
         contentContainerStyle={styles.notificationsList}
@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     color: "#023526",
+    textTransform: "capitalize",
   },
   notificationDescription: {
     fontSize: 12,

@@ -100,7 +100,7 @@ export const Get_all_notifications = createAsyncThunk(
         `${API_BASEURL}v1/notifications`,
         config
       );
-      // console.log({ notification: response.data });
+      // console.log({ notification: response.data.data });
       return response.data;
     } catch (error) {
       const errorMessage = handleApiError(error);
