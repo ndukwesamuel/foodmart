@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,16 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Forminput, Forminput_Icon } from "../components/shared/InputForm";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_notifications } from "../Redux/AuthSlice";
 
 export default function Notification() {
+  const dispatch = useDispatch();
+  const { notification_data } = useSelector((state) => state?.Auth);
+  useEffect(() => {
+    dispatch(Get_all_notifications());
+    return () => {};
+  }, [dispatch]);
   const notifications = [
     {
       id: "1",

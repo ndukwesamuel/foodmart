@@ -21,9 +21,9 @@ const API_BASEURL = "https://foodmart-backend.gigtech.site/api/"
 
 export default function FoodDetails({ route }) {
   const { item, vendor_id } = route.params;
-  console.log({
-    emeka: item, // route.params,
-  });
+  // console.log({
+  //   emeka: item, // route.params,
+  // });
   const { user_data, user_isLoading, user_profile_data } = useSelector(
     (state) => state?.Auth
   );
