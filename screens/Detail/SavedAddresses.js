@@ -16,7 +16,7 @@ const SavedAddresses = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { Get_all_addresses_data } = useSelector((state) => state.AddressSlice);
-    console.log({ address: Get_all_addresses_data?.data });
+//   console.log({ address: Get_all_addresses_data?.data });
 
   useEffect(() => {
     dispatch(Get_all_addresses());
@@ -29,7 +29,9 @@ const SavedAddresses = () => {
           {item?.street_address}, {item?.state}, {item?.country}
         </Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("EditAddress")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EditAddress", { item: item?.id })}
+      >
         <MaterialIcons name="edit" size={18} color="#5a5a5a" />
       </TouchableOpacity>
     </View>
@@ -54,7 +56,10 @@ const SavedAddresses = () => {
         keyExtractor={(item) => item.id}
         renderItem={renderAddress}
         ListFooterComponent={
-          <TouchableOpacity style={styles.addAddress}>
+          <TouchableOpacity
+            style={styles.addAddress}
+            onPress={() => navigation.navigate("EditAddress")}
+          >
             <Icon name="plus-square-o" size={20} color="#f4a261" />
             <Text style={styles.addText}>Add A New Address</Text>
           </TouchableOpacity>
