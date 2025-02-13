@@ -48,7 +48,10 @@ export default function MyFavorite() {
 
   const DeleteFavourite_Mutation = useMutation(
     (data_info) => {
-      const url = `${API_BASEURL}v1/customer/favourites`;
+      const data = {
+        menu_item_id: data_info,
+      };
+      const url = `${API_BASEURL}v1/customer/favourites/${data_info}`;
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +59,8 @@ export default function MyFavorite() {
           Authorization: `Bearer ${user_data?.data?.token}`,
         },
       };
-      return axios.post(url, data_info, config);
+      console.log({url: url, data: data})
+      return axios.delete(url, config);
     },
     {
       onSuccess: (success) => {
@@ -152,11 +156,7 @@ export default function MyFavorite() {
                       </Text>
 
                       <TouchableOpacity
-                        onPress={() =>
-                          DeleteFavourite_Mutation.mutate({
-                            menu_item_id: item.id,
-                          })
-                        }
+                        onPress={() => DeleteFavourite_Mutation.mutate(item.id)}
                       >
                         <FontAwesome name="heart" size={24} color="black" />
                       </TouchableOpacity>
