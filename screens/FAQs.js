@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 20,
+    paddingTop: 50,
   },
   backButton: {
     position: "absolute",
-    top: 15,
+    top: 50,
     zIndex: 1,
     left: 20,
   },
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
   },
   faqContainer: {
     paddingHorizontal: 30,
-    marginVertical: 20,
+    marginVertical: 40,
   },
   faqItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
