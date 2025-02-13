@@ -9,6 +9,7 @@ import RestaurantSlice from "./RestaurantSlice";
 import CartSlice from "./CartSlice";
 import { OrderSlice } from "./OrderSlice";
 import { AddressSlice } from "./AddressSlice";
+import { OtherSlice } from "./OtherSlice";
 
 // import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   CartSlice: CartSlice,
   OrderSlice: OrderSlice.reducer,
   AddressSlice: AddressSlice.reducer,
+  OtherSlice: OtherSlice.reducer,
 });
 
 const persistConfig = {

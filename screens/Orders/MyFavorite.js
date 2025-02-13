@@ -48,9 +48,6 @@ export default function MyFavorite() {
 
   const DeleteFavourite_Mutation = useMutation(
     (data_info) => {
-      const data = {
-        menu_item_id: data_info,
-      };
       const url = `${API_BASEURL}v1/customer/favourites/${data_info}`;
       const config = {
         headers: {
@@ -59,7 +56,7 @@ export default function MyFavorite() {
           Authorization: `Bearer ${user_data?.data?.token}`,
         },
       };
-      console.log({url: url, data: data})
+      // console.log({url: url, data: data})
       return axios.delete(url, config);
     },
     {
