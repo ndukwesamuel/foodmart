@@ -22,7 +22,7 @@ import { maincolors } from "../../utills/Themes";
 import Toast from "react-native-toast-message";
 import WebView from "react-native-webview";
 import { Get_all_Cart_Fun, Get_Cart_Summary_Fun } from "../../Redux/CartSlice";
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/"
 
 export default function CheckoutPage({ route }) {
   const dispatch = useDispatch();

@@ -16,7 +16,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
 
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/"
 const UpdatePassword = () => {
   const { user_data } = useSelector((state) => state?.Auth);
   const [oldPassword, setOldPassword] = useState("");

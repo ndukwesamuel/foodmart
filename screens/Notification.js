@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,46 +10,16 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Forminput, Forminput_Icon } from "../components/shared/InputForm";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_notifications } from "../Redux/AuthSlice";
 
 export default function Notification() {
-  const notifications = [
-    {
-      id: "1",
-      title: "Canceled Request",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "package-variant",
-    },
-    {
-      id: "2",
-      title: "Money Received",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "currency-usd",
-    },
-    {
-      id: "3",
-      title: "You've arrived at your destination",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "map-marker",
-    },
-    {
-      id: "4",
-      title: "Canceled Request",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "package-variant",
-    },
-    {
-      id: "5",
-      title: "Money Received",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "currency-usd",
-    },
-    {
-      id: "6",
-      title: "You've arrived at your destination",
-      description: "Lorem ipsum dolor sit amet consectetur adig...",
-      icon: "map-marker",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { notification_data } = useSelector((state) => state?.Auth);
+  useEffect(() => {
+    dispatch(Get_all_notifications());
+    return () => {};
+  }, [dispatch]);
   const [search, setSearch] = useState("");
   const renderNotification = ({ item }) => (
     <View>
@@ -65,8 +35,8 @@ export default function Notification() {
           style={styles.notificationIcon}
         />
         <View style={styles.notificationText}>
-          <Text style={styles.notificationTitle}>{item.title}</Text>
-          <Text style={styles.notificationDescription}>{item.description}</Text>
+          <Text style={styles.notificationTitle}>{item?.type}</Text>
+          <Text style={styles.notificationDescription}>{item?.message}</Text>
         </View>
       </View>
       <View style={styles.divider} />
@@ -99,7 +69,7 @@ export default function Notification() {
 
       {/* Notifications List */}
       <FlatList
-        data={notifications}
+        data={notification_data?.data}
         keyExtractor={(item) => item.id}
         renderItem={renderNotification}
         contentContainerStyle={styles.notificationsList}
@@ -162,6 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     color: "#023526",
+    textTransform: "capitalize",
   },
   notificationDescription: {
     fontSize: 12,

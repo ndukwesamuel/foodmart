@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,16 +18,25 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Account from "../components/Auth/Account";
 import CartScreen from "../components/CartScreen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_notifications, UserProfile_Fun } from "../Redux/AuthSlice";
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { notification_data } = useSelector((state) => state?.Auth);
   const { user_data, user_isLoading, user_profile_data } = useSelector(
     (state) => state?.Auth
   );
 
+  // console.log({ user_data: user_data.data.user });
+
   const [showaccount, setShowaccount] = useState(false);
 
   const [notification, setnotification] = useState("home");
+  useEffect(() => {
+    dispatch(UserProfile_Fun());
+    dispatch(Get_all_notifications());
+  }, [dispatch]);
 
   const cart_state = () => {
     if (notification === "cart") {
@@ -35,7 +44,7 @@ const HomeScreen = () => {
     } else {
       setnotification("cart");
     }
-    console.log("this is working ");
+    // console.log("this is working ");
   };
 
   return (
@@ -53,7 +62,7 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={() => setnotification("account")}>
             <Image
               source={{
-                uri: user_profile_data?.data?.profile_picture_url, //"https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
+                uri: user_data?.data?.user.profile_picture_url, //"https://s3-alpha-sig.figma.com/img/9265/f6e3/e22a4d011fdf9bee1bc447fd54300962?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=frC5B-Z2NhGFgmYjZ7O0ExewGy2ZjbMA5TANJZKdox689M0O-rBcTykS5g2slmFVlViF4SUIvCt2ks5LKcLolm5iJX63JcLEaHE6aw4~rkvMUyn5znE~UBF~7UYDUz-8Skn18O8lOQRSRZYnh84j9k8nW58AR7f3lsQ23wWBPv1GAUAkHbNboCMDA4p4lz1LtA6Ape6MA0Anu0X4MJvZ1x5H4djNdqpZbOioRsifMI-7HSujIWt30-JcUG24g6yBVz1cyB0nTUbQKHX3BJbJdBFMCp4H-gWGRNq0RPfdATZf4H~UlL~uahR7W0t6fECapBmo42FwUortllMJE82taQ__",
               }} // Replace with profile picture URL
               style={styles.profileImage}
             />
@@ -84,7 +93,23 @@ const HomeScreen = () => {
             <TouchableOpacity
               onPress={() => navigation.navigate("Notification")}
             >
-              <Ionicons name="notifications-outline" size={24} color="black" />
+              <View style={styles.notificationWrapper}>
+                <Ionicons
+                  name="notifications-outline"
+                  size={24}
+                  color="black"
+                />
+
+                {/* Show badge if there are unread notifications */}
+                {notification_data?.data?.filter((item) => !item.read)?.length >
+                  0 && (
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>
+                      {notification_data?.data?.filter((item) => !item.read)?.length}
+                    </Text>
+                  </View>
+                )}
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -121,7 +146,7 @@ const HomeScreen = () => {
             {/* Greeting Section */}
             <View>
               <Text style={styles.greetingText}>
-                Hello {user_profile_data?.data?.name},
+                Hello {user_data.data.user?.name},
               </Text>
               <Text style={styles.subText}>Go through;</Text>
             </View>
@@ -249,7 +274,7 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: "bold",
-    color: maincolors.primary, // "#ff5a5f",
+    color: maincolors.primary,
   },
   greetingText: {
     fontSize: 24,
@@ -263,16 +288,11 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     flex: 1,
-    // flexDirection: "row",
-    // justifyContent: "space-between",
   },
   optionBox: {
-    // flex: 1,
     backgroundColor: "#ffeaf0",
     borderRadius: 8,
     alignItems: "center",
-    // alignSelf: "center",
-    // padding: 16,
     marginHorizontal: 8,
     flexDirection: "row",
     marginBottom: 10,
@@ -285,6 +305,29 @@ const styles = StyleSheet.create({
   optionText: {
     fontWeight: "bold",
     color: "#333",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    marginLeft: 8,
+  },
+  notificationWrapper: {
+    position: "relative",
+  },
+  badge: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    backgroundColor: "red",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  badgeText: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
 

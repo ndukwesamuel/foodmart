@@ -17,23 +17,18 @@ import { maincolors } from "../../utills/Themes";
 import { useApiRequest } from "../../hooks/Mutate";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+import { useMutation } from "react-query";
+import axios from "axios";
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
 export default function FoodDetails({ route }) {
   const { item, vendor_id } = route.params;
-  console.log({
-    emeka: item, // route.params,
-  });
   const { user_data, user_isLoading, user_profile_data } = useSelector(
     (state) => state?.Auth
   );
 
-  // console.log({
-  //   pppp: user_data?.data,
-  // });
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
-  // const [total, settotal] = useState(second)
 
   const increment = () => setCount((prev) => prev + 1);
   const decrement = () => setCount((prev) => (prev > 0 ? prev - 1 : 0));
@@ -41,26 +36,8 @@ export default function FoodDetails({ route }) {
   const navigateFunc = () => {
     let data = {
       quantity: count,
-      // vendor_id: vendor_id,
       menu_item_id: item?.id,
-
-      // extra_options: [
-      //   {
-      //     id: 1,
-      //     quantity: 2,
-      //   },
-      //   // {
-      //   //   id: 2,
-      //   //   quantity: 2,
-      //   // },
-      //   // {
-      //   //   id: 3,
-      //   //   quantity: 2,
-      //   // },
-      // ],
     };
-
-    console.log({ data: data });
 
     createCart(data);
   };
@@ -75,17 +52,12 @@ export default function FoodDetails({ route }) {
     method: "POST",
     token: user_data?.data?.token || "",
     onSuccess: (response) => {
-      console.log({
-        vvv: response?.data,
-      });
       Toast.show({
         type: "success",
         text1: `${response?.data?.message}`,
       });
 
-      navigation.navigate("GetEverything", {item: item})
-      // navigation.goBack();
-      // console.log("Category created successfully:", response.data);
+      navigation.navigate("GetEverything", { item: item });
     },
 
     onError: (error) => {
@@ -96,22 +68,41 @@ export default function FoodDetails({ route }) {
         type: "error",
         text1: `${error?.response?.data?.message}`,
       });
-
-      // return;
-      // console.error("Category creation failed:", error?.response?.data);
     },
   });
+
+  const AddFavourite_Mutation = useMutation(
+    (data_info) => {
+      const url = `${API_BASEURL}v1/customer/favourites`;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+        },
+      };
+      return axios.post(url, data_info, config);
+    },
+    {
+      onSuccess: (success) => {
+        Toast.show({ type: "success", text1: `${success?.data?.message}` });
+      },
+      onError: (error) => {
+        Toast.show({
+          type: "error",
+          text1: `${error?.response?.data?.message}`,
+        });
+      },
+    }
+  );
 
   return (
     <AppScreen>
       <View>
         <Image
-          source={
-            {
-              uri: item?.image,
-            }
-            // require("../../assets/Foodmart/food.png")
-          }
+          source={{
+            uri: item?.image,
+          }}
           style={{
             width: "100%",
             height: 250,
@@ -141,11 +132,13 @@ export default function FoodDetails({ route }) {
               </Text>
             </View>
             <View>
-              <Pressable>
+              <TouchableOpacity
+                onPress={() => AddFavourite_Mutation.mutate({ menu_item_id: item.id })}
+              >
                 <Image
                   source={require("../../assets/Foodmart/likeButton.png")}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.line}></View>
@@ -161,32 +154,6 @@ export default function FoodDetails({ route }) {
               }}
             >
               <Text>Takeaway Pack (+500)</Text>
-
-              {/* <TouchableOpacity
-                style={{
-                  backgroundColor: "#023526",
-                  borderRadius: 50,
-                  width: 22,
-                  height: 22,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onPress={() =>
-                  navigation.navigate("FoodDetails", { itemId: item.id })
-                } // Pass item details to the FoodDetails screen
-              >
-                <Text
-                  style={[
-                    {
-                      color: maincolors.primary,
-                      fontSize: 18,
-                      fontWeight: "bold",
-                    },
-                  ]}
-                >
-                  ✓
-                </Text>
-              </TouchableOpacity> */}
               <TouchableOpacity
                 style={[
                   {

@@ -18,14 +18,9 @@ import { Get_all_orders } from "../Redux/OrderSlice";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
-  const { Get_All_Cart_data } = useSelector((state) => state.CartSlice);
-  const { Get_all_orders_data } = useSelector((state) => state.OrderSlice);
+  const { Get_All_Cart_data } = useSelector((state) => state?.CartSlice);
+  const { Get_all_orders_data } = useSelector((state) => state?.OrderSlice);
   const [orderStatus, setOrderStatus] = useState("pending");
-  // const Get_all_orders_data  = useSelector((state) => state.OrderSlice);
-  // console.log({ Get_All_Cart_data: Get_All_Cart_data });
-  console.log({
-    allOrders: Get_all_orders_data?.data[0].order_items[0].quantity,
-  });
 
   const navigation = useNavigation();
 
@@ -35,24 +30,10 @@ const CartScreen = () => {
     } else {
       settab(name);
     }
-
-    const order = name;
-    const body = {
-      cart_id: 1,
-      use_points: true,
-      use_wallet: true,
-      address_id: 1,
-    };
     dispatch(Get_all_orders("pending"));
   };
   const [tab, settab] = useState("cart");
   useEffect(() => {
-    const body = {
-      cart_id: 1,
-      use_points: true,
-      use_wallet: true,
-      address_id: 1,
-    };
     dispatch(Get_all_orders(orderStatus));
 
     return () => {};
@@ -69,10 +50,6 @@ const CartScreen = () => {
               }}
               style={styles.itemImage}
             />
-
-            {console.log({
-              nvnvnv: cart_item?.menu_item?.default_image?.original_url,
-            })}
 
             <View style={styles.itemDetails}>
               <Text style={styles.itemName}>{cart_item?.menu_item?.name}</Text>
@@ -114,6 +91,7 @@ const CartScreen = () => {
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#C4C4C4",
+        // paddingBottom: 50,
       }}
     >
       <View style={styles.cartHeader}>
@@ -222,6 +200,11 @@ const CartScreen = () => {
               renderItem={renderCartSections}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text style={{ textAlign: "center", marginTop: 20 }}>
+                  No item available in the cart
+                </Text>
+              }
             />
           </>
         )}
@@ -238,7 +221,10 @@ const CartScreen = () => {
 
       <View>
         {tab === "delivered" && (
-          <DeliveredOrdersComponent item={Get_all_orders_data?.data} action={navigateFunc}/>
+          <DeliveredOrdersComponent
+            item={Get_all_orders_data?.data}
+            action={navigateFunc}
+          />
         )}
       </View>
     </View>
@@ -249,7 +235,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingBottom: 50,
   },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -297,6 +285,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#f8f9fa",
     borderRadius: 8,
+    paddingBottom: 50,
   },
   cartHeader: {
     flexDirection: "row",

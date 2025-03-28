@@ -5,8 +5,7 @@ import axios from "axios";
 
 import Toast from "react-native-toast-message";
 // const API_BASEURL = ;
-
-const API_BASEURL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
 
 const initialState = {
   user_data: null,
@@ -22,6 +21,12 @@ const initialState = {
   user_profile_message: null,
 
   signup_token: null,
+
+  notification_data: null,
+  notification_isError: false,
+  notification_isSuccess: false,
+  notification_isLoading: false,
+  notification_message: false,
 };
 
 const Login_Fun_Service = async (data) => {
@@ -69,7 +74,33 @@ export const UserProfile_Fun = createAsyncThunk(
         },
       };
       const response = await axios.get(`${API_BASEURL}v1/profile`, config);
+      console.log({ profile: response.data });
+      return response.data;
+    } catch (error) {
+      const errorMessage = handleApiError(error);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
 
+export const Get_all_notifications = createAsyncThunk(
+  "auth/Get_all_notifications",
+  async (_, thunkAPI) => {
+    try {
+      let token = thunkAPI.getState()?.Auth?.user_data?.data?.token;
+      // ?.data?.token;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(
+        `${API_BASEURL}v1/notifications`,
+        config
+      );
+      // console.log({ notification: response.data.data });
       return response.data;
     } catch (error) {
       const errorMessage = handleApiError(error);
@@ -131,6 +162,23 @@ export const AuthSlice = createSlice({
         state.user_profile_message = action.payload;
         state.user_profile_data = null;
         state.user_profile_isSuccess = false;
+      })
+      .addCase(Get_all_notifications.pending, (state) => {
+        state.notification_isLoading = true;
+      })
+      .addCase(Get_all_notifications.fulfilled, (state, action) => {
+        state.notification_isLoading = false;
+        state.notification_isSuccess = true;
+        state.notification_isError = false;
+        state.notification_message = null;
+        state.notification_data = action.payload;
+      })
+      .addCase(Get_all_notifications.rejected, (state, action) => {
+        state.notification_isLoading = false;
+        state.notification_isError = true;
+        state.notification_message = action.payload;
+        state.notification_data = null;
+        state.notification_isSuccess = false;
       });
   },
 });

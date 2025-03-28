@@ -1,32 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
-  Image,
+  FlatList,
 } from "react-native";
 import AppScreen from "../components/shared/AppScreen";
 import { ReusableBackButton } from "../components/shared/SharedButton_Icon";
 import { ReusableTitle } from "../components/shared/Reuseablecomponent";
 import { AntDesign } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_faqs } from "../Redux/OtherSlice";
+
 const FAQs = () => {
+  const dispatch = useDispatch();
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const { faq_data } = useSelector((state) => state?.OtherSlice);
 
-  const faqs = [
-    "Ut enim ad minim veniam quis nost exercit dation laboris?",
-    "Lorem ipsum dolor conseret ading?",
-    "Duis aute irure dolor in reprehenderit velit cillum dolore?",
-    "Exceptuer sint occaecat?",
-    "Lorem ipsum dolor conseret ading?",
-    "Ut enim ad minim veniam quis nost exercit dation laboris?",
-    "Exceptuer sint occaecat?",
-    "Duis aute irure dolor in reprehenderit velit cillum dolore?",
-  ];
-
-  const faqContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+  useEffect(() => {
+    dispatch(Get_all_faqs());
+  }, [dispatch]);
 
   const toggleExpand = (index) => {
     setExpandedIndex(index === expandedIndex ? null : index);
@@ -34,93 +28,65 @@ const FAQs = () => {
 
   return (
     <AppScreen>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "white",
-          paddingTop: 20,
-        }}
-      >
-        <ReusableBackButton
-          style={{ position: "absolute", top: 15, zIndex: 1, left: 20 }}
-        />
-        <View
-          style={{
-            width: "60%",
-            alignSelf: "center",
-          }}
-        >
+      <View style={styles.screenContainer}>
+        <ReusableBackButton style={styles.backButton} />
+        <View style={styles.titleContainer}>
           <ReusableTitle data="Frequently Asked Questions" />
         </View>
-        <View
-          style={{
-            paddingHorizontal: 30,
-            marginVertical: 20,
-          }}
-        ></View>
-        <ScrollView style={styles.container}>
-          {/* FAQ Items */}
-          <View style={styles.faqContainer}>
-            {faqs.map((faq, index) => (
-              <View key={index}>
-                <TouchableOpacity
-                  style={styles.faqItem}
-                  onPress={() => toggleExpand(index)}
-                >
-                  <Text style={styles.faqQuestion}>{faq}</Text>
-                  <Text style={styles.arrow}>
-                    {expandedIndex === index ? (
-                      <>
-                        <AntDesign name="up" size={24} color="black" />
-                      </>
-                    ) : (
-                      <>
-                        <AntDesign name="down" size={24} color="black" />
-                      </>
-                    )}
-                    {/* // "▲" : "▼"} */}
-                  </Text>
-                </TouchableOpacity>
-                {expandedIndex === index && (
-                  <Text style={styles.faqAnswer}>{faqContent}</Text>
-                )}
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+
+        <FlatList
+          data={faq_data?.data}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.faqContainer}
+          renderItem={({ item, index }) => (
+            <View>
+              <TouchableOpacity
+                style={styles.faqItem}
+                onPress={() => toggleExpand(index)}
+              >
+                <Text style={styles.faqQuestion}>{item?.question}</Text>
+                <AntDesign
+                  name={expandedIndex === index ? "up" : "down"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+              {expandedIndex === index && (
+                <Text style={styles.faqAnswer}>{item?.answer}</Text>
+              )}
+            </View>
+          )}
+        />
       </View>
     </AppScreen>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  screenContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
+    backgroundColor: "white",
+    paddingTop: 50,
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
+  backButton: {
+    position: "absolute",
+    top: 50,
+    zIndex: 1,
+    left: 20,
   },
-  backArrow: {
-    width: 24,
-    height: 24,
-    marginRight: 10,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+  titleContainer: {
+    width: "60%",
+    alignSelf: "center",
   },
   faqContainer: {
-    marginTop: 10,
+    paddingHorizontal: 30,
+    marginVertical: 40,
   },
   faqItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
@@ -128,10 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     flex: 1,
-  },
-  arrow: {
-    fontSize: 16,
-    color: "#888",
   },
   faqAnswer: {
     fontSize: 14,

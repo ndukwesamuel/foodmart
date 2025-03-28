@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "../../components/shared/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ReusableBackButton } from "../../components/shared/SharedButton_Icon";
@@ -17,7 +17,25 @@ import { ReusableTitle } from "../../components/shared/Reuseablecomponent";
 import { maincolors } from "../../utills/Themes";
 import { Formbutton } from "../../components/shared/InputForm";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useDispatch, useSelector } from "react-redux";
+import { Get_all_favourites } from "../../Redux/OrderSlice";
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import { useMutation } from "react-query";
+const API_BASEURL = "https://foodmart-backend.gigtech.site/api/";
+
 export default function MyFavorite() {
+  const dispatch = useDispatch();
+  const { Get_all_favourites_data } = useSelector((state) => state?.OrderSlice);
+  const { user_data, user_isLoading, user_profile_data } = useSelector(
+    (state) => state?.Auth
+  );
+
+  useEffect(() => {
+    dispatch(Get_all_favourites());
+
+    return () => {};
+  }, [dispatch]);
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
 
@@ -27,6 +45,33 @@ export default function MyFavorite() {
   const navigateFunc = () => {
     navigation.navigate("MyOrder");
   };
+
+  const DeleteFavourite_Mutation = useMutation(
+    (data_info) => {
+      const url = `${API_BASEURL}v1/customer/favourites/${data_info}`;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${user_data?.data?.token}`,
+        },
+      };
+      // console.log({url: url, data: data})
+      return axios.delete(url, config);
+    },
+    {
+      onSuccess: (success) => {
+        Toast.show({ type: "success", text1: `${success?.data?.message}` });
+        dispatch(Get_all_favourites());
+      },
+      onError: (error) => {
+        Toast.show({
+          type: "error",
+          text1: `${error?.response?.data?.message}`,
+        });
+      },
+    }
+  );
 
   return (
     <AppScreen>
@@ -43,7 +88,7 @@ export default function MyFavorite() {
           }}
         >
           <FlatList
-            data={[1, 2]}
+            data={Get_all_favourites_data.data}
             renderItem={({ item }) => (
               <>
                 <View
@@ -61,7 +106,7 @@ export default function MyFavorite() {
                       gap: 10,
                     }}
                   >
-                    <Text
+                    {/* <Text
                       style={{
                         fontWeight: "400",
                         fontSize: 18,
@@ -69,6 +114,16 @@ export default function MyFavorite() {
                       }}
                     >
                       Restaurant 1
+                    </Text> */}
+
+                    <Text
+                      style={{
+                        // fontFamily:
+                        fontWeight: "300",
+                        fontSize: 16,
+                      }}
+                    >
+                      {item?.menu_item?.name}
                     </Text>
 
                     <Text
@@ -78,19 +133,7 @@ export default function MyFavorite() {
                         fontSize: 16,
                       }}
                     >
-                      Special Rice
-                    </Text>
-
-                    <Text
-                      style={{
-                        // fontFamily:
-                        fontWeight: "300",
-                        fontSize: 16,
-                      }}
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et sed dolore
-                      magna.
+                      {item?.menu_item?.description}
                     </Text>
 
                     <View
@@ -106,10 +149,14 @@ export default function MyFavorite() {
                           fontSize: 16,
                         }}
                       >
-                        5000
+                        {item?.menu_item?.price}
                       </Text>
 
-                      <FontAwesome name="heart" size={24} color="black" />
+                      <TouchableOpacity
+                        onPress={() => DeleteFavourite_Mutation.mutate(item.id)}
+                      >
+                        <FontAwesome name="heart" size={24} color="black" />
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <Image
